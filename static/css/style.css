@@ -1,0 +1,32 @@
+body{
+	font-family: "Lucida Console", Monaco, monospace;
+	color : #00ff1e;
+	background-color : #171414
+}
+
+div.wrapper{
+	margin : 0 auto;
+	width : 60%;
+	height : 100%;
+}
+
+div.section{
+	width : 100%;
+	cursor : pointer;
+}
+div.subsection{
+	margin : 0 auto;
+	display : none;
+	width : 90%;
+}
+
+div.commands{
+	width : 50%;
+	float : left;
+}
+
+div.console{
+	width : 50%;
+	float : left;
+	background-color : black;
+}
