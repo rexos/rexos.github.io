@@ -1,3 +1,3 @@
 rexos
 =====	
-	http://rexos.github.io
+<http://rexos.github.io>
