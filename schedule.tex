@@ -1,6 +1,12 @@
 \documentclass{article}
-\usepackage{multirow}% http://ctan.org/pkg/hhline
+\usepackage[margin=2cm]{geometry}
 \usepackage{pdflscape}
+\usepackage{xcolor}
+\newcommand{\hilight}[1]{\colorbox{yellow}{#1}}
+\newcommand{\bluelight}[1]{\colorbox{cyan}{#1}}
+\newcommand{\orangelight}[1]{\colorbox{orange}{#1}}
+\newcommand{\greenlight}[1]{\colorbox{green}{#1}}
+\newcommand{\redlight}[1]{\colorbox{magenta}{#1}}
 \begin{document}
 \pagenumbering{gobble}
 \begin{landscape}
@@ -21,35 +27,25 @@ Coding Theory and Cryptography\\
 
 
 \begin{center}
-\textbf{II semester : from 16-02-15 until 29-05-15}
+\textbf{III semester}
 \end{center}
 
 \begin{table}[ht]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
 & \textbf{Monday} & \textbf{Tuesday} & \textbf{Wednesday} & \textbf{Thursday} & \textbf{Friday}\\ \hline
-\textbf{9-10} & & & Geometria II A103& Formal Tech. A221& \\ \hline
-\textbf{10-11} & & Finite Fields A224 & Geometria II A103 & Formal Tech. A221& \\ \hline
-\textbf{11-12} & & Finite Fields A224 & & Geometria II A103& \\ \hline
-\textbf{12-13} & & Geometria II A103 & & Finite Fields A212 & \\ \hline
+\textbf{9-10} & \bluelight{Analisi Mat. III} A104 & & \bluelight{Analisi Mat. III} A104 & \greenlight{Algebraic Geometry I} A209 & \\ \hline
+\textbf{10-11} & \bluelight{Analisi Mat. III} A104 & & \bluelight{Analisi Mat. III} A104 &  & \\ \hline
+\textbf{11-12} & \orangelight{Adv. Coding Theory} A221 & \greenlight{Algebraic Geometry I} A209 & \orangelight{Adv. Coding Theory} A221& & \\ \hline
+\textbf{12-13} & \orangelight{Adv. Coding Theory} A221 & \greenlight{Algebraic Geometry I} A209 & &  & \\ \hline
 \textbf{13-14} & & & & & \\ \hline
-\textbf{14-15} & & & Formal Tech. A221 & & \\ \hline
-\textbf{15-16} & & & Formal Tech. A221 & & \\ \hline
-\end{tabular}
-\end{table}
-
-\textbf{Exams}\\
-\begin{table}[ht]
-\begin{tabular}{l}
-	Finite Fields and Symmetric Cryptography\\
-	Formal Techniques for Cryptographic Protocol Analysis\\
-	Geometria II\\
-	Stochastic Processes\\
-	Statistics of Stochastic Processes\\
-	English B2\\
+\textbf{14-15} &   & &  & \redlight{Stochastic Processes} A209 & \bluelight{Analisi Mat. III} A104 \\ \hline
+\textbf{15-16} &   & \redlight{Stochastic Processes} A209 &  & \redlight{Stochastic Processes} A209 & \bluelight{Analisi Mat. III} A104 \\ \hline
+\textbf{16-17} &   & \redlight{Stochastic Processes} A209 &  & & \\ \hline
+\textbf{17-18} &   &  & & & \\ \hline
+\textbf{18-19} &   & &  & & \\ \hline
 \end{tabular}
 \end{table}
 
 \end{landscape}
-
 \end{document}
