@@ -1,0 +1,640 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{thmtools}
+\declaretheoremstyle[notefont=\bfseries,notebraces={}{},%
+    headpunct={},postheadspace=1em]{mystyle}
+\declaretheorem[style=mystyle,numbered=no,name=Theorem]{thm-hand}
+\declaretheorem[style=mystyle,numbered=no,name=Lemma]{lem-hand}
+\declaretheorem[style=mystyle,numbered=no,name=Proposition]{prop-hand}
+\declaretheorem[style=mystyle,numbered=no,name=Corollary]{cor-hand}
+\declaretheorem[style=mystyle,numbered=no,name=Exercise]{ex-hand}
+
+\usepackage{amssymb}
+\usepackage{calrsfs}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[chapter] % reset theorem numbering for each chapter
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition} % definition numbers are dependent on theorem numbers
+\newtheorem{exmp}[thm]{Example} % same for example numbers
+\newtheorem{prop}[thm]{Proposition} % same for proposition numbers
+\newtheorem{obs}[thm]{Note} % same for observations numbers
+\newtheorem{lem}[thm]{Lemma}
+\newcommand{\chaptercontent}{
+\section{Basics}
+\begin{defn}Here is a new definition.\end{defn}
+\begin{thm}Here is a new theorem.\end{thm}
+\begin{thm}Here is a new theorem.\end{thm}
+\begin{exmp}Here is a good example.\end{exmp}
+\subsection{Some tips}
+\begin{defn}Here is a new definition.\end{defn}
+\section{Advanced stuff}
+\begin{defn}Here is a new definition.\end{defn}
+\subsection{Warnings}
+\begin{defn}Here is a new definition.\end{defn}
+}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Po}{\pazocal{P}}
+\newcommand{\I}{\pazocal{I}}
+\newcommand{\V}{\pazocal{V}}
+\newcommand{\G}{\pazocal{G}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\M}{\pazocal{M}}
+\newcommand{\Sp}{\pazocal{S}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+\newcommand{\twopartdef}[4]
+{
+	\left\{
+		\begin{array}{ll}
+			#1 & \mbox{se } #2 \\
+			#3 & \mbox{se } #4
+		\end{array}
+	\right.
+}
+
+\begin{document}
+
+\begin{titlepage}
+   \vspace*{\stretch{1.0}}
+   \begin{center}
+      \Huge\textbf{Advanced Coding Theory and Cryptography}\\
+      \bigskip
+      \LARGE\textit{Notes by: Alex Pellegrini}
+   \end{center}
+   \vspace*{\stretch{2.0}}
+\end{titlepage}
+
+
+\tableofcontents
+\chapter{An introduction to Gr\"obner bases}
+
+\begin{thm-hand}[2.1.10]
+	(Hilbert's Basis Theorem)
+\end{thm-hand}
+\begin{proof}
+		We proceed by induction on the number of variables.
+		Let $I \subset A[X]$ be an ideal not finitely generated, we may assume it can be constructed by an infinite sequence ($f_i$)$_{i\in \mathbb{N}}$ of  independent polynomials of minimal degree. "Independent" means that $f_i \in I \setminus J_i$ where we set $J_i := <f_0, \ldots, f_{i-1}>$. Now let $a_i := lc(f_i)$ be the leading coefficient of $f_i$ and consider $J := {a_0, a_1, \ldots} \subset A$. We know that $J$ can be a basis for an ideal in $A$ but since $A$ is a Noetherian ring we have that there exists a finite basis for such ideal, say $J = <a_1, \ldots, a_N>$. We claim that $I = <f_1,\ldots,f_N> =: I'$.\\
+		Suppose by contrary that this is not true then take a polynomial $f_{N+1} \in I$, we want to show that it is a linear combination of elements of $I'$, so first of all let's look at the leading coefficient:
+		\[
+			a_{N+1} = u_1a_1 + u_2a_2 + \cdots + u_Na_N 		
+		\]
+		this is true since $A$ is Noetherian ring. Consider 
+		\[
+			g := \sum\limits_{i=1}^Nu_if_ix^{deg(f_{N+1}) - deg(f_i)}\ \in I'
+		\]
+		it has the same degree and same leading coefficient as $f_{N+1}$.
+		Now $f_{N+1} - g \notin I'$ and has degree strictly less than $f_{N+1}$ contraddicting its minimality. Therefore $f_{N+1} - g$ must be $0$ and $f_{N+1} \in I'$.\\
+		
+		The induction follows since we can consider $A[X_1,\ldots,X_m] = A'[X_m]$ where $A' := A[X_1,\ldots,X_{m-1}]$ which we know is a Noetherian ring.
+\end{proof}
+
+\begin{lem-hand}[2.1.13]
+(Dickson's Lemma)
+\end{lem-hand}
+\begin{proof}
+	We proceed by induction on the number of variables, by first proving the case with one variable.
+	So we are considering $\pazocal{M} = \{X_1^\alpha | \alpha \in \mathbb{N}\}$, and $T \subset \M$ a semigroup ideal. Since every $t_i \in T$ is of the form $t = X_1^{\alpha_i}$ we consider $\beta = \min\{\alpha_i | X_1^{\alpha_i} \in T\}$. We claim that $T = <X_1^\beta>$. Indeed let $t_j \in T$ then it is of the form $t_j = X_1^{\alpha_j}$ so $\frac{t_j}{t_i} = X_1^{\alphaù_j - \beta}$ is well defined where $\alpha_j - \beta > 0$ by minimality of $\beta$. We can take $\gamma = \alpha_j - \beta$ hence:
+	\[
+		t_j = X_1^\beta\cdot X_1^\gamma \in\ <X_1^\beta> = T
+	\]
+	We prove the more general case so let be $m \in \N$ arbitrary and assume the lemma proved for $m-1$.\\
+	Let $T \subset \M = \{X_1^{a_1}\cdots X_m^{a_m}\ |\ (a_1,\ldots,a_m) \in  \mathbb{N}^m\}$. Consider also the projection map $\pi(X_1^{a_1}\cdots X_m^{a_m}) = X_1^{a_1}\cdots X_{m-1}^{a_{m-1}}$. By induction hypothesis $\pi(T)$ is a finitely generated semigroup ideal so we can find a basis, say $\pi(T) = <t_1,\ldots, t_k>$. Now let:
+	\[
+		A_i := \min\{a_m\ |\ X_m^{a_m} | t, t \in T, \pi(t) = t_i\}\ \ \forall i=1,\ldots, k
+	\]
+	and furthermore
+	\[
+		A := \min\{a_m\ |\ X_m^{a_m} \in T\} 	
+	\]
+	We claim that $T = <t_1X_m^{A_1},\ldots,t_kX_m^{A_{k}},X_m^{A} >$ which is a finite set.\\
+	So pick an arbitrary $t \in T$ so $t = \pi(t)X_m^{a_{m_t}}$ for some $a_{m_t} \in \N$, we know that $\exists t_i$ such that $\pi(t) = s\cdot t_i$, therefore $t = s\cdot t_i\cdot X_m^{a_{m_t}}$ and by minimality of $A_i$ we obtain that for: 
+	\[
+		t = s \cdot t_i\cdot X_m^{a_{m_t}} = s\cdot t_i\cdot X_m^{A_i}\cdot X_m^{\gamma}
+	\]
+	for $\gamma = a_{m_t} - A_i$. Now $\forall t\in T$ we have proved that $t \in\ <t_i\cdot X_m^{A_i}>$ which is contained in $<t_1X_m^{A_1},\ldots,t_kX_m^{A_{k}},X_m^{A} >$
+\end{proof}
+
+\begin{thm-hand}[2.1.14]
+\end{thm-hand}
+\begin{proof}
+	\begin{itemize}
+		\item[$\Rightarrow$] Let $f \in I$ then we can write:
+		\[
+			f = \sum\limits_{i=1}^k f_i\cdot p_i = f_1\cdot p_1 + f_2\cdot p_2 + \ldots +f_k\cdot p_k,\ f_i \in \pazocal{P}
+		\]
+		So evaluating $f(A)$ means to evaluate every $p_i$ so:
+			\[
+				f(A) = 	f_1\cdot p_1(A) + f_2\cdot p_2(A) + \ldots +f_k\cdot p_k(A) = 
+			\]
+			\[
+				= f_1\cdot 0+f_2\cdot 0+\cdots+f_k\cdot 0 = 0			
+			\]
+		\item[$\Leftarrow$] Trivial by setting $f = p_i\ \forall i= 1,\ldots,k$
+	\end{itemize}
+\end{proof}
+
+\begin{thm-hand}[2.1.17]
+\end{thm-hand}
+\begin{proof}
+	We already know that $I$ and $J$ are finitely generated so by keeping in mind that $I \subset J$ we can let:
+	\[
+		I = <p_1,\ldots,p_k>\ \ and\ \ J = <p_1,\ldots,p_h>,\ h\ge k	
+	\]
+	Now pick $A \in \pazocal{V}_\mathbb{F}(J)$ arbitrary, for every $g \in I$ we have that $g \in J$ therefore $g(A) = 0$ which means that $A \in \pazocal{V}_\mathbb{F}(I)$ for every $A$. Therefore $\pazocal{V}_\mathbb{F}(J) \subset \pazocal{V}_\mathbb{F}(I)$
+\end{proof}
+
+\begin{prop-hand}[2.2.6]
+\end{prop-hand}
+\begin{proof}
+	Assume that 
+	\[
+		f = h_1g_{i_1} + h_2g_{i_2} + \ldots + h_sg_{i_s} + r_1 = k_1g_{j_1} + k_2g_{j_2} + \ldots + k_tg_{j_t} + r_2
+	\]
+	with $g_{i_l}, g_{j_l} \in \pazocal{G}$ and $h_l,k_l,r_1,r_2 \in \Po$. We obtain that neither $r_1$ nor $r_2$ are divisible by any $lm(g), g\in \pazocal{G}$. Therefore we can write:
+	\[
+		0 = f - f = (h_1g_{i_1} + h_2g_{i_2} + \ldots + h_sg_{i_s} + r_1) - (k_1g_{j_1} + k_2g_{j_2} + \ldots + k_tg_{j_t} + r_2)
+	\]
+	Hence:
+	\[
+		r_2 - r_1 = 	(h_1g_{i_1} + h_2g_{i_2} + \ldots + h_sg_{i_s}) - (k_1g_{j_1} + k_2g_{j_2} + \ldots + k_tg_{j_t})
+	\]
+	Now the LHS belongs to the ideal by definition, i.e. $\exists g \in  \pazocal{G}$ such that $lm(g) | lm(r_2 - r_1)$ but $lm(r_2 - r_1)$ is $lm(r_2)$ or $lm(r_1)$, so the only way to be divisible is to be 0.
+\end{proof}
+
+\begin{cor-hand}[2.2.9]
+\end{cor-hand}
+\begin{proof}
+\begin{itemize}
+	\item[$\Rightarrow$] $\V(I) = \emptyset$ means that there exists $f \in I$ that has no roots in $\overline{\mathbb{K}}^m$, but this is possible only for a polynomial of degree $0$, i.e. a constant, say $c$ in the base field of $K$. $c = X^0 * c = 1*c$ therefore $1 \in I$.
+	\item[$\Leftarrow$] For $f = 1 \in I$ we have no roots, therefore $\V(I) = \emptyset$.
+\end{itemize}
+\end{proof}
+
+\begin{lem-hand}[2.2.13]
+\end{lem-hand}
+\begin{proof}
+	Since $\gcd(lm(p_1),lm(p_2)) = 1$ we can write the S-polynomial as follows:
+	\[
+		S(p_1, p_2) = p_1lt(p_2) - p_2lt(p_1)
+	\]
+	We assume $lc(p_i) = 1, i = 1,2$ therefore $lt(p_i) = lm(p_i)$ for reading simplicity. Furthermore we write $p_i = lm(p_i) + r_i$ hence:
+	\[
+		p_1lt(p_2) - p_2lt(p_1) = lm(p_2)(lm(p_1) + r_1) - lm(p_1)(lm(p_2) + r_2) =
+	\]
+	\[
+		= lm(p_2)r_1 - lm(p_1)r_2 = r_1(p_2 - r_2) - r_2(p_1 - r_1) =
+	\]
+	\[
+		= r_1p_2 - r_2p_1	
+	\]
+	Now since $lm(r_1) < lm(p_1)$, $lm(r_2) < lm(p_2)$ and $\gcd(lm(p_1),lm(p_2)) = 1$ we have that $lm(S)$ is $lm(r_1p_2)$ or $lm(r_2p_1)$ but not both.\\
+	Assume $lm(S) = lm(r_1p_2)$ therefore $lm(S)$ is divisible by $lm(p_2)$ by a factor of $lm(r_1)$. Therefore in the division algorithm:
+	\[
+		S \xrightarrow{p_2}  r_1p_2 - r_2p_1 - lm(r_1)p_2 = 	
+	\]
+	\[
+		= (r_1 - lm(r_1))p_2 - r_2p_1	
+	\]
+	Which has the same form as the starting point, therefore we can repeat the algorithm til we obtain $0$.
+\end{proof}
+
+\begin{prop-hand}[2.2.14]
+\end{prop-hand}
+\begin{proof}
+	Set $J_i := {lm(g)\ |\ g \in G_i}$, we want to prove is that $G_{i+1} \supsetneq G_i$ implies that $J_{i+1} \supsetneq J_i$. By construction of the algorithm we have that $G_{i+1} = G_i \cup \{r\}$ hence $J_{i+1} = J_i \cup \{lm(r)\}$ because $lm(g) \nmid lm(r)$ for any $g \in G_i$ . As we know $J$ is a semigroup ideal of $\Po$. But $\Po$ is Noetherian which means that we do not have infinite ideal chains, or in other words $J$ is finitely generated. So the algorithm stops.
+\end{proof}
+
+\chapter{Gr\"obner bases and $0$-dim ideals}
+
+\begin{thm-hand}[3.1.4]
+\end{thm-hand}
+\begin{proof}
+	To check that I is 0-dimensional we prove that its variety contains a finite number of points. Let $E := <X_i^q - X_i\ |\ 1 \le i \le m>$ whose variety is exactly the vector space $\mathbb{F}_q^m$. Now let $J := I \setminus E$, it is easy to see that $\V(I) = \V(E) \cap \V(J) \subseteq \mathbb{F}_q^m$ hence $\#\V(I) \le \#\mathbb{F}_q^m = q^m$ which is finite, thus $I$ is 0-dimensional.
+	
+	To prove that $I$ is radical it is sufficient to show that $\sqrt{I} \subseteq I$ since the other way around is trivial by definition of radical ideal. Given a polynomial $f \in \sqrt{I}$ this belongs to $I$ if and only if $\exists n\in \mathbb{N}$ such that $f^n \in I$ or in other words $f^n \equiv 0\ rem\ I$.
+	To begin with notice that $f^q \equiv f\ rem\ I$, indeed take:
+	\[
+		f := a_1X_1^{\alpha_{(1,1)}}\cdots X_m^{\alpha_{(m,1)}} + \cdots + a_n X_1^{\alpha_{(1,n)}}\cdots X_m^{\alpha_{(m,n)}}			
+	\]
+	Where $\alpha_{(i,j)} \in \mathbb{N}$ and $a_j \in \mathbb{F}$. Now by rising to the power of $q$ e obtain:
+		\[
+			f^q = (a_1X_1^{\alpha_{(1,1)}}\cdots X_m^{\alpha_{(m,1)}} + \cdots + a_n X_1^{\alpha_{(1,n)}}\cdots X_m^{\alpha_{(m,n)}})^q =
+		\]
+		\[
+			= 	(a_1X_1^{\alpha_{(1,1)}}\cdots X_m^{\alpha_{(m,1)}})^q + \cdots + (a_n X_1^{\alpha_{(1,n)}}\cdots X_m^{\alpha_{(m,n)}})^q = 
+		\]
+		\[
+			= a_1(X_1^q)^{\alpha_{(1,1)}}\cdots (X_m^q)^{\alpha_{(m,1)}} + \cdots + a_n (X_1^q)^{\alpha_{(1,n)}}\cdots (X_m^q)^{\alpha_{(m,n)}} =
+		\]
+		\[
+			= 	a_1X_1^{\alpha_{(1,1)}}\cdots X_m^{\alpha_{(m,1)}} + \cdots + a_n X_1^{\alpha_{(1,n)}}\cdots X_m^{\alpha_{(m,n)}}	
+		\]
+		\[
+		 = f \mod I		
+		\]
+		Therefore given $f \in \sqrt{I}$ then $f^n \in I \iff f^n \equiv 0 \mod I$ we can have two cases for $n$, i.e. $n < q$ and $n \ge q$ but we know that $f^n \equiv f^{n \mod q} \mod I$ so we can consider only the case $n < q$. 
+		So we can state the result as follows:
+		\[
+			f \in \sqrt{I}	 \Rightarrow f^n \in I \Rightarrow f^n \cdot f^{q-n} \in I \iff f^q \in I \iff f \in I
+		\]
+		We thus get that $I = \sqrt{I}$.
+\end{proof}
+
+\begin{lem-hand}[3.1.9]
+\end{lem-hand}
+\begin{proof}
+	Let $T^* := \{X_1^{z_1}, \ldots, X_m^{z_m},\} \subset T$, it is easy to see that $\Delta(T^*)$ forms an $m$-dimensional rectangle in the space of monomials, therefore we can compute its volume as follows:
+	\[
+		\#\Delta(T^*) = \prod\limits_{j = 1}^m z_j
+	\]
+	Now the remaining part of $T$ forms an $m$-dimensional polyhedron which is contained in $\Delta(T)$ and has volume:
+	\[
+		\prod\limits_{j = 1}^m (z_j - i_j)
+	\]	
+	 so to compute the actual value of $\#\Delta(T)$ one must subtract such volume from $\#\Delta(T^*)$ obtaining:
+	 \[
+		\#\Delta(T) = 	\prod\limits_{j = 1}^m z_j - \prod\limits_{j = 1}^m (z_j - i_j)
+	 \]
+\end{proof}
+
+\begin{thm-hand}[3.2.1]
+\end{thm-hand}
+\begin{proof}
+	We have $S := \{P_1, \ldots, P_k\}$ and want a Gr\"obner basis $\G'$ of $I' := \I(S)$. 
+	If $S = \{A\}$ with $A := (a_1,\ldots ,a_m)$ then $\I(S) = <(X_1 - a_1), \ldots, (X_m -a_m)>$, notice that the leading monomials in the generating basis are relatively coprime therefore $\Sp(g_i,g_j) = 0\ \forall\ i\ne j$ therefore it is also a Gr\"obner basis.
+	What we want to prove in the general case is that given $f \in I$ there exist $g \in \G'$ such that $lm(g)\ |\ lm(f)$.
+	
+	So let $f \in \I(S \cup \{B\})$, $B \in \mathbb{K}^m$ this means that $f(B) = 0\ \forall\ P_i \in S\cup \{B\}$. It is easy to see that $f \in \I(S)$ so given $\G$ a Gr\"obner basis of $\I(S)$ we get that exist $g \in \G$ such that $lm(g)\ |\ lm(f)$. We distinguish three cases here:
+	\begin{enumerate}
+		\item If $g(B) = 0$ then $g \in \G'$ and this case is trivial.
+		\item Suppose $g(B) \ne 0$ and $lm(g)\succ lm(g_*)$. in this case:
+			\[
+				g' := g - \frac{g(B)}{g_*(B)}\cdot g_*			
+			\]
+			Now $g'(B) = 0$ and the leading monomial is left unchanged so $lm(g')\ |\ lm(f)$ and so $g' \in \G'$.
+		\item Suppose $g = g_*$ then $g(B) \ne 0$. We claim that there exist $g_*\cdot (x_i - b_i)$, $0\le i \le m$ such that $lm(g_*\cdot (x_i - b_i))\ |\ lm(f)$. Obviously for every $i$ it holds that $(g_*\cdot (x_i - b_i))(B) = 0$. We see that $lm(g_*\cdot (x_i - b_i)) = x_i\cdot lm(g_*)$, if our claim is false then it must be $lm(g_*) = lm(f)$ (the reasoning is as follows: if $lm(g_*)\ |\ lm(f)$ there must exist $x_i$ such that $x_i\cdot lm(g)\ |\ lm(f)$ otherwise $lm(g_*)= lm(f)$) therefore keeping in mind that $f \in \I(S)$ we have that:
+		\[
+			f = g_* + h_1g_1 + \cdots + 	h_l\cdot g_l
+		\]
+		with $g_l \in \G$ and $lm(g_i) \prec lm(g_*)$ therefore evaluating in $B$ we obtain:
+		\[
+			0 = f(B) = g_*(B) + h_1(B)g_1(B) + \cdots + 	h_l(B)\cdot g_l(B) = g_*(B) \ne 0
+		\]
+		which is a contraddiction. So our claim is true and $g(x_i - b_i) \in \G'$ allowing $\G'$ to be a Gr\"obner basis.
+	\end{enumerate}
+\end{proof}
+
+\begin{prop-hand}[3.4.2]
+\end{prop-hand}
+
+\begin{proof}
+	Recall that $N(I)$ is the set of monomials that are not leading monomials of elements of $I \subseteq \mathbb{F}[X_1,\ldots ,X_m]$. Let $\G$ be a Gr\"obner basis of $I$. We want to prove that the elements of the set $\{M + I\ |\ M\in N(I)\}$ are linearly independent and they span all $R$.
+	
+	It is easy to prove that they are linealry independent over $F$ since they differ each other by at least a variable (e.g. $X_1$ and $X_1X_2$) or a degree in at least one variable (e.g. $X_1X_2$ and $X_1X_2^2$).
+	
+	To prove that they span all $R$ let $f \in \mathbb{F}[X_1,\ldots ,X_m]$ with $f \neq 0$, it belongs to a nonzero residue class in the quotient algebra $[f] \in R$ whose representative has leading monomial $lm(f \mod I) \in N(I)$ as otherwise there will exist $g \in \G$ such that $lm(g)\ |\ lm(f \mod I)$. This extends to all the other monomials $M_i \in Supp(f \mod I)$ simply because $M_i \prec lm(f \mod I)$.
+\end{proof}
+
+\chapter{Affine Variety Codes}
+
+\begin{thm-hand}[5.1.1]
+\end{thm-hand}
+\begin{proof}
+Write $\mathbb{F}^* = \mathbb{F}_q^* = \{P_1,\ldots, P_n\}$ where $n = q-1$. 
+Consider the generator matrix of $RS_k$:
+\[
+G = \begin{pmatrix}
+  1_{|P_1}  & \cdots & 1_{|P_n} \\
+  \vdots & \ddots & \vdots  \\
+  X_{|P_1}^{k-1}  & \cdots & X_{|P_n}^{k-1} 
+ \end{pmatrix} = 
+ \begin{pmatrix}
+  1  & 1 & \cdots & 1 \\
+  P_1 & P_2 & \cdots & P_n\\
+  \vdots &\vdots& \ddots & \vdots  \\
+  P_1^{k-1} & P_2^{k-1} & \cdots & P_n^{k-1} 
+ \end{pmatrix}
+\]
+Notice that a polynomial evaluation (codeword) in $\mathbb{F}[x]$ is precise combination of rows of $G$
+Suppose first that there are two polynomials giving the same codeword:
+\[
+	c_1 = (f_1(P_1),\ldots, f_1(P_n)) = (f_2(P_1),\ldots, f_2(P_n)) = c_2
+\]
+Since $deg(f_1),deg(f_2) < k \le n$, $f_1 - f_2$ is a polynomial of degree less than $n$ which has $n$ zeroes that is impossible unless $f_1 = f_2 \Rightarrow c_1 = c_2$. In other words there is no row in $G$ that is a linear combination of the others. Hence $dim(G) = \#rows(G) = k$.
+
+For the distance we prove both $\ge$ and $\le$:
+
+Notice that the weight of a codeword:
+\[
+	(f_1(P_1),\ldots, f_1(P_n)) = (f_2(P_1),\ldots, f_2(P_n))
+\]
+	is the number of points of $\mathbb{F}^*$ that are nonzeroes of f. Therefore let $f$ be a polynomial with as many zeroes as possible, i.e. generating a minimum weight codeword. $f$ has at most $k-1$ zeroes in $\mathbb{F}^*$ hence $c$ can have at most $k-1$ zero coordinates which means that the code has distance $d = w_H(f) \ge n - k +1$.
+
+On the other hand consider the polynomial:
+\[
+	f = \prod\limits_{i = 1}^{k-1}(x - P_i)
+\]
+it has degree $k-1$ and $k-1$ solutions therefore the codeword it generates has exactly weight $n-k+1$. So the bound is thight.
+\end{proof}
+
+\begin{thm-hand}[5.2.1]
+\end{thm-hand}
+\begin{proof}
+	Here we write $\mathbb{F}^m = \{P_1,\ldots, P_n\}$ with $n = q^m$
+	Let $c \in RM_s \setminus\{0\}$ then again:
+		\[
+			c = (f(P_1),\ldots, f(P_n))	
+		\]
+		for some $f \in \mathbb{F}[X_1,\ldots,X_m]$ and let $lm(f) = X_1^{i_1}\cdots X_m^{i_m}$. By definitionof the code $deg(f) \le s \le m(q-1) < q^m$ so $f$ can have at most $deg(f)$ zeroes and thank to this we can say that $c=0 \iff f = 0$.
+		
+		Obviously $i_1 + \cdots + i_m \le s$ and $0 \le i_1, \ldots, i_m \le q-1$ since every coordinate of $P_{i,j}$ (the $j-th$ coordinate of $P_i$) is a value of $\mathbb{F}$ so it respects $P_{i,j}^q = P_{i,j}$.\\
+		Set $I := <f> + <X_1^q - X_1,\ldots,X_m^q - X_m>$, it is 0-dimensional and radical by theorem 3.1.4. The zeroes of $f$ over $\mathbb{F}^m$ are:
+		\[
+			\V_{\mathbb{F^m}}(I) = N(I) \subseteq \Delta(I) = <X_1^q,\ldots,X_m^q ,X_1^{i_1}\cdots X_m^{i_m}>		
+		\]
+		Therefore we can compute a lower bound for the weight of $c$ that is:
+		\[
+			w_H(c) = n - N(I) \ge n - \#\Delta(I) 		
+		\]
+		\[
+			= q^m - (q^m - \prod\limits_{j=1}^m(q-i_j)) = \prod\limits_{j=1}^m(q-i_j)		
+		\]
+		\[
+			 = (q-i_1)\cdots(q - i_m) =: L
+		\]
+		Now we need to minimize $L$ we want as many $(q - i_h) = 1$ as possible, i.e. $i_h = q-1$, but since $s = a(q-1) + b$, we can do this only for $a$ factors, so take:
+			\[	
+				i_1 = \cdots = i_a = q-1\ \ \ and\ \ \ i_{a+1} = b			
+			\]
+			Then $i_1 + \cdots + i_m = a(q-1) + b$ and so we get:
+			\[
+				L = (q - (q-1))^a\cdot (q-b) \cdot q^{m - a - 1} = (q-b) \cdot q^{m - a - 1}
+			\]
+		To show that this bound is thight we find a polynomial that generates a codeword of weight exactly $L$. Write $\mathbb{F} = \{\alpha_1,\ldots,\alpha_q\}$ and consider the following polynomial:
+		\[
+			g := (\prod\limits_{l=1}^{q-1}(\prod\limits_{i=1}^a(X_i - \alpha_l)))(\prod\limits_{t =1}^{b}(X_{a+1} - \alpha_t))		
+		\]
+		So $lm(g) = X_1^{q-1}\cdots X_a^{q-1}X_{a+1}^b$, has degree $deg(g) = a(q-1) + b$ and has exactly $(q-b)q^{m-a-1}$ non zeroes.
+\end{proof}
+
+\begin{ex-hand}[5.8.2]
+\end{ex-hand}
+\begin{proof}
+	Let's check that $g$ has actually the claimed number of nonzeroes, we have $q-1$ values that given to $X_1$ make $g$ vanish, which means that there are $(q-1)q^{m-1}$ vectors in $\mathbb{F}^m$ that are zeroes because they make a factor of $g$ containing $X_1$ vanish. We do the same for $X_2$ but without considering vectors already taken for $X_1$, i.e. we can take $(q-1)q^{m-2}$ vectors. We go on like this for $a+1$ variables obtaining:
+	\[
+		\overbrace{(q-1)q^{m-1} + (q-1)q^{m-2} + \cdots + (q-1)q^{m-a}}^R + \overbrace{bq^{m-a-1}}^Q
+	\]
+	Consider the two parts $R$ and $Q$ separately:
+	\[
+		R = (q-1)(q^{m-a})\frac{(q^a - 1)}{q-1} = (q^m - q^{m-a})
+	\]
+	\[
+		R + Q = (q^m - q^{m-a}) + bq^{m-a-1}
+	\]
+	Therefore the number of nonzeroes are:
+	\[
+		q^m - (R+Q) = q^m - (q^m - q^{m-a}) - bq^{m-a-1} 
+	\]
+	\[
+		= q^{m-a} - bq^{m-a-1} = qq^{m-a-1} - bq^{m-a-1}
+	\]
+	\[
+		= (q-b)q^{m-a-1}	
+	\]
+\end{proof}
+
+\begin{lem-hand}[5.3.1]
+\end{lem-hand}
+\begin{proof}
+	Write again $\mathbb{F}^m = \{P_1,\ldots,P_n\}$ where $n = q^m$, and the simple field $\mathbb{F} = \{\alpha_1,\ldots,\alpha_q\}$.
+	We can simply take the following polynomial:
+	\[
+		f := \prod\limits_{j=1}^m\left( \prod\limits_{t=1}^{i_j}(X_j - \alpha_t)\right)	
+	\]
+	See that $lm(f) = X_1^{i_1}\cdots X_m^{i_m}$, and now we check the number of nonzeroes by counting the number of zeroes as before. Call $I_q = <X_1^q - X_1, \ldots, X_m^q - X_m, f>$ and recall that for a 0-dimensional ideal $\#N(I) = \#\V(I)$ hence the number of zeroes of $f$ is:
+	\[
+		\#N(I_q) = i_1q^{m-1} + i_2q^{m-2}(q - i_1) + \cdots + i_m\prod\limits_{j=1}^{m-1}(q - i_j)
+	\]
+	\[
+		=	q^m - \prod\limits_{j=1}^{m}(q - i_j)
+	\]
+	Hence the weight of a the codeword $c$ generated by $f$ will be:
+	\[
+		w_H(c)	 = q^m - \#N(I_q) = \prod\limits_{j=1}^{m}(q - i_j)
+	\]
+\end{proof}
+
+\begin{thm-hand}[5.3.2]
+\end{thm-hand}
+\begin{proof}
+	We first fix a monomial ordering $\prec$ and then take a nonzero codeword $c \in Hyp_q(s,m) - \{0\}$. Using the same notation as in Lemma 5.3.1 we have that:
+	\[
+		c = (f(P_1),\ldots,f(P_n))	
+	\]
+	with $f \in \mathbb{F}[X_1,\ldots,X_m]$ non zero and having $lm(f) = X_1^{i_1}\cdots X_m^{i_m}$. Let's count the number of nonzeroes of $f$, call $I_q = <X_1^q - X_1, \ldots, X_m^q - X_m, f>$:
+	\[
+		w_H(c) = q^m - \#N(I_q) \ge q^m - \#\Delta(I_q)	= \prod\limits_{j=1}^m(q - i_j) \ge q^m -s
+	\]
+	Notice that the last inequality comes from the definition of hyperbolic code.
+	We can now apply Lemma 5.3.1 to find a polynomial with that leading monomial and $q^m - s$ nonzero points. So the bound is tight.
+\end{proof}
+
+\begin{lem-hand}[5.4.2]
+\end{lem-hand}
+\begin{proof}
+ 	In order to minimize the value $\prod\limits_{l=1}^m(q - i_l)$ we try to have as many small factors (i.e. $(q-i_l) = 1$) as possible. To do this we take $i_1 = s-1$ and $i_2 = 1$ and $i_3 = \cdots = i_m = 0$. Hence the product becomes:
+ 	\[
+ 		\prod\limits_{l=1}^m(q - i_l) = q^m - \overline{s}_1q^{m-1} + \overline{s}_2q^{m-2} - \cdots (-1)^m\overline{s}_m
+ 	\]
+ 	Where $\overline{s}_k$ for $1\le k \le m$ is the $k$-th symmetric polynomial in the variables $\{i_1,\ldots,i_m\}$. Notice that for $k \ge 3$ every term of $s_k$ is made up by three variables, which means that at least one of them must be $0$. Notice furthermore that for the same reason:
+ 	\[
+		\overline{s}_1 = i_1 + i_2 = s\ \ \ and\ \ \ \overline{s}_2 = i_1\cdot i_2= s-1 	
+ 	\]
+ 	Therefore what survives of the polynomial is:
+ 		\[
+ 		\prod\limits_{l=1}^m(q - i_l) = q^m - \overline{s}_1q^{m-1} + \overline{s}_2q^{m-2}
+ 		\]
+ 		\[
+			= q^m - sq^{m-1} + (s-1)q^{m-2} 		
+ 		\]
+\end{proof}
+
+\begin{lem-hand}[5.4.3]
+\end{lem-hand}
+\begin{proof}
+	We try to minimize the value $(s-i_1)\prod\limits_{l=2}^m(q - i_l)$. Since $s \le q-1$ we procede by taking $i_2 = q-1$ now by the relation $i_1 + \cdots + i_m = q$ we have $1$ more to spend. To choose on which $i_l$ we spend it consider the following argument for $a,b \in \mathbb{N}, a<b$:
+	\[
+		(a-1)b = ab - b < ab - a = a(b-1)
+	\]
+	Therefore by setting $a = s$ and $b = q$ the obvious choice will be $i_1 = 1$. Thus we get:
+	\[
+		(s-1)	\prod\limits_{l=3}^m(q - i_l) = (s-1)(q^{m-3} - \overline{s}_1q^{m-4} + \cdots (-1)^{m-2}\overline{s}_{m-2})
+	\]
+	Now by the same argument we had in Lemma 5.4.2 we see that no $\overline{s}_k$ survives since all the $i_l =0$ for $l\ge 3$. Hence the minimum value is $(s-1)q^{m-2}$.
+\end{proof}
+
+\begin{lem-hand}[5.7.1]
+\end{lem-hand}
+\begin{proof}
+	Assume $u\cdot v \ne 0$ then $\sum\limits_{i=1}^nu_iv_i \ne 0$ therefore at least one factor $a_ib_i$ survives. Therefore in the worst case we will obtain:
+	\[
+		u*v =  (0,\ldots,0,u_iv_i,0\ldots,0)\ne \textbf{0}	
+	\]
+\end{proof}
+\begin{ex-hand}[5.8.15]
+\end{ex-hand}
+\begin{proof}
+	Let $z \in \mathbb{F}^n$ with $u\cdot(v*z) \ne 0$ then we write:
+	\[
+		0 \ne u \cdot (v_1z_1,\ldots,u_nz_n) = \sum\limits_{i=1}^nu_iv_1z_1 = z\cdot(u*v)	
+	\]
+	Therefore neither $(u*v)$ nor $z$ can be $0$
+\end{proof}
+\begin{lem-hand}[5.7.2]
+\end{lem-hand}
+\begin{proof}
+	Let $f,g$ be polynomials, then we write:
+	\[
+		ev(f\cdot g) = ((fg)(P_1),\ldots,(fg)(P_n))	
+	\]
+	but we already know that $(fg)(A) = f(A)g(A)$ (provable by expanding $f,g$ in sum of monomials) so:
+	\[
+			ev(f\cdot g) = (f(P_1)g(P_1),\ldots,f(P_n)g(P_n)) = ev(f)*ev(g)
+	\]
+\end{proof}
+
+\begin{lem-hand}[5.7.3(STUCK)]
+\end{lem-hand}
+\begin{proof}
+	Consider a vector space $E \lhd \mathbb{F}^n$ with $\dim(E) = k$ and a vector basis of $E$:
+	\[	
+		\pazocal{B} := \begin{pmatrix}
+  b_{1,1}  & b_{1,2} & \cdots & b_{1,n} \\
+  b_{2,1} & b_{2,2} & \cdots & b_{2,n}\\
+  \vdots &\vdots& \ddots & \vdots  \\
+  b_{k,1} & b_{k,2} & \cdots & b_{k,n} 
+ \end{pmatrix}	
+	\] 
+	We are going to consider the column space of $\pazocal{B}$. To start with assume that $w_H(c) = k-1$ and w.l.o.g. assume that only the first $k-1$ coordinates of $c$ are different from $0$, we perform moltiplication only on $\pazocal{B}$, so consider:
+	\[
+		\pazocal{B}*c := \begin{pmatrix}
+  b_{1,1}*c_1  & b_{1,2}*c_2 & \cdots & b_{1,n}*c_n \\
+  b_{2,1}*c_1 & b_{2,2}*c_2 & \cdots & b_{2,n}*c_n\\
+  \vdots &\vdots& \ddots & \vdots  \\
+  b_{k,1}*c_1 & b_{k,2}*c_2 & \cdots & b_{k,n}*c_n
+ \end{pmatrix}
+	\]
+	What we obtain is that the columns between the $k$-th and the $n-th$ of $\pazocal{B}*c$ must be $0$
+\end{proof}
+
+\begin{ex-hand}[5.8.14]
+\end{ex-hand}
+\begin{proof}
+	Let $s \in N_{\prec_w}(I)$ such that $\textbf{c}\cdot s \ne 0$. If $s \in \Box_{\prec_w}L$ then there exists a polynomial $f \in L$ such that $\textbf{c}\cdot ev(f) = \sum\limits_{v_i \in Supp(f)}c_iv_i = 0$. But:
+	\[
+		0 = \textbf{c}\cdot ev(f) = \textbf{c}\cdot ev(s) + \textbf{c}\cdot ev(\lambda)	 = \textbf{c}\cdot ev(s) + 0 \ne 0
+	\]
+	where lambda is the remainin part of $f$, (i.e. $\lambda = f - lt(f)$). The last equality holds by minimality of $s$. We got a contraddiction and therefore the thesis.
+\end{proof}
+\chapter{Order Domain Codes}
+\begin{prop-hand}[6.1.6]
+\end{prop-hand}
+\begin{proof}
+	What we want to prove is that for any $f \in R_q$ such that $Supp(f) \in N_{\prec_w}(I)$ and $lm(f) = p$ holds that:
+	\[
+		lm(fh\ rem\ \G) = lm(ph\ rem\ \G)	
+	\]
+	 The fact $w(ph) = w(p) + w(h) \in w(N_{\prec_w}(I))$ means that $ph \in N_{\prec_w}(I)$ so that $ph = ph\ rem\ \G$. Hence we can write thanks to Lemma 6.1.2:
+	\[
+		w(ph\ rem\ \G) = w(ph) = w(lm(fh)) = w(lm(fh\ rem\ \G))
+	\]
+	But for the second order domain conditions two monomials have the same weight if and only if they are the same monomial. 
+	The second part follows the same reasoning.
+\end{proof}
+
+\begin{ex-hand}[6.5.3]
+\end{ex-hand}
+\begin{proof}
+	Let $\Gamma = w(N(I))$ and prove the three properties that characterize a semigroup.
+	\begin{enumerate}
+		\item Set $e = w(1) = 0$ then for any $m\in \Gamma$ let $\alpha = w(m)$ and so:
+			\[
+				\alpha + e = w(m\cdot1) = w(m) = \alpha 			
+			\]
+		\item Let $m,n \in \Gamma$ with $\alpha = w(m)$ and $\beta = w(m)$. It could be that $m\cdot n \notin N(I)$ but by Lemma 6.1.2 we can write:
+		\[
+			\alpha + \beta = w(m\cdot n) = w(m\cdot n\ rem\ \G) \in \Gamma		
+		\]
+		\item Let $m_1,m_2,m_3 \in N(I)$ with $w(m_1) = \alpha, w(m_2) = \beta$ and $w(m_3) = \gamma$. So then:
+		\[
+			\alpha + (\beta + \gamma)	 = w(m_1\cdot(m_2\cdot m_3)) 
+		\]
+		\[
+			= w((m_1\cdot m_2)\cdot m_3) = (\alpha + \beta) + \gamma
+		\]
+		Here I intentionally omitted $rem\ \G$ for the sake of reading simplicity.
+	\end{enumerate}
+\end{proof}
+
+\begin{thm-hand}[6.1.7]
+\end{thm-hand}
+\begin{proof}
+	To begin with we translate theorem $5.6.9$ which aims at finding an upper bound for the cardinality of the set $N_\prec(I_q + <f>)$. To do this we compute the cardinality of the set:
+	\[
+		\Omega_p = \{s \in N(I_q)\ |\ \exists h \in N(I_q)\ s.t.\ (p,h)\ is\ OWB, lm(ph\ rem\ \G) = s\}
+	\]
+	for each $p \in \Box_\prec L$ and take the minimum.\\
+	So with the notation $\Box = \Box_\prec L$ consider now the set:
+	\[
+		\min\limits_{p \in \Box}\{ \delta(p)\} = \min\limits_{p \in \Box} \#\{s \in N(I_q)\ |\ \exists h \in N(I)\ s.t.\ w(p) + w(h) = w(s)\}
+	\]
+	Proposition 6.1.6 shows that the belonging conditions of this last set is the same of requiring that $(p,h)$ is $OWB$. Moreover we also proved that $N(I_q)$ is a semigroup the two sets are equal.
+	To translate theorem 5.7.4 we have to consider another kind of set. In such theorem we counted the number of $OWB$ pairs that give rise to a monomial $s \in N(I_q) \setminus \Box_\prec L$, we then built a polynomial space and measured its dimension. So we are considering:
+	\[
+		\min\limits_{s \in N(I_q) \setminus \Box\prec L} = \{p \in N(I_q)\ |\ \exists h \in N(I_q)\ s.t.\ (p,h)\ is\ OWB, lm(ph\ rem\ \G) = s\}
+	\]
+	and the set:
+	\[
+		\min\limits_{h \in N(I_q)}\{\mu(w(h))\}	
+	\]
+	Now procede as above and apply Proposition 6.1.6 when required.
+\end{proof}
+
+\begin{thm-hand}[6.2.5]
+\end{thm-hand}
+\begin{proof}
+	\begin{itemize}
+		\item[W.2)] Consider $f = F+I$ and $g = G +I$ then:
+		\[
+			\rho(f+g) = \max\{w(m)\ |\ m \in Supp(F+G)\}
+		\]
+		\[
+			= \max\{w(lm(F)),w(lm(G))\}	
+		\]
+		\[
+			 = \max\{\rho(F),\rho(G))\}
+		\]
+		but thanks to Lemma 6.1.2 the weights are left unchanged during reduction by a Gr\"obner basis therefore:
+		\[
+			\rho(f+g) = \max\{\rho(F),\rho(G)\} = \max\{\rho(f),\rho(g)\}
+		\]
+		\item[W.4)] Let again $f = F+I$ and $g = G +I$. If $\rho(f) = \rho(g)$ then $\rho(f) = w(lm(F)) = w(lm(G)) = \rho(g)$ but since $\rho$ is bijective it must be that $lm(f) = lm(g)$. Now we distinguish two cases:
+			\begin{itemize}
+				\item[$f = g$] Take $a = 1$ then $\rho(f - ag) = \rho(0) = -\infty \prec_w \rho(g)$
+				\item[$f\ne g$] In this case we can write $f = c_1lm(g) + \lambda$ and similarly $g = c_2lm(g) + \gamma$. In this case we set $a = \frac{c_1}{c_2}$ (observe taht $a$ exists and is different from $0$ because we are in a field) so that:
+				 \[
+				 	\rho(f - ag) = \rho(\lambda - \frac{c_1}{c_2}\gamma) \prec_w \rho(g)
+				 \]
+				 (Obviously by maximality of $lm(g)$).
+			\end{itemize}
+	\end{itemize}
+\end{proof}
+
+\end{document}
