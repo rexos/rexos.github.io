@@ -9,6 +9,7 @@
 \declaretheorem[style=mystyle,numbered=no,name=Proposition]{prop-hand}
 \declaretheorem[style=mystyle,numbered=no,name=Corollary]{cor-hand}
 \declaretheorem[style=mystyle,numbered=no,name=Exercise]{ex-hand}
+\declaretheorem[style=mystyle,numbered=no,name=Remark]{rem-hand}
 
 \usepackage{amssymb}
 \usepackage{calrsfs}
@@ -213,6 +214,19 @@
 
 \chapter{Gr\"obner bases and $0$-dim ideals}
 
+\begin{ex-hand}[3.5.1]
+\end{ex-hand}
+\begin{proof}
+	What we want to prove is that $\I(S) = \sqrt{\I(S)}$ by proving both inclusions. The inclusion $\I(S) \subset \sqrt{\I(S)}$ is trivial, so we show only the other way.
+	Let $f 	\in \sqrt{\I(S)}$ this means that exists $n \in \mathbb{N}$ such that $f^n \in \I(S)$. So given a point $s \in S$ we have that $f^n(s) = 0$ but this is true if and only if $f(s) = 0$ meaning that $f \in \I(S)$.
+\end{proof}
+
+\begin{ex-hand}[3.5.2]
+\end{ex-hand}
+\begin{proof}
+	Let $\V(I) \subset \overline{\mathbb{K}}^m$ the variety of $I$ and consider the vanishing ideal $\I(\V(I))$ i.e. the set of all polynomials of $\pazocal{P}$ that vanish on points in $\V(I)$. By definition $\V(I)$ are the points on which every polynomial of $I$ vanishes therefore we trivially have $I \subseteq \I(\V(I))$
+\end{proof}
+
 \begin{thm-hand}[3.1.4]
 \end{thm-hand}
 \begin{proof}
@@ -247,6 +261,30 @@
 		We thus get that $I = \sqrt{I}$.
 \end{proof}
 
+\begin{cor-hand}[3.1.6]
+\end{cor-hand}
+\begin{proof}
+	To show this we can apply the Buchberger M\"oller algorithm since we can create exactly a basis for $\I(\V(I))$ which is indeed radical. Assume $\V(I) = \{P_1,\ldots,P_s\}$, now we take one point at a time and build a Gr\"obner basis.\\
+	Take $\V'(I) = \{P_1\}$ so $\#\V'(I) = 1$ then $\G' = \{(X_1 - P_{(1,1)}),\ldots,(X_m - P_{(1,m)})\}$.\\
+	It's easy to see that $N(I) = {1}$.
+	We perform another step that can be then easily generalized	. Call $g_1,\ldots,g_m$ the elements of $\G$\\
+	Take $\V"(I) = \{P_1,P_2\}$ therefore since $P_1 \ne P_2$ there exist $g_* = g_k \in \G$ such that $g_*(P_2) \neq 0$ therefore:
+	\[
+		\G" = \{g_1,\ldots,g_{k-1},g_*(X_1 - P_{(2,1)}),\ldots,g_*(X_m - P_{(2,m)}),g'_{k+1},\ldots,g'_m\}	
+	\]
+	where: $g_1,\ldots,g_k$ are left unchanged, the leading monomial of $g_{k+1},\ldots,g_m$ is left unchanged and moreover notice that $lm(g_*(X_k - P_{(2,k)})) = X_k^2$. When it comes to find $N(I)$ we see that the degree of every variable $X_i$ for $i \ne k$ is bounded by $1$ while $X_k$ is bounded by 2 therefore $\#N(I) = 2$ indeed $N(I) = \{1,X_k\}$. At the next step, when we add $P_3$, we see that if the new 	$g_*$ is the same as before then the thesis follows the same reasoning. Otherwise if this is not the case a new polynomial with leading monomial $X_j^2$ will be generated. This would mean that $N(I) = \{1,X_j,X_k,X_jX_k\}$ but notice that we also generated a polynomial with leading monomial $X_jX_k$ which removes one point from the staircase allowing $\#N(I) = 3$. Generalize this result to the required number of points.
+\end{proof}
+\newpage
+\begin{thm-hand}[3.1.7]
+\end{thm-hand}
+\begin{proof}
+	Since $I$ is $0$ dimensional then we can write $\V(I) = \{P_1,\ldots,P_n\}$. Now by using Buchberger M\"oller algorithm we can find a Gr\"obner basis for $\I(\V(I))$ which is radical therefore $\#\V(\I(\V(I))) = \#N(\I(\V(I)))$ by previous corollary. Obviously $\V(I) \subseteq \V(\I(\V(I)))$ and furthermore $N(\I(\V(I))) \subseteq N(I)$. Putting all together we find that:
+	\[
+			\#\V(I) \le \#\V(\I(\V(I))) = \#N(\I(\V(I))) \le \#N(I)
+	\]
+	Now by taking only solutions in $\mathbb{K}$ we complete the proof.
+\end{proof}
+
 \begin{lem-hand}[3.1.9]
 \end{lem-hand}
 \begin{proof}
@@ -271,7 +309,7 @@
 	If $S = \{A\}$ with $A := (a_1,\ldots ,a_m)$ then $\I(S) = <(X_1 - a_1), \ldots, (X_m -a_m)>$, notice that the leading monomials in the generating basis are relatively coprime therefore $\Sp(g_i,g_j) = 0\ \forall\ i\ne j$ therefore it is also a Gr\"obner basis.
 	What we want to prove in the general case is that given $f \in I$ there exist $g \in \G'$ such that $lm(g)\ |\ lm(f)$.
 	
-	So let $f \in \I(S \cup \{B\})$, $B \in \mathbb{K}^m$ this means that $f(B) = 0\ \forall\ P_i \in S\cup \{B\}$. It is easy to see that $f \in \I(S)$ so given $\G$ a Gr\"obner basis of $\I(S)$ we get that exist $g \in \G$ such that $lm(g)\ |\ lm(f)$. We distinguish three cases here:
+	So let $f \in \I(S \cup \{B\})$, $B \in \mathbb{K}^m$ this means that $f(P_i) = 0\ \forall\ P_i \in S\cup \{B\}$. It is easy to see that $f \in \I(S)$ so given $\G$ a Gr\"obner basis of $\I(S)$ we get that exist $g \in \G$ such that $lm(g)\ |\ lm(f)$. We distinguish three cases here:
 	\begin{enumerate}
 		\item If $g(B) = 0$ then $g \in \G'$ and this case is trivial.
 		\item Suppose $g(B) \ne 0$ and $lm(g)\succ lm(g_*)$. in this case:
@@ -291,6 +329,12 @@
 	\end{enumerate}
 \end{proof}
 
+\begin{ex-hand}[3.5.10]
+\end{ex-hand}
+\begin{proof}
+
+\end{proof}
+
 \begin{prop-hand}[3.4.2]
 \end{prop-hand}
 
@@ -301,6 +345,25 @@
 	
 	To prove that they span all $R$ let $f \in \mathbb{F}[X_1,\ldots ,X_m]$ with $f \neq 0$, it belongs to a nonzero residue class in the quotient algebra $[f] \in R$ whose representative has leading monomial $lm(f \mod I) \in N(I)$ as otherwise there will exist $g \in \G$ such that $lm(g)\ |\ lm(f \mod I)$. This extends to all the other monomials $M_i \in Supp(f \mod I)$ simply because $M_i \prec lm(f \mod I)$.
 \end{proof}
+
+\begin{ex-hand}[3.5.10]
+\end{ex-hand}
+\begin{proof} 
+Let us use the notation $\pazocal{P} = \mathbb{K}[X_1,\ldots,X_m]$ and $R = \mathbb{K}[X_1,\ldots,X_m]/J$
+To begin with we show that $\varphi = ev$ is well defined, indeed if $g,h \in \pazocal{P}$ such that $g,h \in [f] \in R$ then $\varphi(g) = \varphi(g+J) = \varphi(f) = \varphi(h + J) = \varphi(g)$.
+To see that it is an homomorphism we check that it preserves operations, so let $f,g \in R$:
+\[
+	\varphi(fg) = (fg(P_1), \ldots,fg(P_n)) = (f(P_1)g(P_1),\ldots,f(P_n)g(P_n)) = \varphi(f)*\varphi(g)
+\]
+Do the same also for addition.
+Then, notice that $J$ is assumed to be $0$ dimensional, and a possible characterization of $0$ dimensional ideals is that the quotient algebra $R$ is finite dimensional therefore to check that $\varphi$ is onto we can check that it holds that:
+\[
+	\dim(\mathbb{K}^n) = \dim(Im(\varphi)) + \dim(\ker(\varphi)) 
+\]
+We check first that $\varphi$ is injective, but since $J$ is radical then $J = \I(\V(J))$ that means that it contains every polynomial that vanishes on $\V(Jf)$. So now the only polynomial that satisfies $\varphi(f) = 0 \in \mathbb{K}^n$ is obviously the $0$ polynomial i.e. every polynomial in $J$ so$\varphi$ is injective.
+Thank to this we now know that the $\ker(\varphi) = \{[0] \in R\}$ thus $\dim(\ker(\varphi))=0$ which means that $Im(\varphi)$ has dimension $n$ therefore $\varphi$ is also surjective.
+\end{proof}
+
 
 \chapter{Affine Variety Codes}
 
@@ -635,6 +698,18 @@ it has degree $k-1$ and $k-1$ solutions therefore the codeword it generates has 
 				 (Obviously by maximality of $lm(g)$).
 			\end{itemize}
 	\end{itemize}
+\end{proof}
+
+\chapter{General $n$th-root codes}
+
+\begin{rem-hand}[7.1.2]
+\end{rem-hand}
+\begin{proof}
+	Let's prove that an $n$th root code has distance at least $2$. By definition of such code we have that the parity check matrix $H$ has no zero columns therefore, suppose there are two codewords $x,y \in C$ such that $d(x,y) = 1$ then:
+	\[
+		x-y = (0,\ldots,0,1,0\ldots,0) = \gamma \in C	
+	\]
+	So it must hold that $H\gamma^T = \textbf{0}$ therefore there must exist a column of  H that is made up by only zeroes. This contraddicts our hypothesis, so $d(C) \ge 2$
 \end{proof}
 
 \end{document}
