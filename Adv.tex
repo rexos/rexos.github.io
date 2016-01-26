@@ -706,4 +706,32 @@ it has degree $k-1$ and $k-1$ solutions therefore the codeword it generates has 
 	So it must hold that $H\gamma^T = \textbf{0}$ therefore there must exist a column of  H that is made up by only zeroes. This contraddicts our hypothesis, so $d(C) \ge 2$
 \end{proof}
 
+\chapter{Correcting errors and erasures via the syndrome variety}
+
+\begin{lem-hand}[5.1]
+\end{lem-hand}
+\begin{proof}
+	Exploit the fact that the radicality of $I$ implies the radicality of all of its elimination ideals in order to show that there exists a $g \in G_t$ that vanishes on $p \in \Sigma_j$ for $j = 1,\ldots,t$.
+	To show that $G_{t,\delta} \ne \emptyset$ for each $\delta \le t$ inspect the Buchberger Moller algorithm which ensures the existence of at least one polynomial for each $\delta$.
+\end{proof}
+
+\begin{lem-hand}[5.3]
+\end{lem-hand}
+\begin{proof}
+	What we want to show is that the Gr\"obner basis $G_t = G \cap K[S',z_t]\setminus K[S']$	contains polynomials of degree exactly $t$ with respect to the variable $z_t$ (intuitively there could be polynomials of degree $\Delta \ge t$).
+	Since $I_{S'}$ si stratified (see definition in chapter 7) we prove the thesis by directly applying Buchberger Moller algorithm to the sets of points $\overline{\Sigma}_1,\ldots,\overline{\Sigma}_t$.
+	Start with $\overline{\Sigma}_1$ we want to show that the highest degree of a polynomial in $G_{t,1}$ w.r.t. $z_t$ is $1$, extract a point $p \in \overline{\Sigma}_1$ then $p = (\overline{s}_1,\ldots,\overline{s}_N,\overline{z}_t)$. 
+	
+	Obviously the Grobner basis will look like:
+	\[
+	G_{t,1} = \{(\textbf{s}_1 - \overline{s}_1),\ldots,(\textbf{s}_N - \overline{s}_N), (\textbf{z}_t - \overline{z}_t)\}
+	\]
+	and notice that this is ordered w.r.t the required ordering.
+	We have a polynomial of degree $1$ in $z_t$. Take now another point $q \in \overline{\Sigma}_1$ so $q = (\widehat{s}_1,\ldots,\widehat{s}_N, \widehat{z}_t)$. Buchberger Moller algorithm evaluates every polynomial in $G_{t,1}$ in $q$ and takes the first that does not vanish on $q$. The selected polynomial, say $g_*$ will generate other $N+1$ polynomials (according to the algorithm) of the form $g_*\cdot(\textbf{s}_1 - \overline{s}_1),\ldots,g_*\cdot(\textbf{s}_N - \overline{s}_N),g_*\cdot(\textbf{z}_t - \overline{z}_t)$. We claim that the degree of $g_*\cdot(\textbf{z}_t - \overline{z}_t)$ is again $1$.\\
+	This is true because there exists $i \le N$ such that $\overline{s}_i \ne \widehat{s}_i$ (this is the very key idea of the proof) and this is true since $p,q \in \overline{\Sigma}_1$ that is \\$(\widehat{s}_1,\ldots,\widehat{s}_N), (\overline{s}_1,\ldots,\overline{s}_N) \in \Sigma_1 \subset \V(I_{S'})$ which means that they have only one extension point in $\V(I_{S' \cup \{z_t\}})$ so they must be different (otherwise $(\overline{s}_1,\ldots,\overline{s}_N) \in \Sigma_2$ and this is impossible).\\
+	Therefore the polynomial $g_*$ must be a polynomial of the form $g_* = (\textbf{s}_i - \overline{s}_i)$ for some $i$. And this ensures that $g_*\cdot(\textbf{z}_t - \overline{z}_t)$ has degree $1$ in $z_t$.\\\\
+	We can go for $\overline{\Sigma}_2$ here there exists $p,q \in \overline{\Sigma}_2$ such that $p = (\overline{S},\overline{z}_t)$ and $q = (\overline{S},\widehat{z}_t)$ notice that here $g_*$ will be the same for $p$ and $q$ and by the same reasoning as before $deg_{z_t}(g_*) = 0$ therefore it generates a polynomial of degree $2$.\\\\
+	We can go on until $\overline{\Sigma_t}$ proving that $\Delta = t$
+\end{proof}
+
 \end{document}
