@@ -1,0 +1,1713 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{systeme}
+\usepackage[italian]{babel}
+\usepackage{calrsfs}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Teorema}[chapter] % reset theorem numbering for each chapter
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definizione} % definition numbers are dependent on theorem numbers
+\newtheorem{exmp}[thm]{Esempio} % same for example numbers
+\newtheorem{prop}[thm]{Proposizione} % same for proposition numbers
+\newtheorem{oss}[thm]{Osservazione} % same for observation numbers
+\newtheorem{cor}[thm]{Corollario} % same for corollary numbers
+\newtheorem{lem}[thm]{Lemma} % same for lemma numbers
+
+\newcommand{\chaptercontent}{
+\section{Basics}
+\begin{defn}Here is a new definition.\end{defn}
+\begin{thm}Here is a new theorem.\end{thm}
+\begin{thm}Here is a new theorem.\end{thm}
+\begin{exmp}Here is a good example.\end{exmp}
+\subsection{Some tips}
+\begin{defn}Here is a new definition.\end{defn}
+\section{Advanced stuff}
+\begin{defn}Here is a new definition.\end{defn}
+\subsection{Warnings}
+\begin{defn}Here is a new definition.\end{defn}
+}
+\newcommand{\M}{\pazocal{M}_\varphi}
+\newcommand{\X}{\pazocal{X}}
+\newcommand{\I}{\pazocal{I}}
+\newcommand{\Y}{\pazocal{Y}}
+\newcommand{\C}{\pazocal{C}}
+\newcommand{\K}{\pazocal{K}}
+\newcommand{\Z}{\pazocal{Z}}
+\newcommand{\F}{\pazocal{F}}
+\newcommand{\G}{\pazocal{G}}
+\newcommand{\Ha}{\pazocal{H}_\delta}
+\newcommand{\Hu}{\pazocal{H}}
+\newcommand{\Le}{\pazocal{L}}
+\newcommand{\Ml}{\pazocal{M}_{\Le^n}}
+\newcommand{\Mh}{\pazocal{M}_{\Hu^s}}
+\newcommand{\A}{\pazocal{A}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+\newcommand{\twopartdef}[4]
+{
+	\left\{
+		\begin{array}{ll}
+			#1 & \mbox{se } #2 \\
+			#3 & \mbox{se } #4
+		\end{array}
+	\right.
+}
+
+\begin{document}
+
+\begin{titlepage}
+   \vspace*{\stretch{1.0}}
+   \begin{center}
+      \Huge\textbf{Analisi Matematica III}\\
+      \LARGE Universit\'a degli studi di Trento\\
+      \Large Dipartimento di Matematica\\
+      \large Anno Accademico 2015/2016\\
+      \large Docente: Silvano Delladio\\
+      \bigskip
+      \large Note a cura di:\\
+      \Large\textit{Alex Pellegrini}\\
+      \begin{verbatim}
+      	email:	alex.pellegrini@live.com
+      	web:   http://rexos.github.io
+      \end{verbatim}
+   \end{center}
+   \vspace*{\stretch{2.0}}
+\end{titlepage}
+
+
+\tableofcontents
+\chapter{Teoria della Misura}
+\begin{defn}
+Una \textit{misura esterna} sull' insieme $\pazocal{X}$ \'e una mappa\\
+ $\varphi:2^{\pazocal{X}} \rightarrow [0, +\infty]$ tale che :\\
+\begin{enumerate}
+	\item $\varphi(\emptyset) = 0$
+	\item $\varphi(E) \le \varphi(F)$ se $E \subset F \subset \pazocal{X}$ (monotonia)
+	\item $\varphi(\bigcup\limits_{j}E_j) \le \sum\limits_{j}\varphi(E_j)$ ($\sigma$-subadditivit\'a)
+\end{enumerate}
+\end{defn}
+
+\begin{exmp}
+\end{exmp}
+
+\begin{exmp}
+\end{exmp}
+
+\begin{exmp}
+\end{exmp}
+
+\section{Misura di Peano-Jordan}
+Sia $A \subset \mathbb{R}^2$ limitato.\\
+Sia $\pazocal{R}_A$ la famiglia di ricoprimenti finiti di $A$, formati da rettangoli aperti in $\mathbb{R}^2$ della forma $(a,b)\times(c,d)$.\\
+Sia $\pazocal{R} = \{R_1, R_2, ... , R_k\}$ un ricoprimento finito di $A$. Indichiamo con $m(R_i)$ l'area di $R_i$. Ovviamente $A \subset \bigcup\limits_{j=1}^{k}R_j$.
+
+\begin{defn}
+	La \textit{misura superiore di Jordan} di un insieme $A$ \'e definita come:
+	\[
+		J^+(A) := \inf\limits_{\pazocal{R} \in \pazocal{R}_A} \sum\limits_{R_j \in \pazocal{R}} m(R_j)
+	\]
+	Ovvero prendiamo la minore delle aree dei ricoprimenti di $A$.
+\end{defn}
+La misura superiore di Peano-Jordan \'e definita anche per $A$ non limitato come:
+\[
+		J^+(A) := \lim\limits_{\rho \rightarrow +\infty} J^+(A \cap B_\rho(0,0))
+	\]
+\begin{prop}
+La misura superiore di Peano-Jordan \textbf{non} \'e una misura esterna.
+\begin{proof}
+Consideriamo $A = (\mathbb{Q}\cap [0,1])\times(\mathbb{Q}\cap [0,1])$. $A$ \'e formato dai punti razionali nel quadrato reale di lato $1$ centrato nell' origine. Siccome $\mathbb{Q}$ \'e denso in $\mathbb{R}$ nessun punto razionale di $A$ \'e punto interno (lo stesso vale per la parte puramente reale).\\
+Scriviamo dunque $A = \{P_1,P_2,...\}$, ovvero $A = \bigcup\limits_{j=1}^{+\infty}P_j$ (infinito numerabile).\\
+\begin{itemize}
+\item Dimostriamo $J^+({P_j}) = 0$.\\ Sia $Q_\varepsilon$ il quadrato aperto che ricopre il punto $P_j$. Abbiamo che $J^+({P_j}) \le m(Q_\varepsilon) = \varepsilon^2 \Rightarrow J^+({P_j}) = 0$ per l'arbitrariet\'a di $\varepsilon$.\\
+\item Dimostriamo che $J^+(A) \ge 1$.\\
+Sia $\pazocal{R}$ un ricoprimento di $A$, allora
+\[
+	1 \le area(\pazocal{R}) \le \sum\limits_{R_j \in \pazocal{R}}m(R_j)
+\]
+Allora abbiamo che:
+\[
+	\inf\limits_{\pazocal{R}\in\pazocal{R_A}} \sum\limits_{R_j \in \pazocal{R}}m(R_j) \ge 1
+\]
+\end{itemize}
+Concludiamo che $J^+(A) \ge 1 > \sum\limits_{j=1}^{\infty}J^+({P_j}) = 0$. Quindi la misura superiore di Jordan non \'e esterna in quanto non rispetta la $\sigma$-subadditivit\'a
+\end{proof}
+\end{prop}
+
+Consideriamo l' insieme $\pazocal{T}_A = \left\{ \{R_1,...,R_k\} | k < +\infty, R_j \subset A, R_i \cap R_j = \emptyset\ se\ i \ne j \right\}$, ovvero l'insieme dei "ricomprimeti inscritti" ad $A$ (formati da rettangoli aperti) a due a due disgiunti.
+
+\begin{defn}
+	La \textit{misura inferiore di Jordan} \'e definita come:
+	\[
+J^-(A) := \twopartdef { 0 } {\pazocal{T}_A = \emptyset} {\sup\limits_{\pazocal{T}\in\pazocal{T_A}} \sum\limits_{R_j \in \pazocal{T}}m(R_j)} {\pazocal{T}_A \ne \emptyset}
+	\]
+Il massimo delle aree dei "ricoprimenti inscritti" di $A$.
+\end{defn}
+
+\begin{defn}
+	$A$ \'e $misurabile$ secondo Jordan se $J^-(A) = J^+(A)$, in tal caso il valore si indica con $J(A)$.
+\end{defn}
+Ovviamente $J^-(A) \le J^+(A)$,  per $A$ come sopra abbiamo $\pazocal{T}_A = \emptyset \Rightarrow J^-(A)=0$ inoltre come visto prima $J^+(A) \ge 1$. Dunque $A$ non \'e misurabile secondo Jordan. Detto questo la mappa $J : M_J \longrightarrow [0, +\infty]$, con $M_J$ insieme dei misurabili secondo Jordan, ha dominio $M_J \ne 2^{\mathbb{R}^2}$, quindi non pu\'o essere misura esterna.
+
+\begin{defn}
+Sia $\varphi : 2^{\pazocal{X}} \longrightarrow [0,+\infty]$ una misura esterna su $\pazocal{X}$. $E \subset \pazocal{X}$ \'e $misurabile$ se $\forall A \subset \pazocal{X}$:
+\[
+	\varphi(A) = \varphi(A \cap E) + \varphi(A \cap E^c);
+\]
+Questa propriet\'a \'e detta \textit{buon spezzamento} indotto da $E$. La famiglia degli insiemi misurabili secondo $\varphi$ \'e indicata con $\pazocal{M}_\varphi$.
+\end{defn}
+
+\begin{oss}
+	Notiamo subito che $\pazocal{X}, \emptyset \in \pazocal{M}_\varphi$.
+\end{oss}
+\begin{oss}
+Per $E \subset \pazocal{X}$ e $\forall A \subset \pazocal{X}$
+	\[
+		A = (A \cap E) \cup (A \cap E^c)
+	\]
+	allora per $\sigma$-subadditivit\'a
+	\[
+		\varphi((A \cap E) \cup (A \cap E^c)) \le \varphi(A \cap E) + \varphi(A \cap E^c)
+	\]
+Quindi per dimostrare che un certo $E \in \pazocal{M}_\varphi$ basta dimostrare che vale la relazione $\ge$.
+\end{oss}
+
+Il seguente teorema enuncia delle propriet\'a di chiusura della famiglia $\pazocal{M}_\varphi$
+\begin{thm}
+Sia $\varphi : 2^\pazocal{X} \longrightarrow [0,+\infty]$ una misura esterna su $\pazocal{X}$. Allora valgono le seguenti propriet\'a:
+\begin{enumerate}
+	\item $\pazocal{M}_\varphi$ \'e c-chiusa (chiusura rispetto al complementare)
+	\item Se $E \subset \pazocal{X}$ con $\varphi(E)=0 \Rightarrow E \in \pazocal{M}_\varphi$ (allora per 1 anche $\pazocal{X} \in \pazocal{M}_\varphi$)
+	\item Se $E_1,E_2,...,E_n$ con $E_i \in \pazocal{M}_\varphi \Rightarrow \bigcap\limits_{j=1}^{n}E_j \in \M$ (quindi anche $\bigcup\limits_{j}^nE_j \in \M$)
+	\item Sia $\{E_j\}_j \subset \M$ famiglia numerabile (2-2 disgiunta) $\Rightarrow S=\bigcup\limits_{j}E_j \in \M$ e vale
+	\[
+		\varphi(A) \ge \sum\limits_{j} \varphi(A \cap E_j) + \varphi(A \cap S^c)\ \ \ \forall A \subset \pazocal{X}
+	\]
+	\item Se $\{E_j\}_j$ come in $4) \Rightarrow \varphi(\bigcup\limits_{j}E_j) = \sum\limits_{j}\varphi(E_j)$
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+	\item Sia $E \in \M$ e consideriamo $E^c$ devo provare buon spezzamento $\forall A \subset \pazocal{X}$:
+		\[
+			\varphi(A \cap E^c) + \varphi(A \cap (E^c)^c) = \varphi(A \cap E^c) + \varphi(A \cap E) = \varphi(A) 
+		\]
+	\item Per monotonia abbiamo che $\varphi(A \cap E) \le \varphi(E)$ (poich\'e $(A \cap E) \subset E$). Siccome, per ipotesi, $\varphi(E)=0$ allora anche $\varphi(A \cap E)=0$ quindi posssiamo scivere:
+	\[
+		\varphi(A \cap E) +  \varphi(A \cap E^c)  = 0 + \varphi(A \cap E^c) \le \varphi(A)
+	\]
+Abbiamo visto nell' osservazione 1.11 che basta dimostrare questa disuguaglianza per ottenere la tesi.
+	\item Procediamo per induzione su $n$.
+	\begin{itemize}
+		\item \textbf{$n=1$} La tesi \'e banale.
+		\item \textbf{$n=2$} Dimostro questo poi l'induzione deriva facilmente. Siano $E_1, E_2 \in \M$ quindi devo provare il buon spezzamento $\forall A \subset \X$.
+	Siccome $E_1,E_2 \in \M$:
+	\begin{equation}
+		\varphi(A) = \varphi(A \cap E_1) + \varphi(A \cap E_1^c)
+	\end{equation}
+	Ora per il buon spezzamento indotto su $A \cap E_1$  da $E_2$ riscriviamo il secondo termine dell'equazione come:
+	\[
+		\varphi(A \cap E_1) = \varphi((A \cap E_1) \cap E_2) + \varphi((A \cap E_1) \cap E_2^c)
+	\]
+	Ora sostituendo in 1.1 otteniamo:
+	\begin{equation}
+		\varphi(A) = \varphi((A \cap E_1) \cap E_2) + \varphi((A \cap E_1) \cap E_2^c) + \varphi(A \cap E_1^c)
+	\end{equation}
+	Per $\sigma$-subadditivit\'a della misura il terzo e quarto termine possono essere minorati come segue:
+	\[
+		\varphi(A \cap E_1 \cap E_2^c) + \varphi(A \cap E_1^c) \ge \varphi((A \cap E_1 \cap E_2^c) \cup (A \cap E_1^c))
+	\]
+	\[
+		= \varphi(A \cap [(E_1 \cap E_2^c) \cup E_1^c]) =  \varphi(A \cap [(E_1 \cup E_1^c) \cap (E_2^c \cup E_1^c)])
+	\]
+	\[
+		= \varphi(A \cap (E_1^c \cup E_2^c)).
+	\]
+	Sostituendo in 1.2 otteniamo infine:
+	\begin{equation}
+		\varphi(A) \ge \varphi(A \cap E_1 \cap E_2) + \varphi(A \cap E_1^c \cup E_2^c)
+	\end{equation}
+	Dove ovviamente $E_1^c \cup E_2^c = (E_1 \cap E_2)^c \Rightarrow E_1 \cap E_2 \in \M$. 
+	\end{itemize}
+	Mostriamo ora che $\bigcup\limits_{j}^nE_j \in \M$.
+	Per ogni valore di n abbiamo:
+	\[
+		\bigcup\limits_{j}^nE_j = [(\bigcup\limits_{j}^nE_j)^c]^c = [(\bigcap\limits_{j}^nE_j^c)]^c
+	\]
+	Analizziamo l'ultimo termine. $E_j^c \in \M$ per 1). L'intersezione $\bigcap\limits_{j}^nE_j^c \in \M$ per il punto 3) mentre il tutto \'e misurabile nuovamente per il punto 1).
+
+	\item Dimostriamo prima la seconda parte dell' enunciato. Sia $A \subset \X$ qualsiasi allora, per il buon spezzamento indotto da $E_1$:
+	\begin{equation}
+		\varphi(A) = \varphi(A \cap E_1) + \varphi(A \cap E_1^c)
+	\end{equation}
+ Dunque per il buon spezzamento indotto da $E_2$ riscriviamo 1.4 modificando l'ultimo termine:
+	\begin{equation}
+		\varphi(A) = \varphi(A \cap E_1) + \varphi(A \cap (E_1^c \cap E_2)) + \varphi(A \cap (E_1^c \cap E_2^c))
+	\end{equation}
+Ora, siccome gli $E_j$ sono 2-2 disgiunti $E_i \cap E_j^c = E_i$ per $i \ne j$ in quanto $E_i \subset E_j^c$, sostituiamo in 1.5 che diventa come segue:
+	\begin{equation}
+		\varphi(A) = \varphi(A \cap E_1) + \varphi(A \cap E_2) + \varphi(A \cap E_1^c \cap E_2^c)
+	\end{equation}
+La tesi segue facilmente ora, ma eseguiamo ancora un passo per chiarezza.
+Esattamente come abbiamo fatto per il buon spezzamento indotto da $E_2$ possiamo procedere con $E_3$. Prendiamo l'ultimo termine di 1.6 e riscriviamolo come:
+	\[
+		\varphi(A \cap E_1^c \cap E_2^c) = \varphi(A \cap E_1^c \cap E_2^c \cap E_3) + \varphi(A \cap E_1^c \cap E_2^c \cap E_3^c)
+	\]
+	Per la stessa argomentazione che ci ha portato a 1.6 abbiamo $\varphi(A \cap E_1^c \cap E_2^c \cap E_3) = \varphi(A \cap E_3)$ in quanto $E_3 \subset E_i^c$ per $i=1,2$ (a dire la verit\'a vale $\forall i \ne 3$). Riscriviamo 1.6:	
+	\[
+		\varphi(A) = \varphi(A \cap E_1) + \varphi(A \cap E_2) + \varphi(A \cap E_3) + \varphi(A \cap E_1^c \cap E_2^c \cap E_3^c)
+	\]
+	\[
+		= \sum\limits_{j=1}^n\varphi(A \cap E_j) + \varphi(A \cap (\bigcap\limits_{j=1}^n E_j^c))
+	\]
+	Ora $\bigcap\limits_{j=1}^nE_j^c = (\bigcup\limits_{j=1}^nE_j)^c \supset (\bigcup\limits_{j=1}^\infty E_j)^c = S$ quindi per monotonia della misura $\varphi(A \cap (\bigcup\limits_{j=1}^nE_j)^c) \ge \varphi(A \cap S^c)$, e otteniamo il limite:
+	\begin{equation}
+		\lim\limits_{n \rightarrow +\infty}\varphi(A) \ge \sum\limits_{j=1}^\infty\varphi(A \cap E_j) + \varphi(A \cap S^c)
+	\end{equation}
+
+Dimostriamo ora la prima parte sfruttando quanto appena dimostrato.
+Sia dunque $S \in \M$ allora 
+\[\varphi(A \cap S) = \varphi(A \cap (\bigcup\limits_{j}E_j)) = \varphi(\bigcup\limits_{j}(A \cap E_j)) \le \sum\limits_{j}\varphi(A \cap E_j)\]
+per $\sigma$-subadditivit\'a.
+Allora 
+\[\varphi(A \cap S) +  \varphi(A \cap S^c) \le \sum\limits_{j}\varphi(A \cap E_j) + \varphi(A \cap S^c) \le \varphi(A)\] dove l'ultima disuguaglianza vale per quanto dimostrato sopra del punto 4). 
+
+\item Per la seconda parte del punto 4) con $A=S$ otteniamo:
+	\[
+		\varphi(\bigcup\limits_{j}E_j) \ge \sum\limits_{j}\varphi(E_j)
+	\]
+	in quanto $E_j \in S$ e $S \cap S^c = \emptyset$.
+L'altro verso della disuguaglianza lo otteniamo per $\sigma$-subadditivit\'a.
+\end{enumerate}
+\end{proof}
+Quello che facciamo ora \'e togliere un vincolo dal punto 4) del teorema precedente, ovvero il fatto che gli $E_j$ nella famiglia $\{E_j\}_j \in \M$ non siano per forza 2-2 disgiunti. Quindi rienunciamo il punto 4).
+
+\begin{oss}
+	Sia $\{E_j\}_j \in \M$ numerabile, allora $\bigcup\limits_jE_j \in \M$.
+\begin{proof}
+Introduciamo il seguente tipo di insieme:
+\begin{itemize}
+	\item $E_1^* = E_1$
+	\item $E_n^* = E_n \setminus \bigcup\limits_{j=1}^{n-1}E_j = E_n \cap (\bigcup\limits_{j=1}^{n-1}E_j)^c$ in quanto togliere un insieme equivale a intersecare con il complementare.
+\end{itemize}
+Ora notiamo subito che $E_n \cap (\bigcup\limits_{j=1}^{n-1}E_j)^c \in \M$ per i punti 1) e 3) del teorema precedente, quindi anche $E_n^* \in \M$. Inoltre abbiamo che $\bigcup\limits_{j=1}^{n}E_j^* = \bigcup\limits_{j=1}^{n}E_j\ \  \forall n$ per il punto 4) del teorema precedente, poich\'e gli $E_j^*$ sono 2-2 disgiunti. Allora $\bigcup\limits_jE_j \in \M$.
+\end{proof}
+\end{oss}
+
+\section{$\sigma$-algebra}
+Cerchiamo di identificare la struttura della famiglia $\M$. Introduciamo quindi la seguente nozione:
+\begin{defn}
+	Una famiglia non vuota $\Sigma \subset 2^\X$ \'e una $\sigma$-algebra se ha le seguenti propriet\'a:
+	\begin{enumerate}
+		\item $E \in \Sigma \Rightarrow E^c \in \Sigma$ (c-chiusura)
+		\item $\{E\}_j \subset \Sigma$ famiglia numerabile allora $\bigcup\limits_jE_j \in \Sigma$
+	\end{enumerate}
+\end{defn}
+
+\begin{prop}
+	Se $\varphi : 2^\X \longrightarrow [0,+\infty]$ \'e misura esterna allora $\M$ \'e una $\sigma$-algebra.
+\begin{proof}
+	Direttamente dal teorema precedente (punti 1 e 4 principalmente).
+\end{proof}
+\end{prop}
+
+\begin{oss}
+	Se $\Sigma$ \'e una $\sigma$-algebra in $\X$ allora:
+	\begin{enumerate}
+		\item $\emptyset, \X \in \Sigma$ poich\'e siccome $\Sigma$ \'e non-vuota allora $\exists E \in \Sigma$ quindi $E^c \in \Sigma$ e $E \cup E^c = \X \in \Sigma$ inoltre $E \cap E^c = [(E \cap E^c)^c]^c = [E^c \cup E]^c = \X^c = \emptyset \in \Sigma$.
+		\item $\Sigma$ \'e chiusa rispetto all'intersezione numerabile, infatti sia $\{E_j\}_j \subset \Sigma$ una famiglia numerabile di elementi di $\Sigma$ allora $\bigcap\limits_{j}E_j = [(\bigcap\limits_{j}E_j)^c]^c = [(\bigcup\limits_{j}E_j^c)]^c$. Ora $E_j^c \in \Sigma$ per definizione, $\bigcup\limits_{j}E_j^c \in \Sigma$ ancora per definizione, poi $\Sigma$ \'e c-chiusa. La tesi \'e dimostrata.
+	\end{enumerate}
+\end{oss}
+
+Enunciamo il teorema di continuit\'a sull' l'insieme di misurabili secondo una misura esterna.
+
+\begin{thm}
+	Sia $\varphi : 2^\X \rightarrow [0, +\infty]$ una misura esterna. Allora
+	\begin{enumerate}
+		\item (Continuit\'a dal basso) Sia $\{E_j\}_j \subset \M$ una famiglia numerabkile e crescente (i.e. $E_j \subset E_{j+1}$), allora:
+		\[
+			\varphi(\bigcup\limits_jE_j) = \lim\limits_j\varphi(E_j)		
+		\]
+		\item (Continuit\'a dall'alto) Sia ora $\{E_j\}_j \subset \M$ una famiglia numerabile e decrescente (i.e. $E_{j+1} \subset E_j$) con $\varphi(E_1) < +\infty$, allora:
+		\[
+			\varphi(\bigcap\limits_{j}E_j) = \lim\limits_j\varphi(E_j)		
+		\]
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	Notiamo innanzitutto che il limite nei due punti esiste in entrambi i casi in quanto stiamo trattando delle successioni monotone.
+	\begin{enumerate}
+		\item Definiamo $E_j^* = E_{j} \setminus E_{j-1}$ con $E_0^* = \emptyset$.
+		Notiamo subito che $E_j^* \in \M$ in quanto $E_j^* = E_{j} \cap E_{j-1}^c$ ed entrambi i termini sono misurabili per ipotesi.
+		 Inoltre $\bigcup\limits_{j}^{n}E_j^* = E_n = \bigcup\limits_{j}^{n}E_j$, quindi generalizzando all'unione numerabile $\bigcup\limits_{j}E_j^* = \bigcup\limits_{j}E_j$. Ora, \'e facile capire che gli $E_j^*$ sono 2-2 disgiunti quindi vale la $\sigma$-additivit\'a (NB: non $\sigma$-SUBadditivit\'a), ovvero:
+		 \[
+			\varphi(\bigcup\limits_jE_j) = \varphi(\bigcup\limits_jE_j^*) = \sum\limits_{j}\varphi(E_j^*) = \lim\limits_{n\rightarrow +\infty}\sum\limits_{j=1}^{n}\varphi(E_j) = 
+		 \]
+		 \[
+			\lim\limits_{n\rightarrow +\infty}\varphi(\bigcup\limits_{j=1}^nE_j) = \lim\limits_{n\rightarrow +\infty}\varphi(E_n)		 
+		 \]
+		 Dove la seconda uguaglianza vale per il punto 5 del teorema 1.12.
+		 \item Notiamo che $E_1$ pu\'o essere illimitato avendo bens\'i area finita. Poniamo $F_j = E_1 \setminus E_j$ e notiamo che \'e misurabile per un argomentazione simile a quella sviluppata per gli $E_j^*$ nel punto 1. Ora gli $F_j$ formano una successione crescente al crescere di $j$ quindi per il punto 1 abbiamo che $\varphi(\bigcup\limits_{j}F_j) = \lim\limits_{j}\varphi(F_j)$ con 
+		 \[\bigcup\limits_{j}F_j = \bigcup\limits_{j}E_1 \cap E_j^c = E_1 \cap \bigcup\limits_{j}E_j^c = E_1 \cap (\bigcup\limits_{j}E_j)^c = E_1 \setminus \bigcap\limits_{j}E_j\]
+		 Quinidi passando alla misura otteniamo, usando il buon spezzamento indotto da $\bigcap\limits_jE_j$:
+		 \[
+		 	\varphi(E_1) = \varphi(E_1 \cap \bigcap\limits_jE_j) + \varphi(E_1 \cap (\bigcap\limits_jE_j)^c).
+		 \]
+		 L'ultimo termine \'e proprio $\varphi(\bigcup\limits_jF_j)$ quindi ricaviamo:
+		 \begin{equation}
+			\varphi(\bigcup\limits_jF_j) = \varphi(E_1) - \varphi(E_1 \cap \bigcap\limits_jE_j) = \varphi(E_1) - \varphi(\bigcap\limits_jE_j)
+		 \end{equation}
+		 (L'ultima uguaglianza vale in quanto l'intersezione di tutti gli $E_j$ \'e contenuta in $E_1$.)
+		 D'altro canto $F_j = E_1 \cap E_j^c$ quindi possiamo usare il buon spezzamento indotto da un singolo $E_j$ come segue:
+		 \[
+			\varphi(E_1) = \varphi(E_1\cap E_j) + \varphi(E_1\cap E_j^c)
+		 \]
+		 Notiamo che il secondo termine \'e $\varphi(E_j)$ mentre il terzo \'e proprio $\varphi(F_j)$. Quindi scriviamo:
+		 \begin{equation}
+			\varphi(F_j) = \varphi(E_1) - \varphi(E_j)
+		 \end{equation}
+		 Quindi unendo le equazioni 1.8 e 1.9 otteniamo:
+		 \[
+			\varphi(\bigcup\limits_jF_j) = \varphi(E_1) - \varphi(\bigcap\limits_jE_j) = \lim\limits_j[\varphi(E_1) - \varphi(E_j)] = \varphi(E_1) - \lim\limits_j\varphi(E_j)
+		 \]
+		 Abbiamo quindi ottenuto la tesi:
+		 \[
+			\varphi(\bigcap\limits_jE_j) = \lim\limits_j\varphi(E_j)
+		 \]
+	\end{enumerate}
+\end{proof}
+
+\begin{oss}
+	Nel punto 2 del teorema precedente se non assumiamo che $\varphi(E_1) < +\infty$ il teorema fallisce.
+\end{oss}
+Facciamo un esempio:
+\begin{exmp}
+Consideriamo l'insieme $\X = \mathbb{N}$ e la misura $\varphi = |\cdot|$, consideriamo anche le semirette $E_j = \{j,j+1,j+2, ... \}$. Vediamo subito che $E_{j+1} \subset E_j$ quindi abbiamo una famiglia numerabile e decrescente. Ora $\M = 2^\X$ quindi ogni $E_j \in \M$. Ora $\varphi(\bigcap\limits_jE_j) = 0$ mentre $\varphi(E_j) = +\infty\ \ \forall j$. Questo smentisce il teorema.
+\end{exmp}
+\section{Misura Metrica}
+\begin{defn}
+	Una misura esterna $\varphi$ su uno spazio metrico $(\X,d)$ \'e detta "di Caratheodory" o metrica se $\forall A,B \in 2^\X$ tali che\\ $d(A,B) = \inf\{d(a,b) | a \in A, b \in B\} > 0$ vale:
+	\begin{equation}
+		\varphi(A \cup B) = \varphi(A) + \varphi(B)
+	\end{equation}
+\end{defn}
+In altre parole una misura si dice metrica se \'e additiva su insiemi a distanza positiva (disgiunti).
+Il teorema seguente dimostra che in uno spazio metrico con una misura metrica tutti i chiusi sono misurabili (i.e. $\F \subset \M$)
+Anticipiamo inoltre che questo teorema comporta il fatto che una misura metrica \'e Boreliana in quanto un Boreliano, essendo dato da unione o intersezione numerabili di chiusi (o aperti), \'e misurabile. 
+
+\begin{thm}(Caratheodory)
+	Sia $(\X,d)$ uno spazio metrico e $\varphi : 2^\X \rightarrow [0,+\infty]$ una misura metrica, allora ogni chiuso in $\X$ \'e misurabile.
+\end{thm}
+\begin{proof}
+Dobbiamo verificare che i chiusi inducono il buon spezzamento della misura su qualsiasi insieme. Sia dunque $C \in \C$ e $A \subset \X$ un insieme qualsiasi. Come sappiamo ci basta dimostrare che $\varphi(A) \ge \varphi((A \cap C) \cup (A \cap C^c))$. La tesi \'e banale se $\varphi(A) = + \infty$ quindi supponiamo che $A$ abbia misura finita. Introduciamo il seguente tipo di insieme: per $h > 0$ poniamo $C_h = \{x \in \X | d(x,C) \le \frac{1}{h}\}$ (geometricamente $C_h \setminus C$ \'e un' intercapedine di larghezza $\frac{1}{h}$ attorno a $C$). Notiamo che anche $C_h$ risulta chiuso in quanto nella sua definizione abbiamo l'uguaglianza.\\
+$C_h$ \'e dunque composto cos\'i:
+\begin{equation}
+	C_h = \left\{x \in \X | d(x,C) = 0\right\} \cup \left\{x \in \X | d(x,C) \in (0,\frac{1}{h}]\right\}
+\end{equation}
+La prima parte dell'unione in 1.11 \'e chiaramente $\overline{C} = C$.
+Mentre nella seconda parte possiamo scrivere l'intervallo $(0,\frac{1}{h}] = \bigcup\limits_{j \ge h}(\frac{1}{j+1}, \frac{1}{j}]$.
+Suddividiamo adesso $C_h \setminus C$ in ulteriori intercapedini del tipo:
+\[
+	S_j = \left\{x \in \X | d(x,C) \in (\frac{1}{j+1},\frac{1}{j}]\right\}
+\]
+Ovvero scriviamo:
+\[
+	C_h = C \cup (\bigcup\limits_{j \ge h}S_j)
+\]
+Quindi ricaviamo $C$ e dunque $C^c$:
+\[
+	C = C_h \setminus \bigcup\limits_{j \ge h}S_j = C_h \cap (\bigcup\limits_{j \ge h}S_j)^c
+\]
+\[
+	C^c = C_h^c \cup (\bigcup\limits_{j \ge h}S_j)
+\]
+Abbiamo dunque tutti gli strumenti per provare il buon spezzamento indotto da C. Prediamo dunque un $A \subset \X$ e vediamo che $(A \cap C) \cap (A \cap C_h^c) = \emptyset$ quindi per monotonia e meticit\'a della misura:
+\begin{equation}
+	\varphi(A) \ge \varphi((A \cap C) \cup (A \cap C_h^c)) = \varphi((A \cap C)) +  \varphi((A \cap C_h^c))
+\end{equation}
+Vogliamo dimostrare che $\lim\limits_{h \rightarrow +\infty}\varphi(A \cap C_h^c) = \varphi(A \cap C^c)$ cosi possiamo passare al limite nell'equazione 1.12. Quindi abbiamo per monotonia ($C_h^c \subset C^c$) che:
+\[
+	\varphi(A \cap C_h^c) \le \varphi(A \cap C^c)
+\]
+Come abbiamo visto sopra la parte destra della disequazione diventa:
+\[
+	\varphi(A \cap C^c) = \varphi((A \cap C_h^c) \cup (A \cap \bigcup\limits_{j \ge h}S_j))
+	\le \varphi(A \cap C_h^c) + \sum\limits_{j \ge h}\varphi(A \cap S_j)
+\]
+Quello che vogliamo dimostrare che $\sum\limits_{j \ge h}\varphi(A \cap S_j)$ converge e quindi $\lim\limits_{h \rightarrow +\infty}\sum\limits_{j \ge h}\varphi(A \cap S_j)$ va a $0$ quindi vale l'uguaglianza nella disequazione sopra. Dunque sia $N > 0$ qualsiasi e:
+\[
+	\sum\limits_{j=1}^{N}\varphi(A \cap S_j) = \sum\limits_{j=1, j\ dispari}^{N}\varphi(A \cap S_j) + \sum\limits_{j=2, j\ pari}^{N}\varphi(A \cap S_j)
+\]
+Siccome la distanza tra due "intercapedini" indicizzate pari o tra due dispari la distanza \'e positiva, quindi per metricit\'a scrivo:
+\[
+	\sum\limits_{j=1}^{N}\varphi(A \cap S_j) = \varphi(\bigcup\limits_{j=1,j\ dispari}^N A \cap S_j) + \varphi(\bigcup\limits_{j=2, j\ pari}^N A \cap S_j)
+\]
+Ora entrambi i termini sulla destra sono sottoinsiemi di $A$ quindi per monotonia:
+\[
+	\varphi(\bigcup\limits_{j=1,j\ dispari}^N A \cap S_j) + \varphi(\bigcup\limits_{j=2, j\ pari}^N A \cap S_j) \le 2\varphi(A) < +\infty\ \ \ \forall\ N
+\]
+E allora:
+\[
+	\sum\limits_{j=1}^{N}\varphi(A \cap S_j) \le 2\varphi(A) < +\infty
+\]
+Abbiamo dunque dimostrato che tale sommatoria converge quindi l'intercapedine si assottiglia fino a sparire per $h \rightarrow +\infty$ dunque il buon spezzamento segue e si ha la tesi.
+\end{proof}
+
+\begin{oss}
+	Vale il reciproco del teorema 1.21 (Caratheodory) ovvero:\\
+	\textit{Sia $(\X,d)$ uno spazio metrico e $\varphi : 2^\X \rightarrow [0,+\infty]$ una misura esterna tale che tutti i chiusi sono misurabili. Allora $\varphi$ \'e metrica.}
+\end{oss}
+
+\begin{prop}
+	Sia $I \subset 2^\X$ e indichiamo con $A_I$ la famiglia delle $\sigma$-algebre $\Sigma$ su $\X$ tali che $I \subset \Sigma$. Allora $\Sigma_I = \bigcap\limits_{\Sigma \in A_I}\Sigma$ \'e una $\sigma$-algebra su $\X$ che contiene $I$, essa \'e detta la $\sigma$-algebra generata da $I$.
+\begin{proof}
+	Dimostriamo che le due propriet\'a di $\sigma$-algebra sono soddisfatte.
+	\begin{enumerate}
+		\item Sia $E \in \Sigma_I$ allora $E \in \bigcap\limits_{\Sigma \in A_I}\Sigma$ dunque $\exists \Sigma$ tale che $E \in \Sigma$, quindi siccome $\Sigma$ \'e una $\sigma$-algebra $E^c \in \Sigma$. Quindi torniamo indietro $E^c \in \bigcap\limits_{\Sigma \in A_I}\Sigma = \Sigma_I$
+		\item Sia $\{E_j\}_j \subset \Sigma_I$ una famiglia numerabile allora $\forall j\  E_j \in \Sigma_I$ allora $E_j \in \Sigma\ \forall \Sigma \in A_I$ quindi $\bigcup\limits_j E_j \in \Sigma\ \forall \Sigma \in A_I$ perci\'o $\bigcup\limits_j E_j \in \bigcap\limits_{\Sigma \in A_I}\Sigma = \Sigma_I$
+	\end{enumerate}	 
+\end{proof}
+\end{prop}
+
+\begin{oss}
+	Se $I$ \'e una $\sigma$-algebra allora $\Sigma_I = I$
+	\begin{proof}
+		\begin{itemize}
+			\item[$"\supset"$] banale per definizione anche se $I$ non \'e una $\sigma$-algebra.
+			\item[$"\subset"$] poich\'e $I$ \'e una $\sigma$-algebra allora $I \in A_I$ quindi \'e ovvio che $\bigcap\limits_{\Sigma \in A_I}\Sigma \subset I$
+		\end{itemize}
+	\end{proof}
+\end{oss}
+
+Andremo ora ad analizzare le $\sigma$-algebre generate da aperti, chiusi e compatti in uno spazio topologico. Idichiamo con $\K$, $\F$, $\G$ rispettivamente i compatti, i chiusi e gli aperti.
+
+\begin{prop}
+	Sia ora $\X$ uno spazio topologico. Allora:
+	\begin{enumerate}
+		\item $\Sigma_\F = \Sigma_\G$
+		\item Se $\X$ \'e di Hausdorff allora $\Sigma_\K \subset \Sigma_\F$
+		\item Se $(\X,d)$ \'e uno spazio metrico separabile (i.e. esiste un sottoinsieme denso e numerabile) allora $\Sigma_\K = \Sigma_\F$
+		\end{enumerate}
+		\begin{proof}
+			\begin{enumerate}
+				\item Osserviamo che $A_\F = A_\G$ in quanto, siccome le $\sigma$-algebre sono c-chiuse e il complementare di un aperto \'e chiuso, una sigma algebra che contiene l'insieme degli aperti contiene a sua volta quello dei chiusi. Dunque:
+				\[
+					\Sigma_\F = \bigcap\limits_{\Sigma \in A_\F} \Sigma = \bigcap\limits_{\Sigma \in A_\G} \Sigma = \Sigma_\G
+				\]
+				\item Se $\X$ \'e di Hausdorff allora i compatti sono chiusi (i.e. $\K \subset \F$), questo significa che $A_\F \subset A_\K$ dunque:
+				\[
+					\Sigma_\K = \bigcap\limits_{\Sigma \in A_\K} \Sigma \subset \bigcap\limits_{\Sigma \in A_\F} \Sigma = \Sigma_\F
+				\]
+				Abbiamo $\subset$ sopra in quanto $A_\K$ \'e pi\'u numerosa di $A_\F$ e la contiene. Quindi abbiamo pi\'u termini nella famiglia delle $\sigma$-algebre che contengono i compatti su cui fare l'intersezione.
+				\item Per questo punto ci limitiamo al caso in cui $\X = \mathbb{R}^n$ che sappiamo essere la chiusura dei razionali (i.e. $\overline{\mathbb{Q}}^n = \mathbb{R}^n$) i quali formano un insieme denso e numerabile in $\mathbb{R}$. Quello che dobbiamo fare \'e dimostrare che ogni aperto \'e unione numerabile di compatti, ovvero per il punto 1:
+				\[
+					\Sigma_\F = \Sigma_\G \subset \Sigma_\K
+				\]
+				infatti, se questo vale, $\G \in \Sigma_\K \Rightarrow \Sigma_\G = \Sigma_K$ per il punto 2.
+				Dimostriamo che un aperto \'e unione di compatti. Sia $A \subset \mathbb{R}^n$ un aperto e $B_A = \left\{\overline{B_q(r)}| q \in \mathbb{Q}^n, r \in \mathbb{Q}, r > 0, \overline{B_q(r)} \subset A\right\}$ l'insieme, numerabile, delle bolle chiuse di centro $q$ e raggio $r$ contenuti in $A$. Notiamo che $\forall b \in B_A, b \in \K$. Diciamo che:
+				\[
+					\bigcup\limits_{k \in B_A}k = A				
+				\]
+				Se questo \'e vero la tesi segue, quindi dimostriamo entrambe le inclusioni:
+				\begin{itemize}
+				\item[$"\subset"$] Ovvia in quanto $k \subset A \forall k \in B_A$
+				\item[$"\supset"$] Sia $a \in A \Rightarrow \exists r \in \mathbb{Q}, r > 0$ tale che $B_r(a) \subset A$. Poich\'e $\mathbb{Q}$ \'e denso in $\mathbb{R}$ allora $\exists q \in \mathbb{Q}$ tale che $q \in B_{\frac{r}{2}}(a)$ (notiamo che questa bolla \'e aperta). Quindi si ha che $a \in \overline{B_{\frac{r}{2}}(q)}$ (il quale \'e compatto) siccome $|a-q|<\frac{r}{2}$. Inoltre:
+				\[
+					\overline{B_{\frac{r}{2}}(q)} \subset B_r(a) \subset A
+				\] 
+				e ovviamente $\overline{B_{\frac{r}{2}}(q)} \in B_A$ ed \'e compatto. Quindi abbiamo dimostrato che:
+				\[
+					a \in \bigcup\limits_{k \in B_A} k \ \forall a \in A.				
+				\]
+				Ovvero $A \subset \bigcup\limits_{k \in B_A} k$.
+				\end{itemize}
+			\end{enumerate}
+		\end{proof}
+
+\end{prop}
+
+\begin{oss}
+	Senza l'ipotesi di separabilit\'a nel punto 3 potrebbe capitare che $\Sigma_\K \subset \Sigma_\G = \Sigma_\F$ come per esempio in $\X = [0,1]$ munito della topologia discreta dove $\K$ coincide con la famiglia degli insiemi finiti.
+\end{oss}
+
+\begin{defn}
+	Sia $\X$ uno spazio topologico e $\varphi : 2^\X \rightarrow [0,+\infty]$ una misura esterna, allora:
+	\begin{enumerate}
+		\item la $\sigma$-algebra $\Sigma_\F = \Sigma_\G$ \'e indiata con $\mathcal{B}(\X)$ e i suoi elementi sono detti insiemi Boreliani di $\X$.
+		\item $\varphi$ \'e detta funzione Boreliana se i Boreliani sono misurabili (i.e. $\B(\X) \subset \M$).
+		\item $\varphi$ \'e Borel-regolare se \'e boreliana e se $\forall A \subset \X$ esiste $B \in \B(\X)$ tale che $A \subset B$ e $\varphi(B) = \varphi(A)$. Dal punto di vista geometrico questo significa che una misura \'e Borel-regolare se ogni sottoinsieme di $\X$ \'e approssimabile dall'esterno con un Boreliano che ha la stessa misura di tale sottoinsieme.
+		\item $\varphi$ si dice di Radon se \'e Borel-regolare e se $\varphi(k) < +\infty \ \forall k \in \K$. Ovvero una misura si dice di Radon se \'e finita sui compatti. Anticipiamo che la misura di Lebesgue \'e di Radon, invece non lo \'e la misura di Hausdorff
+	\end{enumerate}
+\end{defn}
+
+Come promesso il risultato sulle misure metriche:
+
+\begin{cor}
+	Ogni misura esterna di Caratheodory (i.e. metrica) \'e Boreliana.
+	\begin{proof}
+		Abbiamo dimostrato nel teorema 1.21 che tutti i chiusi sono misurabili secondo una misura metrica i.e.:
+		\[
+			F \in \M \ \forall F\in \F \Rightarrow \M \in A_\F
+		\]
+		Quindi siccome $\B(\X) = \Sigma_\F = \bigcap\limits_{\Sigma \in A_\F}\Sigma$ i boreliani sono contenuti in tutte le $\sigma$-algebre dei chiusi quindi anche $\B(\X)\subset \M$.
+	\end{proof}
+\end{cor}
+
+\section{Teoremi di Approssimazione}
+
+\begin{lem}
+	Sia $\X$ uno spazio topologico e consideriamo $D \subset 2^\X$ tale che:
+	\begin{enumerate}
+		\item $\F,\G \subset D$
+		\item $D$ \'e chiuso rispetto $\bigcup\limits_{numer}$ e $\bigcap\limits_{numer}$
+	\end{enumerate}
+	Allora $\B(\X) \subset D$.
+
+	\begin{proof}
+		Definiamo l' insieme $H=\left\{E \subset \X| E\subset D, E^c \subset D\right\}$ (quindi notiamo subito che $H \subset D$) e proviamo che $H$ \'e una $\sigma$-algebra. Ovviamente $H$ \'e c-chiuso per costruzione. Mostriamo la chiusura rispetto all'unione numerabile.
+		Sia $\{E_j\}_j$ una famiglia numerabile in $H$ mostriamo che $\bigcup\limits_{j}E_j \in H$. Siccome $E_j \in H \ \forall j$ abbiamo che $E_j \in D \ \forall j$ quindi per la seconda ipotesi del lemma $\bigcup\limits_{j}E_j \in D$. Sappiamo che possiamo scrivere $(\bigcup\limits_{j}E_j)^c = \bigcap\limits_{j}E_j^c$ il quale sta in $D$ ancora per la seconda ipotesi e quindi in $H$ per costruzione. Quindi $H$ \'e una $\sigma$-algebra.
+		Ora sfruttando la prima ipotesi otteniamo che $\G \subset H$. Allora $H \in A_\G$ il che significa $\B(\X) = \Sigma_\G \subset H \subset D$
+	\end{proof}
+\end{lem}
+
+Proviamo un teorema di approssimazione dei Boreliani dall'esterno con un aperto e dall'interno con un chiuso. Quello che vogliamo dimostrare \'e che dato un Boreliano esiste un chiuso che lo approssima dall'interno e un aperto dall'esterno con scarto arbitrariamente piccolo.
+
+\begin{thm}
+	Sia $\varphi$ una misura esterna Boreliana in uno spazio metrico $(\X,d)$ e sia $B\in \B(\X)$ Allora:
+	\begin{enumerate}
+		\item Se $\varphi(B) < +\infty$ allora $\forall \varepsilon>0\ \exists F\in \F$ tale che $F_\varepsilon \subset B$ e $\varphi(B\setminus F_\varepsilon) < \varepsilon$
+		\item Se $B \subset \bigcup\limits_{j}^{+\infty}V_j, V_j \in \G \ \forall j$ e $\varphi(V_j) < +\infty$ allora $\forall \varepsilon>0\ \exists G_\varepsilon \in \G$ tale che $B\subset G_\varepsilon$ e $\varphi(G_\varepsilon \setminus B) < \varepsilon$
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	\begin{enumerate}
+		\item Definiamo $\mu := \varphi_{|B} : 2^\X \rightarrow [0, +\infty]$ dove $\mu(A) = \varphi(B\cap A)$ ed \'e finita per monotonia, infatti $\mu(A) \le \varphi(B) < +\infty$. Verifichiamo che $\mu$ \'e una misura esterna, ovvero che valgono i 3 punti della definizione 1.1:
+		\begin{enumerate}
+			\item $\mu(\emptyset) = \varphi(B \cap \emptyset) = \varphi(\emptyset) = 0$
+			\item Sia $E\subset F \subset \X$ allora per monotonia di $\varphi$ otteniamo $\mu(E) = \varphi(E \cap B) \le \varphi(F\cap B) = \mu(F)$
+			\item Sia $\{E_j\}_j$ una famiglia numerabile in $\X$ allora per $\sigma$-subadditivit\'a di $\varphi$ abbiamo $\mu(\bigcup\limits_jE_j) = \varphi(B \cap \bigcup\limits_jE_j) = \varphi(\bigcup\limits_j B \cap E_j) \le \sum\limits_j\varphi(B\cap E_j) = \sum\limits_j\mu(E_j)$
+		\end{enumerate}
+		Ora verifichiamo anche che $\M \subset \pazocal{M}_\mu$. Sia $E \in \M$ e proviamo il buon spezzamento indotto da E su ogni $A \subset \X$:
+		\[
+			\mu(A \cap E) + \mu(A \cap E^c) = \varphi(B \cap (A \cap E)) + \varphi(B \cap (A \cap E^c)) =
+		\]
+		\[
+			= \varphi((B \cap A) \cap E) + \varphi((B \cap A) \cap E^c) = \varphi(B \cap A) = \mu(A)
+		\]
+		Abbiamo quindi che $E \in \pazocal{M}_\mu$ e in particolare anche i Boreliani $\B(\X) \subset \M \subset \pazocal{M}_\mu$.\\ Ora costruiremo una collezione di tutti gli insiemi approssimabili dall'interno con dei chiusi e poi dimostreremo che i Boreliani appartengono a tale insieme semplicemente applicando il lemma 1.29.
+		Definiamo ora tale insieme:
+		\[
+			D := \left\{E\in \pazocal{M}_\mu | \forall \varepsilon >0\ \exists F_\varepsilon \in \F, F_\varepsilon \subset E, \mu(E \setminus F_\varepsilon) < \varepsilon \right\}		
+		\]
+		Ora dimostriamo che il lemma \'e applicabile a $D$ verificando i due punti:
+		\begin{enumerate}
+			\item Mostriamo che chiusi e aperti sono in $D$: \begin{itemize}
+				\item[$"\F \subset D"$] Sia $F \in \F$ allora $F \in \B(\X) \subset \M \subset \pazocal{M}_\mu$. Ora sia $\varepsilon >0$ e in questo caso possiamo considerare $F_\varepsilon = F$ quindi valgono le due condizioni di appartenenza a $D$ in quanto:
+				\[
+					F_\varepsilon \subset F
+				\]
+				e anche 
+				\[
+					\mu(F \setminus F_\varepsilon) = \mu(\emptyset) = 0 < \varepsilon				
+				\]
+				Quindi $F \in D$ per ogni $F \in \F$.
+				\item[$"\G \subset D"$] Consideriamo $G \in \G$ e definiamo il tipo di insieme:
+				\[
+					F_h := \left\{x \in \X | d(x,G^c) \ge \frac{1}{h}\right\}				
+				\]
+				Dal punto di vista geometrico abbiamo appena definito un insieme, che dato un $h$, contiene tutti i punti dentro $G$ che distano $\frac{1}{h}$ dall' "esterno" di $G$. In altre parlole, $F_h$ \'e un insieme interno a $G$ che lascia un intercapedine di spessore $\frac{1}{h}$ tra esso e $G^c$. Grazie all'uguaglianza nella condizione di appartenenza, notiamo anche che gli $F_h \in \F$ per ogni $h$. Abbiamo poi che $F_h \subset F_{h+1}$. Dimostriamo che $\bigcup\limits_hF_h = G$:
+				\begin{itemize}
+					\item[$"\subset"$] inclusione banale
+					\item[$"\supset"$] Sia $x\in G$ allora $\exists r>0$ tale che la bolla $B_r(x) \subset G$ allora $d(x,G^c)\ge r \ge \frac{1}{h}$ per un qualche $h$ sufficientemente grande. Quindi $x \in F_h \Rightarrow x \in \bigcup\limits_hF_h$ per ogni $x$. Dunque $G \subset \bigcup\limits_hF_h$.
+				\end{itemize}
+				Abbiamo ottenuto \'e che:
+				\[
+					\{F_h\}_h \subset \F \subset \B(\X) \subset \M \subset \mathcal{M}_\mu				
+				\]
+				Quindi per la continuit\'a dal basso (Teorema 1.17 punto 1) otteniamo che $\mu(G) = \lim\limits_{h\rightarrow +\infty}\mu(F_h)$. Dunque prendendo $\varepsilon > 0\ \exists h_\varepsilon$ tale che:
+				\begin{equation} 
+				0 \le \mu(G) - \mu(F_{h_\varepsilon}) \le \varepsilon
+				\end{equation}				
+				 Ora i chiusi sono misurabili quindi possiamo scrivere $\mu(g) = \mu(g \cap F_{h_\varepsilon}) + \mu(g \setminus F_{h_\varepsilon})$ (buon spezzamento), quindi l' equazione 1.13 diventa :
+				 \[
+					0 \le \mu(G \setminus F_{h_\varepsilon}) \le \varepsilon				
+				 \]
+				 Quindi $G \in D$.
+			\end{itemize}
+			\item Verifichiamo ora la seconda condizione del lemma ovvero che $D$ \'e $\bigcup\limits_{numer}$-chiuso (la dimostrazione sar\'a analoga anche per la $\bigcap\limits_{numer}$-chiusura, quindi mostriamo solo questo).
+			Quindi sia $\{E_j\}_j$ una famiglia numerabile in $D$ dobbiamo controllare che le condizioni di appartenenza a $D$ siano rispettate. Innanzitutto vediamo che per ogni $j, E_j \in \pazocal{M}_\mu$, siccome $\pazocal{M}_\mu$ \'e una $\sigma$-algebra, $\bigcup\limits_jE_j \in \pazocal{M}_\mu$. Controlliamo quindi le propriet\'a di approssimazione interna.\\
+			Sia $\varepsilon > 0$, poich\'e $E_j \in D\ \forall j$ abbiamo che $\exists F_j \in \F$ tale che $F_j \subset E_j$ e $\mu(E_j \setminus F_j) \le \frac{\varepsilon}{2^j}$ per ogni $j$.\\
+			Poniamo $A = \bigcup\limits_jF_j$ e osserviamo che $C_N := \bigcup\limits_{j}^{N}F_j \in \F$ inoltre $C_N \subset C_{N+1}$ e $\bigcup\limits_N C_N = \bigcup\limits_jF_j = A$. Quindi $C_N$ tende ad $A$ con il crescere di $N$ verso $\infty$ mentre simmetricamente $C_N^c \rightarrow A^c$. D'altra parte abbiamo anche che $A = \bigcup\limits_jF_j \subset \bigcup\limits_jE_j$ quindi: 
+			\[
+				(\bigcup\limits_jE_j)\setminus A = (\bigcup\limits_jE_j) \cap A^c = \bigcup\limits_j(E_j \cap A^c) \subset \bigcup\limits_j(E_j \cap F_j^c)		
+			\]
+			L'ultima inclusione deriva dal fatto che $\forall j A = \bigcup\limits_jF_j \supset F_j$ e quindi $A^c \subset F_j^c$. Quindi ne deriviamo che:
+			\begin{equation}
+				\mu((\bigcup\limits_jE_j)\setminus A) \le \mu(\bigcup\limits_j(E_j \setminus F_j)) \le \sum\limits_j \mu(E_j \setminus F_j) < \sum\limits_{j=1}^{+\infty}\frac{\varepsilon}{2^j} = \varepsilon
+			\end{equation}
+			Dove la prima disuguaglianza dell'equazione 1.14 \'e data per monotonia mentre la seconda per $\sigma$-subadditivit\'a di $\mu$.
+			Ora dal fatto che $C_N^c$ decresce verso $A^c$ al crescere di $N$ otteniamo che $(\bigcup\limits_jE_j)\cap C_N^c$ decresce a $(\bigcup\limits_jE_j) \cap A^c = (\bigcup\limits_jE_j) \setminus A$. Per la continuit\'a dall' alto (Teorema 1.17 punto 2):
+			\[
+				\varepsilon > \mu((\bigcup\limits_jE_j)\setminus A) = \lim\limits_{N\rightarrow +\infty} \mu((\bigcup\limits_jE_j) \setminus C_N)			
+			\]	
+			Quindi esiste $N_\varepsilon$ tale che $\mu((\bigcup\limits_jE_j)\setminus C_{N_\varepsilon}) < \varepsilon$ allora pongo $F_\varepsilon = C_{N_\varepsilon}\subset \F$ e abbiamo l'approssimazione:
+				\[
+					F_\varepsilon = C_{N_\varepsilon} \subset A \subset \bigcup\limits_jE_j
+				\]
+				e 
+				\[
+					\mu((\bigcup\limits_jE_j) \setminus F_\varepsilon) < \varepsilon
+				\]
+				Quindi $\bigcup\limits_jE_j \in D$ come volevamo.
+		\end{enumerate}
+		Applichiamo finalmente il Lemma 1.29 a $D$ e otteniamo che $\B(\X) \subset D$ e in particolare $B \in D$ quindi $\forall \varepsilon >0\ \exists F_\varepsilon \in \F$ tale che:
+				\[
+					F_\varepsilon \subset B
+				\] 
+				e 
+				\[
+					\mu(B \setminus F_\varepsilon) < \varepsilon				
+				\]
+				quest'ultima disequazione messa in termini di $\varphi$ diventa 
+				\[
+					\varphi(B \cap (B \setminus F_\varepsilon)) = \varphi(B \setminus F_\varepsilon)	.			
+				\]
+		\item Notiamo prima di tutto che $\forall j\ V_j \setminus B = V_j \cap B^c \in \B(\X)$, in quanto $V_j$ \'e aperto quindi ci risulta ancora un intersezione numerabile di aperti, e che per monotonia di $\varphi$ abbiamo $\varphi(V_j \setminus B) \le \varphi(V_j) < +\infty$.\\Ora sia $\varepsilon>0$ per il punto 1 abbiamo che $\forall j\ \exists F_j \in \F$ tale che $F_j \subset V_j \cap B^c$ e $\varphi((V_j \setminus B)\setminus F_j) < \frac{\varepsilon}{2^j}$. Quindi per la prima propriet\'a di $F_j$ otteniamo, passando al complementare, $F_j^c \supset (V_j \setminus B)^c = V_j^c \cup B$. Definiamo l'insieme $G=\bigcup\limits_{j}(V_j \setminus F_j) = \bigcup\limits_{j}(V_j \cap F_j^c) \in \G$ dove ogni argomento $V_j \cap F_j^c$ \'e un aperto (poich\'e $F_j^c$ \'e aperto in quanto $F_j$ \'e chiuso). Facciamo una breve descrizione geometrica di ci\'o che abbiamo costruito: abbiamo preso un Boreliano $B$ e un aperto $V_j$ appartenente a un ricoprimento di $B$. Abbiamo sottratto $B$ da $V_j$ e abbiamo visto che il pezzo che avanza \'e ancora un Boreliano quindi pu\'o essere approssimato dall' interno da un chiuso grazie al punto 1. Abbiamo poi costruito G unendo gli insiemi ottenuti togliendo a tutti gli aperti costruiti come appena detto i chiusi approssimanti, i.e.  $F_j$ da $V_j$ per ogni $j$.\\
+		Vogliamo dimostrare che $G \supset B$ perci\'o 
+		\begin{equation}		
+		G \supset G \cap B = B \cap \left[\bigcup\limits_{j}(V_j \cap F_j^c)\right] \supset B \cap \left[\bigcup\limits_{j}\left(V_j \cap (V_j^c \cap B)\right)\right]
+		\end{equation}		
+		Vediamo che 
+		\[
+			V_j \cap (V_j^c \cap B) = (V_j \cap V_j^c)\cup (V_j \cap B) = \emptyset \cup (V_j \cap B) = V_j \cap B
+		\] 
+		quindi sostituendo in 1.15 quanto osservato:
+		\[
+			B \cap \left[\bigcup\limits_{j}\left(V_j \cap B\right)\right]	= \bigcup\limits_{j}\left(V_j \cap B\right) = (\bigcup\limits_{j}V_j)\cap B = B.	
+		\]
+		L'ultima uguaglianza \'e data dal fatto che l'unione dei $V_j$ \'e un ricoprimento aperto di $B$. Come volevasi dimostrare $G$ \'e un soprainsieme di $B$.\\
+		Passiamo ora alla misura ovvero controlliamo che valga $\varphi(G \setminus B)\ \forall \varepsilon$:
+		\[
+			\varphi(G \setminus B) = \varphi(G \cap B^c) = \varphi([\bigcup\limits_{j}(V_j \cap F_j^c)] \cap B) =
+		\]
+		\begin{equation}
+			= 	\varphi(\bigcup\limits_{j}(V_j \cap F_j^c \cap B^c)) \le \sum\limits_{j}\varphi((V_j \setminus F_j)\setminus B) <
+		\end{equation}
+		\[			
+			< \sum\limits_{j}\frac{\varepsilon}{2^j}=\varepsilon
+		\]
+		Dove la disuguaglianza nell' equazione 1.16 vale per $\sigma$-subadditivit\'a.
+	\end{enumerate}		
+\end{proof}
+Il seguente corollario estende il teorema ai misurabili.
+\begin{cor}
+	Sia ($\X, d$) uno spazio metrico, $\varphi : 2^\X \rightarrow [0,+\infty]$ una misura esterna Borel-Regolare ed $E\in \M$. Allora:
+	\begin{enumerate}
+		\item Se $\varphi(E) < +\infty$ allora $\forall \varepsilon > 0$ esiste $F \in \F$ tale che $F \subset E$ e inoltre $\varphi(E \setminus F) < \varepsilon$
+		\item Se $E \subset \bigcup\limits_{j}V_j$, unione numerabile di aperti tali che $\varphi(V_j) < + \infty$ allora $\forall \varepsilon >0\ \exists G \in \G$ tale che $G \supset E$ inoltre $\varphi(G \setminus E) < \varepsilon$.
+	\end{enumerate}
+\end{cor}
+\begin{proof}
+	\begin{enumerate}
+		\item Sia $B_1 \in \B(\X)$ tale che
+			\[
+				\begin{cases}
+					B_1 \supset E\\
+					\varphi(B_1) = \varphi(E)
+				\end{cases}			
+			\]		
+		  tale Boreliano esiste in quanto lavoriamo con una misura Borel-regolare. Siccome $E$ \'e misurabile possiamo applicare il buon spezzamento che induce:
+		  \[
+			\varphi(B_1) = \varphi(B_1 \cap E) + \varphi(B_1 \setminus E) = \varphi(E) + \varphi(B_1 \setminus E)
+		  \]
+		  Da qui ricaviamo che $\varphi(B_1 \setminus E) = \varphi(B_1) \varphi(E) = 0$.
+		  Abbiamo che l'intercapedine di misura 0 \'e ancora un misurabile in quanto $E, B_1 \in \M$ la quale \'e una $\sigma$-algebra.
+		  Quindi, come prima, esiste $B_2 \in \B(\X)$ che \'e un involucro di $B_1 \setminus E$ tale che:
+		  \[
+			  \begin{cases}
+					B_2 \supset (B_1 \setminus E)\\
+					\varphi(B_2) = \varphi(B_1 \setminus E) = 0
+				\end{cases}	
+		  \]
+		  Quello che faremo ora \'e trovare un nuovo Boreliano che approssima $E$ dall'interno per poi applicare il punto 1 del teorema 1.30 e dimostrare che esiste un chiuso interno ad $E$ con le propriet\'a volute.
+		  Definiamo quindi $B_3 := B_1 \setminus B_2 = B_1 \cap B_2^c \in \B(\X)$ e verifichiamo che $B_3 \subset E$:
+		  \[
+			B_3 = (B_1 \cap B_2^c) \subset (B_1 \cap (B_1 \cap E^c)^c) = 		  
+		  \]
+		  \[
+		  	= B_1 \cap (B_1^c \cup E) = (B_1 \cap B_1^c) \cup (B_1 \cap E) = 
+		  \]
+		  \[
+			= B_1 \cap E \subset E	  
+		  \]
+		  Applichiamo ora il punto 1 del teorema 1.30 come preannunciato a $B_3$ trovando che esiste $F \in \F$ tale che $\forall \varepsilon$:
+		   \[
+			  \begin{cases}
+					F \subset B_3\\
+					\varphi(B_3 \setminus F) < \varepsilon
+				\end{cases}	
+		  \]
+		  Ovviamente $F \subset B_3 \subset E \Rightarrow F \subset E$ inoltre $E \setminus F \subset B_1 \setminus F = (B_1 \setminus B_3) \cup (B_3 \setminus F)$. Controlliamo il termine $B_1 \setminus B_3$:
+		  \[
+			B_1 \setminus B_3 = B_1 \cap B_3^c = B_1 \cap (B_1 \cap B_2^c)^c =		  
+		  \]
+		  \[
+			= B_1 \cap (B_1^c \cup B_2) = (B_1 \cap B_1^c) \cup (B_1 \cap B_2) \subset B_2		  
+		  \]
+		  Quindi $\varphi(B_1 \setminus B_3) \le \varphi(B_2) = 0$ per monotonia ovvero $\varphi(B_1 \setminus B_3) = 0$.
+		  Passando ora alla misura di $E \setminus F$ otteniamo che:
+		  \begin{equation}
+			\varphi(E \setminus F) = \varphi(B_1 \setminus B_3) + \varphi(B_3 \setminus F)		  
+		  \end{equation}
+		  Siccome $\varphi(B_3 \setminus F) < \varepsilon$ abbiamo che la 1.17 diventa:
+		  \[
+			 \varphi(E \setminus F) < \varepsilon 
+		  \]
+		\item La dimostrazione di questo punto \'e analoga a quella del secondo punto del teorema 1.30. 
+	\end{enumerate}	
+\end{proof}
+
+\section{Misura di Lebesgue}
+Prima di tutto dobbiamo definire delle nozioni che saranno utilizzate nella definizione di misura di Lebesgue. Consideriamo $E \subset \mathbb{R}^n$ e l'intervallo aperto in $\mathbb{R}^n$ $I := \bigotimes\limits_{i:= 1\ldots n}(a_i,b_i)$
+\begin{itemize}
+	\item  $\pazocal{R}_E$ \'e la famiglia dei ricoprimenti numerabili do $E$ composti da intervalli aperti di $\mathbb{R}^n$
+	\item $v(I) := \prod\limits_{i:= 1\ldots n}(b_i - a_i)$ \'e la misura elementare di un intervallo aperto (lunghezze, aree, volumi, ...)
+	\item $diam(E) = \sup\limits_{x,y \in E}\{d(x,y)\}$ il diametro di $E$.
+\end{itemize}
+
+\begin{thm}
+Si consideri $E \subset \mathbb{R}^n$ e $\Le^n : 2^{\mathbb{R}^n} \rightarrow [0,+\infty]$ cosi definita:
+	\[
+		\Le^n(E) = \inf\limits_{\{I_j\} \in \pazocal{R}_E}\{\sum_jv(I_j)\}
+	\]
+	Allora $\Le^n$ \'e una misura esterna metrica ed \'e di Radon.
+\end{thm}
+\begin{proof}
+	(Durante la dimostrazione talvolta mi riferir\'o a $\Le^n$ come misura di Lebesgue nonostante la definizione sia data dopo il teorema)\\
+	Verifichiamo i punti della definizione 1.1\\
+	\begin{itemize}
+		\item[$(\varphi(\emptyset) = 0)$] Vediamo subito che $\forall \varepsilon > 0$ abbiamo $\emptyset \subset (0, \varepsilon)^n$  inoltre $\{(0, \varepsilon)^n\} \in \pazocal{R}_E$ . Ora
+		\[
+			\Le^n(\emptyset) = \inf\{\sum\limits_{j}v(I_j) | \{I_j\} \in \pazocal{R}_E \} \le v((0,\varepsilon )^n) = \varepsilon^n\ \forall \varepsilon		
+		\]
+		Quindi per arbitrariet\'a di $\varepsilon$ otteniamo $\Le^n(\emptyset) = 0$.
+		\item[$(monot.)$] Sia $E \subset F \subset \mathbb{R}^n$. Abbiamo che ovviamente i ricoprimenti di $F$ sono anche ricoprimenti di $E$ quindi $\pazocal{R}_F \subset \pazocal{R}_E$. Quindi $\Le^n(E)$ ha un numero maggiore di elementi su cui cercare l' $\inf$. Quindi $\Le^n(E) \le \Le^n(F)$.
+		\item[$(\sigma-sub)$] Sia $\{E_j\}_j$ una famiglia numerabile in $2^{\mathbb{R}^n}$. Mostriamo che $\Le^n(\bigcup\limits_{j}E_j) \le \sum\limits_{j}\Le^n(E_j)$
+		\begin{itemize}
+			\item Se $\sum\limits_{j}\Le^n(E_j) = +\infty$ abbiamo finito.
+			\item Se inveve $\sum\limits_{j}\Le^n(E_j) < +\infty$ allora $\Le^n(E_j) <+\infty\ \forall j$. Consideriamo un $\varepsilon$ arbitrario. Adesso $\forall j$ esiste un ricoprimento di $E_j$ $\{I_{i}^{(j)}\}_i \in \pazocal{R}_{E_j}$ tale che:
+			\[
+				\sum\limits_iv(I_{i}^{(j)}) < \Le^n(E_j) + \frac{\varepsilon}{2^j}			
+			\]
+			Ovvero troviamo un ricoprimento del singolo $E_j$ tale che sia di poco pi\'u grande di quello misurato con Lebesgue. Ora \'e facile osservare che $\{I_{i}^{(j)}\}_{i,j} \in \pazocal{R}_{\bigcup\limits_jE_j}$. Ovvero l'unione di questi ricoprimenti di poco pi\'u grandi dei minimi sono un ricoprimento dell'unione di tutti gli $E_j$. Allora:
+			\[
+				\Le^n(\bigcup_jE_j) \le \sum\limits_{i,i}v(I_{i}^{(j)}) = \sum\limits_j\sum\limits_iv(I_{i}^{(j)}) <
+			\]
+			\[
+				< \sum\limits_j\Le^n(E_j) + \sum\limits_j \frac{\varepsilon}{2^j} = \sum\limits_j\Le^n(E_j) + \varepsilon
+			\]
+			Concludioamo quindi che $\Le^n(\bigcup\limits_jE_j) \le \sum\limits_j\Le^n(E_j)$
+		\end{itemize}
+
+	\item[$(metrica)$]Dimostriamo ora la metricit\'a della misura di Lebesgue. Quindi siano $A,B \in 2^{\mathbb{R}^n}$ tali che $d = d(A,B) = inf \{||a-b||\ | a \in A, b\in B\} > 0$, ovvero che abbiano distanza positiva (infatti dobbiamo controllare l'additivit\'a della misura proprio su questi insiemi). Vogliamo controllare appunto:
+	\[
+		\Le^n(A\cup B) = \Le^n(A) + \Le^n(B)
+	\]
+	verificando i due versi della disuguaglianza:
+	\begin{itemize}
+		\item[$"\le"$] Questa deriva direttamente dalla $\sigma$-subadd. dimostrata per $\Le^n$.
+		\item[$"\ge"$] Qui supponiamo che la misura sia finita, altrimenti la tesi sarebbe banale. Quindi prendiamo un $\varepsilon > 0$ allora esiste $\{I_j\} \in \pazocal{R}_{A\cup B}$ tale che: 
+		\begin{equation}
+		\sum\limits_jv(I_j) < \Le^n(A\cup B) + \varepsilon
+		\end{equation}
+		Quello che facciamo ora \'e prende un ricoprimento di ogni $I_j$ nel ricoprimento di $A \cup B$ e farne una griglia di tessere di diametro minore di $d$. In questo modo ogni tesera interseca $A$ o $B$ ma non entrambi. Dopodich\'e espando di poco le tessere in modo che si sovrappongano ma mantenendo il loro diametro minore di $d$, questo rimarr\'a un ricoprimento di $A\cup B$ ma allo stesso tempo ci permetter\'a di ottenere due ricoprimenti disgiunti per i singoli $A$ e $B$. Formalmente:
+			$\forall j\ \exists\ \{I_{i}^{(j)}\}_{i=1}^{m_j} \in \pazocal{R}_{I_j}$ tale che:
+	\begin{equation}
+		\begin{cases}
+			diam(I_{i}^{(j)}) < d \\
+			\sum\limits_{i=1}^{m_j} v(I_{i}^{(j)}) < v(I_i) + \frac{\varepsilon}{2^j}
+		\end{cases}
+	\end{equation}
+	Sia $H = {(i,j)}$ l'insieme delle coppie che identificano la i-esima tesserina dell j-esimo insieme del ricoprimento $\{I_j\}_j$.
+	Usiamo per comodit\'a la notazione $\{J_h\}_{h \in H}$ per identificare tutte le tesserine. Dunque:
+	\[
+		H_A := \{h \in H | J_h \cap A \ne \emptyset\},\ \ H_B := \{h \in H | J_h \cap B \ne \emptyset\}	
+	\]
+	Ovviamente $H_A \cup H_B \subset H$ e $H_A \cap H_B = \emptyset$ in quanto se una tesserina intersecasse sia $A$ che $B$ avrebbe diamentro maggiore di $d$ ma questo non \'e possibile per costruzione. Inoltre come abbiamo detto:
+	\[
+		\{J_h\}_{h \in H_A} \in \pazocal{R}_A,\ \ \{J_h\}_{h \in H_B} \in \pazocal{R}_B
+	\]
+	Passando ora alla misura:
+	\[
+		\Le^n(A) + \Le^n(B) \le \sum\limits_{h\in H_A}v(J_h) + \sum\limits_{h\in H_B}v(J_h) \le
+	\]
+	\[
+		\le \sum\limits_{h \in H} v(J_h) \le \sum\limits_{i,j}v(I_i^{(j)}) = \sum\limits_j\sum\limits_iv(I_i^{(j)})	
+	\]
+	Ora per la seconda propriet\'a descritta in equazione 1.19 otteniamo :
+	\[
+		\sum\limits_j\sum\limits_iv(I_i^{(j)})	 \le \sum\limits_jv(I_j) + \frac{\varepsilon}{2^j} \le \sum\limits_{j}v(I_j) + \varepsilon	
+	\]
+	Ora consideriamo quanto descritto nell' equazione 1.18 e troviamo che:
+	\[
+		\sum\limits_{j}v(I_j) + \varepsilon \le \Le^n(A\cup B) + 2\varepsilon
+	\]
+	Allora riassumendo il tutto:
+	\begin{equation}
+		\Le^n(A) + \Le^n(B) \le \Le^n(A\cup B) + 2\varepsilon\ \ \forall \varepsilon
+	\end{equation}
+	Quindi per l'arbitrariet\'a di $\varepsilon$ otteniamo la tesi.
+		\end{itemize}
+		\item[$(Borel-reg.)$] Per dimostrare che $\Le^n$ \'e una misura di Radon, come prima cosa dobbiamo dimostrare che \'e Borel-regolare (Dovremmo dimostrare anche che \'e Boreliana ma siccome \'e metirca per il corollario 1.28 \'e anche Boreliana).\\
+		Sia $A \subset \mathbb{R}^n$ qualsiasi, distinguiamo due casi:
+		\begin{itemize}
+			\item Se $\Le^n(A) = + \infty$ prendiamo $B = \mathbb{R}^n \in \B(\X)$ e abbiamo che $A \subset B$ e $\Le^n(A) = + \infty \le \\Le^n(B)$ Ne deriviamo semplicemente che $\Le^n(B) = +\infty$.
+			\item Supponiamo quindi che $\Le^n(A) < + \infty$. Per ogni $h > 0$ esiste un ricoprimento aperto numerabile $\{I_j^{(h)}\} \in \pazocal{R}_A$ tale che $\sum\limits_jv(I_j^{(h)}) < \Le^n(A)+\frac{1}{h}$. Poniamo dunque $G_h := \bigcup\limits_jI_j^{(h)} \in \G$, i quali sono unione di aperti e inoltre sappiamo che $\G \subset \B(\mathbb{R}^n)$ e poniamo $B := \bigcap\limits_hG_h \in \B(\mathbb{R}^n)$. Ovviamente $B\supset A$.\\
+			Dal punto di vista geometrico abbiamo preso dei ricoprimenti aperti di $A$ che siano di poco pi\'u grandi ($\frac{1}{h}$) del minimo (quello misurato con Lebesgue). Abbiamo creato gli insiemi $G_h$ ovvero l'unione degli aperti di un determinato ricoprimento, quindi $A$ sta in ognuno di questi. Infine abbiamo creato un Boreliano  $B$ che sia intersezione di tutti i $G_h$, quindi $A$ sta logicamente in $B$.\\
+			Per monotonia otteniamo che $\Le^n(A) \le \Le^n(B)$.\\
+			Ora $\{I_j^{(h)}\}$ \'e un ricoprimento di $A$ ma lo \'e anche di $G_h$ per come \'e definito. Quindi ricopre sicuramente anche l'intersezione $\bigcap\limits_hG_h = B$. Dunque vale:
+			\[
+				\Le^n(B) \le \sum\limits_{j}v(I_j^{(h)})
+			\]
+			Poich\'e $\Le^n(B)$ \'e la misura minore di tutti i ricoprimenti di $B$. Inoltre per definizione:
+			\[
+				\sum\limits_{j}v(I_j^{(h)}) \le \Le^n(A)+\frac{1}{h}	
+			\]
+			Quindi tirando le somme:
+			\[
+				\Le^n(A) \le \Le^n(B) \le \Le^n(A)+\frac{1}{h}	
+			\]
+			Sparando $h \rightarrow +\infty$ otteniamo che $\Le^n(B) = \Le^n(A)$ e dunque che la misura \'e Borel-regolare.
+			\item[$(Radon)$] Sia $K \in \K$ vogliamo dimostrare che $\Le^n(K) < + \infty$. Siccome $K$ \'e un compatto di $\mathbb{R}^n$ esso \'e chiuso e limitato per il teorema di \href{https://it.wikipedia.org/wiki/Teorema_di_Heine-Borel}{\color{blue}Heine-Borel}. Quindi esiste un intervallo aperto $I \in \mathbb{R}^n$ tale che $K\subset I$. Allora
+			\[
+				\Le^n(K) \le \Le^n(I) \le v(I) < +\infty			
+			\]
+		\end{itemize}
+	\end{itemize}
+\end{proof}
+\begin{defn}
+	La misura esterna $\Le^n : 2^{\mathbb{R}^n} \rightarrow [0,+\infty]$ \'e detta misura esterna di $Lebesgue$ in $\mathbb{R}^n$
+\end{defn}
+Vediamo come per le alcune propriet\'a della misura di Lebesgue.
+
+\begin{thm}
+	Valgono le seguenti propriet\'a per $\Le^n$:
+	\begin{enumerate}
+		\item $\forall a \in \mathbb{R}^n$ abbiamo $\Le^n(a) = 0$
+		\item Per ogni intervallo aperto e limitato $I \subseteq \mathbb{R}^n$ si ha  $\Le^n(I) = v(I)$
+		\item (invarianza risp. traslazione) $\forall E \subset \mathbb{R}^n$ e $\forall \tau \in \mathbb{R}^n$ valgono:
+		\[
+			\begin{cases}
+				\Le^n(E+\tau) = \Le^n(E)\\
+				se\ E \in \Ml \Rightarrow E+\tau \in \Ml
+			\end{cases}		
+		\]
+		\item (invarianza risp. omotetia) $\forall E \subset \mathbb{R}^n$ e $\forall \rho \in \mathbb{R}_{>0}$ con $\rho(E) := \{\rho P | P \in E\}$ valgono:
+		\[
+			\begin{cases}
+				\Le^n(\rho E) = \rho^n\Le^n(E)\\
+				se\ E \in \Ml \Rightarrow \rho E \in \Ml
+			\end{cases}		
+		\]
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	\begin{enumerate}
+		\item Sia $a \in \mathbb{R}^n$, esso \'e dato dalle n coordinate $a = (a_1, a_2, \ldots, a_n)$, per ogni $\varepsilon > 0$ definiamo 
+		\[
+		I_\varepsilon := (a_1 - \varepsilon, a_1 + \varepsilon) \times (a_2 - \varepsilon, a_2 + \varepsilon) \times \ldots \times (a_n - \varepsilon, a_n + \varepsilon)
+		\]
+		il quale \'e un quadrato n-dimensionale centrato in $a$. Quindi $I_\varepsilon \in \pazocal{R}_a$. Passando alla misura otteniamo che sicuramente
+		\[
+			\Le^n(\{a\}) \le v(I_\varepsilon) = (2\varepsilon)^n		
+		\]
+		Ora per l'arbitrariet\'a di $\varepsilon$ lo spariamo a zero ottenendo che $\Le^n(\{a\}) = 0$
+		\item Proviamo entrambi i versi della disuguaglianza:
+		\begin{itemize}
+			\item[$"\le"$] Possiamo considerare $\{I\}$ come ricoprimento aperto di se stesso, ovvero $I \in \pazocal{R}_I$, quindi otteniamo che:
+			\[
+				\Le^n(\{I\}) \le v(I)
+			\]
+			\item[$"\ge"$] Siano $\{I_j\} \in \pazocal{R}_I$ ricomprimenti numerabili di $I$. Allora la misura elementare (i.e. $v(\cdot)$) su di essi \'e sicuramente maggiore che la misura elementare di $I$ stesso quindi:
+				\[
+					\sum\limits_{j}v(I_j) \ge v(I)
+				\]
+				Quindi prendendo l' $inf$ otteniamo ancora che:
+				\begin{equation}
+					\inf\left\{\sum\limits_{j}v(I_j) | \{I_j\} \in \pazocal{R}_I\right\} \ge v(I)
+				\end{equation}
+				Ma il termine a sinistra della disuguaglianza 1.21 \'e esattamente $\Le^n(I)$.
+		\end{itemize}
+		Abbiamo dunque l'uguaglianza e la tesi.
+		\item Sia $E \subset \mathbb{R}^n$ e $\tau \in \mathbb{R}^n$.\\
+		Dal punto di vista geometrico possiamo considerare $\tau$ come un vettore di $\mathbb{R}^n$. L' insieme $(E + \tau)$ \'e l'insieme dei punti di $E$ spostati applicando la traslazione del vettore $\tau$.\\
+		Ora per ogni $\{I_j\} \in \pazocal{R}_E$ si ha che $\{I_j + \tau\} \in \pazocal{R}_{E+\tau}$ quindi per definizione di misura di Lebesgue segue che $\Le^n(E+\tau) \le v(I_j + \tau)$.\\
+		Notiamo che secondo la misrua elementare si ha che $\sum\limits_{j}v(I_j + \tau) = \sum\limits_{j}v(I_j)$ quindi passando alla misura di Lebesgue $\Le^n(E + \tau) \le \Le^n(E)\ \forall E \subset \mathbb{R}^n$. D'altro canto, per lo stesso motivo, vale anche il viceversa di tale relazione confermando l'uguaglianza.\\
+		Proviamo ora la seconda parte del punto 3. Sia perci\'o $E \in \Ml$ dimostriamo che $E + \tau$ induce il buon spezzamento della misura e che quindi $(E + \tau) \in \Ml$. Ovvero proviamo che:
+		\begin{equation}
+			\Le^n(A) = \Le^n(A \cap (E + \tau)) + \Le^n(A \cap (E + \tau)^c)
+		\end{equation}
+		Sia $A \subset \mathbb{R}^n$ generico. Abbiamo che $A \cap (E + \tau) = (A + \tau - \tau)\cap(E + \tau)$. Vediamo che si tratta dell'intersezione di due insiemi traslati di $\tau$ ovvero $(A - \tau)$ e $E$, quindi lo sar\'a pure la loro intersezione, dunque possiamo prima intersecare e poi traslare, i.e. $((A + \tau) \cap E) + \tau$. Passando alla misura e tenendo conto che $\Le^n$ \'e invariante rispetto la traslazione:
+		\begin{equation}
+			\Le^n((A - \tau)\cap E) = \Le^n(A\cap (E + \tau))
+		\end{equation}
+		Ragionando allo stesso modo $A\cap(E + \tau)^c = (A + \tau - \tau)\cap(E + \tau)^c = (A + \tau - \tau)\cap(E^c + \tau) = ((A - \tau)\cap E^c) + \tau$. Quindi passando alla misura:
+		\begin{equation}
+			\Le^n((A - \tau)\cap E^c) = \Le^n(A\cap (E^c + \tau)^c)
+		\end{equation}
+		Sommando le equazioni 1.23 e 1.24 otteniamo:
+		\begin{equation}
+			\Le^n(A\cap (E + \tau)) + \Le^n(A\cap (E^c + \tau)^c) = \Le^n((A - \tau)\cap E) + \Le^n((A - \tau)\cap E^c)
+		\end{equation}
+		Siccome per ipotesi $E$ \'e misurabile possiamo riscrivere la parte destra di 1.25:
+		\[
+			\Le^n((A - \tau)\cap E) + \Le^n((A - \tau)\cap E^c) = \Le^n(A - \tau) = \Le^n(A)
+		\]
+		L'ultima uguaglianza \'e data per invarianza rispetto alla traslazione di $\Le^n$
+		\item Consideriamo $E \subset \mathbb{R}^n$ e $\rho \in \mathbb{R}_{>0}$. Abbiamo che $\forall\{I_j\} \in \pazocal{R}_E, \{\rho I_j\} \in \pazocal{R}_{\rho E}$. Proviamo innanzitutto che $\forall I \subset \mathbb{R}^n$ aperto finito $v(\rho I) = \rho^n v(I)$. Sappiamo che $I := \bigotimes\limits_{i=1}^n(a_i,b_i)$ perci\'o $\rho I = \bigotimes\limits_{i=1}^n(\rho a_i,\rho b_i)$ quindi passando alla misura elementare otteniamo: 
+		\[
+			v(\rho I) = \prod\limits_{i=1}^n(\rho b_i - \rho a_i) = \prod\limits_{i=1}^n\rho \cdot (b_i - a_i) = \rho^n\prod\limits_{i=1}^n(b_i - a_i) = \rho^nv(I)
+		\]
+		Ora, per Lebesgue abbiamo che per un singolo ricoprimento:
+		\[
+			\Le^n(\rho E) \le \sum\limits_j v(\rho I_j) = \rho^n \sum\limits_j v(I_j)
+		\]
+		Ora passiamo all' $\inf$ su tutti i ricoprimenti $\{I_j\}\in \pazocal{R}_e$ otteniamo:
+		\[
+			\Le^n(\rho E) \le \rho^n \inf\limits_{\{I_j\} \in \pazocal{R}_E}\{\sum\limits_j v(I_j)\} = \rho^n \Le^n(E)\ \forall \rho > 0
+		\]
+		D'altra parte possiamo prendere $\Le^n(E) = \Le^n(\frac{1}{\rho}\rho E) \le \frac{1}{\rho^n}\Le^n(\rho E)$, quindi abbiamo ottenuto anche che $\Le^n(\rho E) \ge \rho^n \Le^n(E)$ e ne segue l'uguaglianza:
+		\[
+			\Le^n(\rho E) = \rho^n \Le^n(E)
+		\]
+		Proviamo ora la seconda affermazione di 4.\\
+		Sia dunque $E \in \Ml$ e $\rho \in \mathbb{R}_{>0}$ Anche qui dobbiamo dimostrare che $\rho E$ induce il buon spezzamento della misura ovvero che $\forall A \subset \mathbb{R}^n$:
+		\[
+			\Le^n(A) = \Le^n(A \cap (\rho E)) + \Le^n(A \cap (\rho E)^c)
+		\]
+		Quello che faremo \'e isolare $E$ e poi sfruttare il fatto che \'e misurabile:
+			\begin{equation}
+				(A \cap (\rho E)) = (\frac{1}{\rho} \rho A) \cap (\rho E) = \rho \left[(\frac{1}{\rho} A)\cap E\right]
+				\end{equation}
+				e con lo stesso ragionamento otteniamo:
+				\begin{equation}
+				A \cap (\rho E)^c = (\frac{1}{\rho} \rho A) \cap (\rho E^c) = \rho \left[(\frac{1}{\rho} A)\cap E^c\right]
+				\end{equation}
+				Ora per ipotesi abbiamo che $E$ \'e misurabile quindi induce il buon spezzamento quindi unendo 1.26 e 1.27 e passando alla misura otteniamo:
+				\[
+					\Le^n((A \cap (\rho E)))	 + \Le^n(A \cap (\rho E)^c) = \rho^n \left( \Le^n((\frac{1}{\rho} A)\cap E) + \Le^n((\frac{1}{\rho} A)\cap E^c) \right) = 
+				\]
+			\[
+				= \rho^n \Le^n(\frac{1}{\rho} A) = \rho^n \frac{1}{\rho^n} \Le^n(A) = \Le^n(A)			
+			\]	
+	\end{enumerate}
+\end{proof}
+\begin{exmp}
+\end{exmp}
+
+\begin{exmp}
+\end{exmp}
+
+\begin{exmp}
+\end{exmp}
+
+\section{Misura di Hausdorff}
+La misura di Hausdorff viene comoda quando si tratta di misurare le sottovariet\'a. Prendiamo per esempio una curva nel piano. Ora la ricopriamo con una famiglia di dischi $\{C_j\}$. La (pre)misura sar\'a calcolata come segue:
+	\[
+			\Ha^1(E) = inf\left\{\sum\limits_j diam(C_j) | E\subset \bigcup\limits_{j}C_j, diam(C_j) < \delta\right\}
+	\]
+	Quindi pi\'u rimpiccioliamo $\delta$ e pi\'u i dischetti si restringeranno costringendoci a seguire sempre pi\'u precisamente la geometria della curva. Quindi una volta presa la premisura spariamo $\delta \rightarrow 0$ e abbiamo la misura di Hausdorff, ovvero:
+	\begin{equation}
+		\pazocal{H}^1(E) = \lim\limits_{\delta \rightarrow 0} \Ha^1(E)
+	\end{equation}
+\begin{thm}
+	Sia $E \subset \mathbb{R}^n$ e $\delta > 0$. Identifichiamo con $\pazocal{R}_\delta(E)$ la famiglia dei ricoprimenti numerabili $\{C_j\}$ di $E$ tali che $diam(C_j) \le \delta\ \forall j$.\\
+	Per $s \in [0,+\infty)$ poniamo anche $\alpha(S) = \frac{\pi^{\frac{s}{2}}}{\Gamma(\frac{s}{2} + 1)}$, dove:
+	\[
+		\Gamma(t) = \int\limits_{0}^{+\infty}e^{-x}x^{t-1} dx	
+	\]
+	Inoltre se $s \in \mathbb{N}$ allora $\alpha(s) = \Le^s(B_1(0))$. Allora la funzione $\Ha^s : 2^{\mathbb{R}^n} \rightarrow [0,+\infty]$ definita da:
+	\begin{equation}
+			\Ha^s(E) = \begin{cases}
+				0\ se\ E = \emptyset \\
+				 inf\left\{\sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s | \{C_j\} \in  \pazocal{R}_\delta(E)\right\}\ se\ E \ne 0
+			\end{cases}
+	\end{equation}
+	\'e detta premisura di Hausdorff ed \'e una misura esterna.
+\end{thm}
+Prima di dimostrare il teorema diamo un occhiata a come lavora tale premisura. Facendo un paio di calcoli vediamo che:
+	\[
+		\alpha(0) = 1
+	\]
+	\[
+		\alpha(1) = \Le^1((-1,1)) = 2
+	\]
+		\[
+		\alpha(2) = \Le^2(B_1(0)) = \pi
+	\]
+		\[
+		\alpha(3) = \Le^3(B_1(0)) = \frac{4}{3}\pi
+	\]
+	\[
+			\vdots
+	\]
+	La quantit\'a $\left(\frac{diam(C_j)}{2}\right)^s$ \'e ovviamente una potenza del raggio di ogni palla che ricopre un pezzo di curva. Quindi per una curva, ovvero per $s = 1$ otteniamo che la premisura di Hausdorff calcola $2\cdot r$ per ogni palla. Ovvero fa la somma dei diametri. Per $s=2$ copriamo una superficie con delle sfere. Otteniamo $\alpha(2) * \left(\frac{diam(C_j)}{2}\right)^s = \pi\cdot r^2$ che \'e l'area della superficie del disco che si ottiene sezionando una sfera all'equatore (abbiamo l'analogia con il diametro del disco per $s=1$). Per $s = 3$ otteniamo $\frac{4}{3}\pi \cdot r^3$ che \'e proprio il volume di una sfera (con la stessa analogia dei casi precedenti) e cos\'i via.
+
+\begin{proof}
+	Controlliamo che valgano i tre punti della definizione 1.1.
+	\begin{enumerate}
+		\item $\Ha^s(\emptyset) = 0$ per definizione.
+		\item Consideriamo ora $E \subset F \subset \mathbb{R}^n$, logicamente se un ricoprimento di $F$ \'e anche un ricoprimento di $E$ quindi abbiamo che $\pazocal{R}_\delta(F) \subset \pazocal{R}_\delta(E)$ quindi:
+		\[
+			\Ha^s(F) = inf\left\{\sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s | \{C_j\} \in  \pazocal{R}_\delta(F)\right\} \le
+		\]
+		\[			
+			 \le inf\left\{\sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s | \{C_j\} \in  \pazocal{R}_\delta(E)\right\} = \Ha^s(E)
+		\]
+		\item Sia $\{E_j\} \subset 2^{\mathbb{R}^n}$ una famiglia numerabile di insiemi. Vogliamo dimostrare che vale la $\sigma$-subadditivit\'a.
+		Come sempre distinguiamo i due casi:
+			\begin{itemize}
+				\item Se $\sum\limits_j \Ha^s(E_j) = +\infty$ allora la tesi \'e banale.
+				\item Se invece tale somme \'e finita possiamo trovare un ricoprimento $\{C_i^{(j)}\} \in \pazocal{R}_\delta E_j$ tale che la sua misura sia (anche di poco) maggiore di quella di $E_j$ ovvero:
+				\begin{equation}
+					\sum\limits_i \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s < \Ha^s(E_j) + \frac{\varepsilon}{2^j}	
+				\end{equation}
+				Osserviamo che $\{C_i^{(j)}\} \in \pazocal{R}_\delta(\bigcup\limits_j E_j)$, allora possiamo scrivere:
+				\[
+					\Ha^s(\bigcup\limits_j E_j)	 \le \sum\limits_{i,j} \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s = \sum\limits_{i}\sum\limits_{j} \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s
+				\]
+				L'ultimo termine, per quanto osservato nell'equazione 1.30, pu\'o essere riscritto come segue:
+				\[
+					\sum\limits_{i}\sum\limits_{j} \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s \le \sum\limits_j(\Ha^s(E_j) + \frac{\varepsilon}{2^j}) = \sum\limits_j(\Ha^s(E_j) + \varepsilon
+				\]
+				Per l'arbitrariet\'a di $\varepsilon$ lo spariamo a $0$ e otteniamo la tesi.
+			\end{itemize}
+	\end{enumerate}
+\end{proof}
+Con il seguente teorema costruiamo la misura di Hausdorff effettiva.
+\begin{thm}
+	Sia $s \in [0, +\infty)$ ed $E \subset \mathbb{R}^n$. Allora la funzione $\delta \mapsto \Ha^s(E)$ con $\delta > 0$ \'e monotona e decrescente (1), quindi $\exists$ il limite:
+	\[
+		\Hu^s(E) := \lim\limits_{\delta \rightarrow 0^+} \Ha^s(E)	
+	\]
+	La mappa $\Hu^s : 2^{\mathbb{R}^n} \rightarrow [0, +\infty]$ \'e una misura esterna (2) metrica (3) ed \'e Borel-regolare (4). Essa \'e detta \textit{misura di Hausdorff}.
+\end{thm}
+
+\begin{proof}
+	\begin{enumerate}
+		\item Siano $0 < \delta_1 < \delta_2 < + \infty$ allora $\pazocal{R}_{\delta_1}(E) \subset \pazocal{R}_{\delta_2}(E)$, questo vale poich\'e siamo in $\mathbb{R}^n$ e stiamo considerando la topologia euclidea quindi $\pazocal{R}_{\delta_1}(E)$ contiente tutte le famiglie ricoprenti $E$ formate da palle di raggio inferiore a $\delta_1$ quindi per ipotesi sono inferiori a $\delta_2$. Quindi passiamo all'immagine della mappa e tenendo conto che in $\pazocal{R}_{\delta_2}(E)$ contiene pi\'u famiglie su cui fare l' $\inf$ (tra cui anche quelle di $\pazocal{R}_{\delta_1}(E)$):
+		\[
+			inf\left\{\sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s | \{C_j\} \in  \pazocal{R}_{\delta_2}(F)\right\} \le
+		\] 
+		\[
+			\le inf\left\{\sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s | \{C_j\} \in  \pazocal{R}_{\delta_1}(F)\right\}		
+		\]
+		E dunque:
+		\[
+			\Hu_{\delta_2}^s(E) \le \Hu_{\delta_1}^s(E)	
+		\]
+		\item Proviamo ora i tre punti della definizione 1.1 per $\Hu^s$:
+			\begin{enumerate}
+				\item Tenendo conto di come abbiamo definito $\Ha^s$ ricaviamo:
+					\[
+						\Hu^s(\emptyset) = \lim\limits_{\delta \rightarrow 0^+} \Ha^s(\emptyset) = 0
+					\]
+					\item Sia ora $E \subset F \subset \mathbb{R}^n$ quindi siccome per il teorema 1.38 $\Ha^s$ \'e misura esterna scriviamo che $\Ha^s(E) \le \Ha^s(F)$ quindi passando al limite su entrambi i lati:
+					\[
+						\Hu^s(E) = \lim\limits_{\delta \rightarrow 0^+} \Ha^s(E) \le \lim\limits_{\delta \rightarrow 0^+} \Ha^s(F)	= \Hu^s(F)		
+					\]
+					\item Sia $\{E_j\} \subset 2^{\mathbb{R}^n}$ una famiglia numerabile di insiemi e sia $\delta > 0$. Di nuovo per il fatto che $\Ha^s$ \'e una misura esterna sfruttiamo la ''sua'' $\sigma$-subaffitivit\'a per scrivere:
+					\[
+						\Ha^s(\bigcup\limits_jE_j) \le \sum\limits_j\Ha^s(E_j)					
+					\]
+					Ogni termine nella sommatoria $\Ha^s(E_j) \le \Hu^s(E_j)$ poich\'e mandiamo $\delta \rightarrow 0$ e il ragionamento \'e identico a quello fatto all'inizio del punto 1. Quindi passiamo al limite e otteniamo che:
+					\[
+						\lim\limits_{\delta \rightarrow 0^+}\Ha^s(\bigcup\limits_{j}E_j) = \Hu^s(\bigcup\limits_{j}E_j) \le \sum\limits_j\Hu^s(E_j)
+					\]
+					Abbiamo dimostrato quindi che $\Hu^s$ \'e anch'essa una misura esterna.
+			\end{enumerate}
+		\item Dimostriamone ora la metricit\'a. Siano $A,B \subset \mathbb{R}^n$ due insiemi tali che $d(A,B) = \inf\{|a-b|\ |\ a \in A, b \in B\} > 0$ ovvero a distanza positiva. Vogliamo provare che $\Hu^s(A \cup B) = \Hu^s(A) + \Hu^s(B)$, provando entrambi i versi della disuguaglianza.
+		\begin{itemize}
+			\item[$"\le"$] Banale per $\sigma$-subadditivit\'a
+			\item[$"\ge"$] Supponiamo subito che $\Hu^s(A \cup B) < +\infty$ altrimenti la tesi sarebbe ovvia. Quindi sia $0 < \delta < d$ e $\varepsilon > 0$ arbitrario. Ricordiamo che $\Ha^s(A \cup B) \le \Hu^s(A \cup B) < +\infty$.\\
+			Sia ora $\{C_j\}_j \in \pazocal{R}_\delta(A \cup B)$ un ricporimento dell'unione tale che:
+			\[
+				\sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s  \le \Ha^s(A \cup B) + \varepsilon \le \Hu^s(A \cup B) + \varepsilon
+			\] 
+			Prima di tutto vediamo che ogni aperto del ricoprimento \'e una bolla di diametro minore di $d$, questo significa che se un aperto interseca $A$ esso non pu\'o sicuramente intersecare $B$. Definiamo ora due insiemi uno composto dagli indici di aperti del  ricoprimento che intersecano $A$ e uno composto dagli indici di quelli che intersecano $B$:
+			\[
+				J_A := \{j\ |\ C_j \cap A \ne \emptyset\}
+			\]
+			\[
+				J_B := \{j\ |\ C_j \cap B  \ne \emptyset\}
+			\]
+			Ovviamente $J_A \cap J_B = \emptyset$ e inoltre $\{C_j\}_{j \in J_A} \in \pazocal{R}_\delta(A)$ ovvero l'unione degli aperti che intersecano $A$ formano un ricoprimento di $A$, ovviamente lo stesso vale per $B$. Ricordiamo che $\{C_j\}$ \'e un ricoprimento arbitrario e siccome con Hausdorff prendiamo l'$\inf$ possiamo sicuramente scrivere:
+			\[
+				\Ha^s(A) + \Ha^s(B) \le \sum\limits_{j \in J_A} \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s + \sum\limits_{j \in J_B} \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s \le
+			\]
+			\[
+				\le \sum\limits_{j \in J_A \cup J_B} \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s	\le
+			\]
+			\[
+				\le \sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s \le \Hu^s(A \cup B) + \varepsilon			
+			\]
+			Ora spariamo $\delta \rightarrow 0$ e per l'arbitrariet\'a di $\varepsilon$ otteniamo:
+			\[
+				\Hu^s(A) + \Hu^s(B) \le \Hu^s(A \cup B)
+			\]
+		\end{itemize}
+		\item Proviamo che $\Hu^s$ \'e Borel-regolare ovvero che esiste $B \in \B(\mathbb{R}^n)$ tale che:
+		\[
+			\begin{cases}
+				B \supset A \\
+				\Hu^s(B) = \Hu^s(A)
+			\end{cases}		
+		\]
+		Supponiamo che $\Hu^s(A) < +\infty$ altrimenti potremmo prendere $B = \mathbb{R}^n$ e la tesi seguirebbe. Si ha che $\forall h \in \mathbb{Z}_{>0}$ possiamo scrivere $\Hu_{\frac{1}{h}}^s(A) \le \Hu^s(A) < +\infty$ quindi possiamo trovare un ricoprimento di $A$ fatto di bolle di diametro al pi\'u $\frac{1}{h}$ ovvero $\{C_j^{(h)}\}_j \in \pazocal{R}_{\frac{1}{h}}(A)$ tale che sia di poco pi\'u grande dell' $\inf$ misurato con Hausdorff, i.e.:
+		\[
+			\sum\limits_j \alpha(s) \left(\frac{diam(C_j^{(h)})}{2}\right)^s	\le \Hu_{\frac{1}{h}}^s(A) + \frac{1}{h}
+		\]
+		Ora poniamo $B_h := \bigcup\limits_j\overline{C_j^{(h)}}$ e notiamo che valgono:
+		\[
+			\begin{cases}
+				B_h \in \B(\mathbb{R}^n) \\
+				B_h \supset A
+			\end{cases}		
+		\]
+		La prima propriet\'a vale poich\'e $B_h$ \'e unione numerabile di chiusi e come sappiamo (proposizione 1.25) in uno spazio topologico la $\sigma$-algebra generata dagli aperti \'e uguale a quella generata dai chiusi (i.e. $\Sigma_G = \Sigma_F$).\\
+		Poniamo anche $B := \bigcap\limits_hB_h$ e vediamo che:
+		\[
+			\begin{cases}
+				B \in \B(\mathbb{R}^n)\\
+				B \supset A
+			\end{cases}		
+		\]
+		Ovviamente vale anche $B \subset B_h$ quindi scriviamo:
+		\begin{equation}
+			\Hu_{\frac{1}{h}}^s(A) \le \Hu_{\frac{1}{h}}^s(B) \le \Hu_{\frac{1}{h}}^s(B_h)
+		\end{equation}
+		Dove entrambe le disuguaglianze valgono per monotonia. Ora vediamo che un ricoprimento di $B_h$ \'e proprio $\{\overline{C_j^{(h)}}\}_j \in \pazocal{R}_{\frac{1}{h}}(B_h)$ dove $diam(\overline{C_j^{(h)}}) = diam(C_j^{(h)}) < \frac{1}{h}\ \forall j$. Quindi possiamo minorare l'ultimo termine della disequazione 1.32 come segue:
+		\[
+			\le \sum\limits_j \alpha(s) \left(\frac{diam(\overline{C_j^{(h)}})}{2}\right)^s = \sum\limits_j \alpha(s) \left(\frac{diam(C_j^{(h)})}{2}\right)^s < \Hu_{\frac{1}{h}}^s(A) + \frac{1}{h}
+		\]
+		Allora abbiamo ottenuto un sandwich poich\'e:
+		\[
+			\Hu_{\frac{1}{h}}^s(A) \le \Hu_{\frac{1}{h}}^s(B) \le \Hu_{\frac{1}{h}}^s(A) + \frac{1}{h}	
+		\]
+		Ora sparando $h \rightarrow 0$ otteniamo il sandwich ancora pi\'u stretto e quindi l'uguaglianza:
+		\[
+			\Hu^s(A) \le \Hu^s(B) \le \Hu^s(A) \Longrightarrow \Hu^s(B) = \Hu^s(A)
+		\]
+	\end{enumerate}
+\end{proof}
+Vediamo ora alcune propriet\'a della misura di Hausdorff.
+\begin{thm}
+	Valgono le seguenti propriet\'a per la misura di Hausdorff:
+	\begin{enumerate}
+		\item $\Hu^0 = |\cdot|$ (cardinalit\'a)
+		\item $\Hu^n = \Le^n$ in $\mathbb{R}^n$ non dimostreremo questo punto, ma diciamo che segue dalla disuguaglianza isodiametrica.
+		\item $\forall E \subset \mathbb{R}^n,\ \forall \tau \in \mathbb{R^n}$ vale (invarianza rispetto alla traslazione):
+		\[
+			\begin{cases}
+				\Hu^s(E + \tau) = \Hu^s(E) \\
+				 E \in \Mh \Rightarrow (E + \tau) \in \Mh
+			\end{cases}		
+		\]
+		\item $\forall E \subset \mathbb{R}^n,\ \forall \rho \in \mathbb{R}_{>0}$ vale (invarianza rispetto omotetia):
+		\[
+			\begin{cases}
+				\Hu^s(\rho E) = \Hu^s(E) \\
+				E \in \Mh \Rightarrow (\rho E) \in \Mh
+			\end{cases}		
+		\]
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	\begin{enumerate}
+		\item Dimostriamo prima di tutto il caso in cui $E = \{p\}, p \in \mathbb{R}^n$ come abbiamo visto otteniamo $\alpha(0) = 1$ ora:
+		\[
+			\Ha^0(\{p\}) = inf\left\{\sum\limits_j 1 \left(\frac{diam(C_j)}{2}\right)^0 | \{C_j\} \in  \pazocal{R}_\delta(\{p\})\right\}	\ge 1
+		\]
+		Ovviamente dobbiamo richiedere che $diam(C_j) > 0$ se vogliamo che questo valga. D'altro canto abbiamo che $\{B_\frac{\delta}{2}({p})\} \in \pazocal{R}_\delta({p})$ e quindi vale che:
+		\[
+			\Ha^s(\{p\}) \le 1 \cdot \left(\frac{diam(B_\frac{\delta}{2}({p}))}{2}\right)^0 = 1		
+		\]
+		E quindi $\Ha^0(\{p\}) = 1$. Ora possiamo sparare $\delta \rightarrow 0^+$
+		Passiamo ora al caso generale che suddividiamo in due casi:
+		\begin{itemize}
+			\item Caso in cui $\exists\ p_1,p_2,\ldots,p_n$ distinti in $\mathbb{R}^n$ tali che $E = \{p_1,p_2,\ldots,p_n\} = \bigcup\limits_i{p_i}$. Notiamo inoltre che ogni punto $p_i$ \'e chiuso e dunque boreliano e siccome la misura \'e metrica allora \'e anche misurabile (corollario 1.28), formalmente $\{p\} \in \F \subset \B(\mathbb{R}^n) \subset \pazocal{M}_\pazocal{H}^0$. Dunque:
+			\[
+				\Hu^0(E) = \Hu^0(\bigcup\limits_i({p_i})) = \sum\limits_{i = 1}^n \Hu^0(\{p_i\}) = n = |E|		
+			\]
+			\item $\forall n > 0\ \exists p_1,p_2,\ldots,p_n$ tali che $p_i \in E$. Allora grazie alla monotonia $\Hu^0(E) \ge \Hu^0({p_1,p_2,\ldots,p_n}) = n$ e $\Hu^0(E) = +\infty$
+		\end{itemize}
+		\item Disuguaglianza isoperimetrica
+		\item Uguale al punto 3 del teorema 1.34 (Lebesgue)
+		\item Uguale al punto 4 del teorema 1.34 (Lebesgue)
+	\end{enumerate}
+\end{proof}
+
+\begin{prop}
+	Sia $s \in [0, +\infty)$ e $E \subset \mathbb{R}^n$ tali che $\Hu^s(E) < +\infty$ allora:
+	\begin{enumerate}
+		\item $\Hu^t(E) = 0,\ \forall t > s$
+		\item $\forall t > n$ si ha che $\Hu^t(\mathbb{R}^n) = 0$. Conseguentemente $\forall E \subset \mathbb{R}^n$ l'insieme $S(E) = \{t \in [0, +\infty)\ |\ \Hu^t(E) = 0\}$ \'e una semiretta destra che include $(n, +\infty)$. La dimensione di Hausdorff di $E$ \'e definita dal numero:
+		\[
+			dim_\pazocal{H}(E) = \inf S(E) \le n		
+		\]
+		(Quindi prima della semiretta $S(E)$ si avr\'a $+\infty$ e $0$ in tutta la semiretta.)
+		\end{enumerate}
+		\begin{proof}
+		\begin{enumerate}
+		\item
+			Sia $\Hu^s(E) < +\infty$ e $t > s \ge 0$. Consideriamo anche $\delta > 0$ e quindi $\Ha^s(E) \le \Hu^s(E) < + \infty$ (ricordiamo sparando $\delta \rightarrow 0^+$ i ricoprimenti su cui fare l'$\inf$ diminuiscono) allora $\exists \{C_j\}_j \subset \pazocal{R}_\delta(E)$ t.c:
+			\begin{equation}
+				\sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s \le \Ha^s(E) + 1 \le \Hu^s(E) + 1
+			\end{equation}
+			Allora 
+			\[
+				\Ha^t(E) \le \sum\limits_j \alpha(t) \left(\frac{diam(C_j)}{2}\right)^{t -s + s}s = 
+			\]
+			\[				
+				= \frac{\alpha(t)}{\alpha(s)} \sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s \left(\frac{diam(C_j)}{2}\right)^{t-s} \le
+			\]
+			\[
+				\le \frac{\alpha(t)}{\alpha(s)} \left(\frac{\delta}{2}\right)^{t-s} \sum\limits_j \alpha(s) \left(\frac{diam(C_j)}{2}\right)^s
+			\]
+			Ora per 1.32 possiamo scrivere:
+			\[
+				\Ha^t(E) \le \frac{\alpha(t)}{\alpha(s)} \left(\frac{\delta}{2}\right)^{t-s} [\Hu^s(E) + 1]
+			\]
+			Sparando $\delta \rightarrow 0^+$ abbiamo $\Hu^t(E) \le 0 \Rightarrow \Hu^t(E) = 0$.
+			\item Sia $t > n$, possiamo scrivere che $\mathbb{R}^n = \bigcup\limits_{h=1}^{+\infty} B_h(0)$ con $ B_h(0) \subset  B_{h+1}(0)$, ovvero una successione crescente di bolle aperte.
+			Poich\'e sappiamo che per $n$ $\Hu^n = \Le^n$ e che per $h = 1,2,\ldots\ \Hu^n(B_h(0)) = \Le_n(B_h(0)) < +\infty$ allora per il punto appena dimostrato $\Hu^t(B_h(0)) = +\infty\ \forall h=1,2,\ldots$.
+			Adesso sfruttando la continuit\'a dal basso otteniamo che 
+			\[
+				\Hu^t(\mathbb{R}^n) = \Hu^t(\bigcup\limits_{h=1}^{+\infty} B_h(0)) = \lim\limits_{h \rightarrow +\infty}\Hu^t(B_h(0)) = 0
+				\]
+				L'ultima uguaglianza vale in quanto la misura di ogni termine del limite vale $0$ per qualsiasi valore di $h$.
+				\end{enumerate}
+		\end{proof}
+\end{prop}
+
+\begin{cor}
+	La misura esterna di Hausdorff in $\mathbb{R}^n$ non \'e di Radon eccetto per $s \ge n$.
+\end{cor}
+\begin{proof}
+	\begin{itemize}
+		\item[$s = n$] In questo caso abbiamo visto che $\Hu^s = \Hu^n = \Le^n$ la quale \'e di Radon.
+		\item[$s > n$] Abbiamo che $\Hu^s(\mathbb{R}^n) = 0$ allora $\Hu^s \equiv 0$ (identicamente nulla) quindi di Radon.
+		\item[$s < n$] Sia $E := [0,1]^n$ che sappiamo essere compatto e dunque abbiamo che $\Hu^n(E) = \Le^n(E) = 1$ allora per la proposizione 1.41 abbiamo la semiretta dei valori di $s$ per cui la misura vale $\infty$.
+	\end{itemize}
+\end{proof}
+
+\section{Funzioni Misurabili}
+
+Definiamo innanzitutto la nozione di misura generale.
+\begin{defn}
+	Sia $\X$ un insieme, $\A$ una  $\sigma$-algebra su $\X$. Allora una $misura$ su $A$ \'e una funzione $\mu : \A \rightarrow [0,+\infty]$ tale che:
+	\begin{enumerate}
+		\item $\mu(\emptyset) = 0$
+		\item Se $\{E_j\}_j \subset 2^\A$ \'e una famiglia numerabile di insiemi 2-2 disgiunti allora $\mu(\bigcup\limits_j E_j) = \sum\limits_j \mu(E_j)$
+	\end{enumerate}
+	La terna ($\X$, $\A$, $\mu$) \'e detta \textit{spazio con misura}
+\end{defn}
+
+Osserviamo subito che la nozione di misura generalizza quella di misura esterna in quanto, in generale, non vale la monotonia e nemmeno la $\sigma$-subadditivit\'a nel caso di una famiglia di insiemi non 2-2 disgiunti. Ricordiamo inoltre che il dominio di una misura esterna (e.g. su $\X$) \'e $2^\X$.
+
+\'E anche facile osservare che \'e possibile costruire una misura partendo da una misura esterna semplicemente restringendo tale misura esterna alla sua famiglia di misurabili.
+
+\begin{prop}
+	Se $\varphi : 2^\X \rightarrow (0,+\infty)$ \'e una misura esterna allora ($\X$, $\M$, $\varphi_{|\M}$) \'e uno spazio con misura.
+\end{prop}
+
+\begin{oss}
+	Vale il viceversa della proposizione 1.44 ovvero:\\
+	Sia ($\X$, $\A$, $\varphi$) uno spazio con misura allora $\exists \varphi : 2^\X \rightarrow [0,+\infty]$ misura esterna tale che:
+	\[
+		\begin{cases}
+			A \subset \M \\
+			\varphi_{|A} = \mu
+		\end{cases}	
+	\]
+\end{oss}
+
+Il nostro scopo \'e di arrivare a definire il concetto di integrale il quale prevede una funzione ed una misura. Definiamo quindi una funzione misurabile.
+
+\begin{defn}
+	Sia ($\X$, $\A$, $\mu$) uno spazio con misura e ($\pazocal{Y}$, $\tau$) uno spazio topologico. Una funzione $f : \X \rightarrow \Y$ si dice $misurabile$ rispetto a $\mu$ se:
+	\[
+		f^{-1}(G) \in \A\ \ \forall G \in \tau	
+	\]
+	ovvero la controimmagine di un aperto in $\tau$ \'e un misurabile rispetto a $\mu$.
+\end{defn}
+
+\begin{oss}
+	Se ($\X$, $\A$, $\mu$) \'e uno spazio con misura ed \'e anche spazio topologico tale che gli aperto stanno in $\A$ ($\Rightarrow \A$ contiene anche i Boreliani in quanto \'e $\sigma$-algebra), allora ogni funzione continua:
+	\[
+		f : \X \rightarrow	\Y
+	\]
+	con $Y$ spazio topologico \'e misurabile.
+\end{oss}
+\begin{proof}
+	Sia $G \in \tau_\Y$ allora per continuit\'a $f^{-1}(G) \in \tau_\X$. Per\'o siccome gli aperti stanno in $\A$ abbiamo anche $f^{-1}(G) \in \A$.
+\end{proof}
+
+\begin{prop}
+	Sia ($\X$, $\A$, $\mu$) uno spazio con misura e $\Y$, $\Z$ spazi topologici. Sia $f : \X \rightarrow \Y$ misurabile e $g : \Y \rightarrow \Z$ continua. Allora:
+	\[
+		g\circ f : \X \rightarrow \Z	
+	\]
+	\'e misurabile.
+\end{prop}
+\begin{proof}
+	Lo schema della composizione \'e il seguente:
+	\[
+		X \xrightarrow{f} Y \xrightarrow{g} \Z	
+	\]
+	Sia $U \in \tau_\Z$ per continuit\'a di $g$ abbiamo che $g^{-1}(U) \in \tau_\Y$ quindi per la misurabilit\'a di $f$ otteniamo che:
+	\[
+		f^{-1}(g^{-1}(U)) \in \A
+	\]
+	ovvero $(g \circ f)(U) \in \A$ per ogni $U \in \tau_\Z$.
+\end{proof}
+
+\begin{exmp}
+	($\mathbb{R}^n$, $\Ml$, $\Le^n_{|\Ml}$) \'e uno spazio con misura. Prendiamo $f : \mathbb{R}^n \rightarrow \overline{\mathbb{R}}$ continua (dove $\overline{\mathbb{R}} = <\{[-\infty, a), (a,b), (a,+\infty]\}>$). Allora $f$ \'e misurabile.
+\end{exmp}
+
+\begin{prop}
+	Sia ($\X$, $\A$, $\mu$) uno spazio con misura e $f : \X \rightarrow \overline{\mathbb{R}}$ allora le seguenti affermazioni sono equivalenti:
+	\begin{enumerate}
+		\item $f$ \'e misurabile
+		\item $f^{-1}((a,+\infty]) \in \A\ \forall a \in \overline{\mathbb{R}}$
+		\item $f^{-1}([a,+\infty]) \in \A\ \forall a \in \overline{\mathbb{R}}$
+		\item $f^{-1}([-\infty, a)) \in \A\ \forall a \in \overline{\mathbb{R}}$
+		\item $f^{-1}([-\infty, a]) \in \A\ \forall a \in \overline{\mathbb{R}}$
+	\end{enumerate}
+\end{prop}
+
+Prima di procedere con la dimostrazione facciamo una osservazione insiemistica sulle controimmagini di funzioni tra due insiemi generici $X$ e $Y$.
+La seguente osservazione vale solo ed esclusivamente per le controimmagini.
+
+\begin{oss}
+	Sia $f : X \rightarrow Y$ una funzione tra due insiemi $X$ e $Y$. Allora valgono le seguenti propriet\'a:
+	\begin{enumerate}
+		\item $f^{-1}(\bigcup\limits_jE_j) = \bigcup\limits_jf^{-1}(E_j)$
+		\item $f^{-1}(\bigcap\limits_jE_j) = \bigcap\limits_jf^{-1}(E_j)$
+		\item $f^{-1}(E^c) = (f^{-1}(E))^c$
+	\end{enumerate}
+\end{oss}
+\begin{proof}
+	\begin{enumerate}
+		\item Prendiamo $x \in f^{-1}(\bigcup\limits_jE_j)$ allora $f(x) \in \bigcup\limits_jE_j$ quindi esiste un $E_{j_0}$ tale che $f(x) \in E_{j_0}$, ma questo vale se e solo se $x \in f^{-1}(E_{j_0})$ e dunque $x \in \bigcup\limits_jf^{-1}(E_j)$.
+		\item Sia $x \in f^{-1}(\bigcap\limits_jE_j)$ allora $f(x) \in \bigcap\limits_jE_j$ il che significa che per ogni $E_j$, $f(x) \in E_j$ ma questo vale se e solo se $x \in f^{-1}(E_j)\ \forall j$ il che implica $x \in \bigcap\limits_jf^{-1}(E_j)$
+		\item Prendiamo $x \in f^{-1}(E^c)$ ovvero $x \notin f^{-1}(E)$ e quindi rimane che $x \in (f^{-1}(E))^c$
+	\end{enumerate}
+\end{proof}
+\begin{proof}
+	(Della proposizione 1.50.)\\
+	Dimostreremo la proposizione seguendo le implicazioni :
+	\[
+		 1 \Rightarrow 2 \Rightarrow 3 \Rightarrow 4 \Rightarrow 5 \Rightarrow 2 \Rightarrow 1
+	\]
+	\begin{itemize}
+		\item[$1 \Rightarrow 2$] Sia $(a,+\infty] \subset \tau_{\mathbb{\overline{R}}}$ allora $f^{-1}((a,+\infty]) \in \A$ per misurabilit\'a.
+		\item[$2 \Rightarrow 3$] Possiamo costruire come $[a,+\infty] = \bigcup\limits_{h=1}^{+\infty}(a + \frac{1}{h},+\infty]$ applicando $f^{-1}$ su entrambi i termini si ottiene $f^{-1}([a,+\infty]) = f^{-1}(\bigcup\limits_{h=1}^{+\infty}(a + \frac{1}{h},+\infty]) = \bigcup\limits_{h=1}^{+\infty}f^{-1}((a + \frac{1}{h},+\infty])$. Ogni elemento dell' unione numerabile precedente appartiene ad $\A$ quindi anche tutta l'unione appartiene ad $\A$ e otteniamo la tesi.
+		\item[$3 \Rightarrow 4$] $f^{-1}([-\infty,a)) = f^{-1}([a,+\infty]^c) = (f^{-1}([a,+\infty]))^c \in \A$ che vale per la c-chiusura di $A$ e per il punto 3 dell osservazione precedente.
+		\item[$4 \Rightarrow 5$] Ugualmente a $2 \Rightarrow 3$ solo che prendiamo $[-\infty,a] = \bigcap\limits_{h=1}^{+\infty}[-\infty,a+\frac{1}{h})$ e procediamo come sopra.
+		\item[$5 \Rightarrow 2$] Per il complementare $(a,+\infty] = [-\infty,a]^c$ e procediamo come in $3 \Rightarrow 4$.
+		\item[$2 \Rightarrow 1$] Assumendo $2$ abbiamo validi anche 3,4,5 quindi $f^{-1}$ manda tutti gli aperti di base di $\tau_{\mathbb{\overline{R}}}$ in $\A$ quindi per definizione $f$ \'e  misurabile.
+	\end{itemize}
+\end{proof}
+Introduciamo le seguenti notazioni:
+\[
+	(\inf\limits_k f_k)(x) = \inf\limits_k\{f_k(x)\}
+\]
+\[
+	\max\{f,g\}(x) = \max\{f(x),g(x)\} = f \vee g
+\]
+\[
+	(\liminf\limits_{k \rightarrow +\infty}f_k)(x) = \liminf\limits_{k \rightarrow +\infty}f_k(x) = \lim\limits_{m \rightarrow +\infty}\inf\limits_{k\ge m}\{f_k(x)\} = \sup\limits_m(\inf\limits_{k \ge m}\{f_k(x)\})
+\]
+Vediamo ora alcune propriet\'a delle funzioni misurabili.
+\begin{thm}
+	Sia $(\X,\A,\mu)$ uno spazio con misura. Valgono le seguenti affermazioni:
+	\begin{enumerate}
+		\item Siano $f,g:\X \rightarrow \overline{\mathbb{R}}$ misurabili. Allora $f+g$ \'e  misurabile (se non si verifica $+\infty$ o $-\infty$), $|f|$, $fg$, $\max\{f,g\}$, $\min\{f,g\}$ sono misurabili.
+		Se $g(x) \ne 0\ \forall x \in \X$ allora $\frac{f}{g}$ \'e misurabile.
+		
+		\item Sia data la successione di funzioni misurabili $f_1,f_2,\ldots$ con $f_k : \X \rightarrow \overline{\mathbb{R}}$ allora anche:
+		\[
+			\inf\limits_k\{f_k\},\ \ \sup\limits_k\{f_k\},\ \ \liminf\limits_{k \rightarrow +\infty}\{f_k\},\ \ \limsup\limits_{k \rightarrow +\infty}\{f_k\}
+		\]
+		sono misurabili.
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	Durante la dimostrazione scriviamo $\{f < a\}$ per intendere $\{x \in \X | f(x < a)\} = f^{-1}([-\infty,a))$.
+	\begin{enumerate}
+		\item Vediamo il caso $f+g$. Vogliamo provare la seguente identit\'a sfruttando quanto dimostrato nella precedente proposizione:
+			\[
+				\{f + g < a\} = \bigcup\limits_{s,t \in \mathbb{Q}\ |\  s+t < a}(\{f < s\} \cap \{g < t\})			
+			\]
+		vediamo subito che la parte a destra \'e un insieme misurabile in quanto \'e una "unione di intersezioni" di insiemi misurabili. Mostriamo le due inclusioni:
+		\begin{itemize}
+			\item[$"\supset"$] Sia $x 	\in \bigcup\limits_{s,t \in \mathbb{Q}\ |\  s+t < a}(\{f < s\} \cap \{g < t\})$ allora esistono $t_0,s_0 \in \mathbb{Q}$ tali per cui $t_0 + s_0 < a$ e se:
+			\[
+				\begin{cases}
+					f(x) < s_0 \\
+					g(x) < t_0
+				\end{cases}
+			\]
+			allora $f(x) + g(x) < a$ ovvero $x \in \{f+g < a\}$.
+			\item[$"\subset"$] Sia ora $x \in \{f+g < a\}$ e sia $r \in \mathbb{Q}$ tale che $f(x) + g(x) + 2r < a$, il che vale grazie al fatto che $\mathbb{Q}$ \'e denso in $\mathbb{R}$. Consideriamo ora $s,t \in \mathbb{Q}$ tali che:
+			\[
+				\begin{cases}
+					f(x) < s < f(x) + r\\
+					g(x) < t < g(x) + r
+				\end{cases}			
+			\] 
+			allora $x \in \{f < s\}$ e anche $x \in \{g < t\}$ quindi $x \in \{f < s\}\cap \{g < t\}$. Inoltre $s+t < g(x) + f(x) +2r < a$.
+		\end{itemize}
+		Proviamo ora il caso $f\cdot g$. Lo suddividiamo in 3 sottocasi:
+			\begin{itemize}
+				\item[$"g = f"$] In questo caso $g\cdot f = f^2 = q \circ f$ dove $q(x) = x^2$ \'e la funzione quadrato, la quale \'e banalmente continua quindi per la proposizione 1.48, $q \circ f$ \'e misurabile quindi lo \'e $f\cdot g$.
+				\item[$"g = c"$] ovvero costante. In questo caso $f \cdot g = cf$ possiamo considerare il prodotto per una costante come una funzione, la quale \'e, ancora una volta, banalmente continua quindi con la stessa argomentazione del caso precedente lo \'e anche $c\cdot f$.
+				\item[$"f,g \ne \infty"$] Qui scriviamo $fg = \frac{(f + g)^2 -f^2 -g^2}{2}$ e analizziamo ogni singolo pezzetto $f^2,g^2$ sono misurabili per il primo caso mentre $(f + g)^2 = (f + g)(f + g)$ \'e misurabile perch\'e lo \'e $(f+g)$ e applicando il primo caso, $\cdot \frac{1}{2}$ lo \'e per il secondo caso.
+				\item[$"gener."$] Qui dobbiamo prendere per buono il punto 2 del teorema e definiamo:
+				\[
+					f_k = (f \wedge k) \vee (-k)				
+				\]
+				\[
+					g_k = (g \wedge k) \vee (-k)				
+				\]
+				dove con $k$ indichiamo (e.g. la retta del piano) $y = k$. Per il punto 2 entrambe queste funzioni sono misurabili  quindi anche $f_k\cdot g_k$ lo \'e. Ora sparando $k \rightarrow +\infty$ otteniamo che anche $g\cdot f$ \'e misurabile.
+			\end{itemize}
+			Analizziamo ora $|f|$ dove scriviamo $|f| = \alpha \circ f$ con $\alpha(t) = |t|$. Sappiamo che $\alpha$ \'e una funzione continua su $\overline{\mathbb{R}}$ quindi come sopra $\alpha \circ f$ \'e misurabile e di conseguenza anche $|f|$ lo \'e.
+			Vediamo ora per $\frac{f}{g}$. Ci basta provare che $\frac{1}{g}$ \'e misurabile e la tesi segue facilmente applicando il prodotto. Vogliamo mostrare che $\{g < a\} \in \A\ \forall a \in \mathbb{R}$.
+			\begin{itemize}
+				\item[$a=0$] allora $\{\frac{1}{g} < a\} = \{\frac{1}{g} < 0\} = \{ g < 0\} \in \A$
+				\item[$a < 0$] allora $\{\frac{1}{g} < a\}$ ma $\frac{1}{g(x)} < a$ se e solo se:
+				\[
+					\begin{cases}
+						g(x) < 0 \\
+						g(x) > \frac{1}{a}
+					\end{cases}				
+				\]
+				ovvero se e solo se $\frac{1}{a} < g(x) < 0$. Perci\'o $\{\frac{1}{g} < a\} = {g < 0} \cap {g > \frac{1}{a}}$ il quale \'e un insieme misurabile, quindi ok.
+				\item[$a > 0$] Stesso ragionamento di sopra.
+			\end{itemize}
+			\item Proviamo i casi dell'enunciato per ogni $a \in \mathbb{R}$.
+			Vediamo innanzitutto $\inf\limits_kf_k$. Vogliamo dimostrare che $\{\inf\limits_kf_k \ge a\} = \bigcap\limits_k\{f_k \ge a\}$. Infatti abbiamo che $x \in \{\inf\limits_k f_k \ge a\}$ se e solo se $\inf\limits_k f_k(x) \ge a$ ovvero $f_k(x) \ge a$ per ogni $k$. Ma allora $x \in \bigcap\limits_k\{f_k \ge a\} \in \A$.
+			Proviamo ora $\sup\limits_kf_k$, ma vediamo subito che:
+				\[
+					\sup\limits_kf_k = -\inf\limits_k\{-f_k\}				
+				\]
+				che \'e misurabile.
+				Da questi due appena dimostrati derivano anche $\max$ e $\min$ dell' enunciato punto 1.
+				Andando avanti vediamo che secondo definizione:
+				\[ \liminf\limits_{k \rightarrow +\infty} = \lim\limits{m \rightarrow +\infty}\inf\limits_{k \ge m}f_k = \sup\limits_{m}\inf\limits_{k \ge m}f_k
+				\]
+				il quale \'e misurabile.
+				L'ultimo caso \'e analogo.
+	\end{enumerate}
+\end{proof}
+
+\begin{defn}
+	Sia $\X$ un insieme, $f : \X \rightarrow \overline{\mathbb{R}}$ si dice \textit{numerabilmente semplice} se $Im(f)$ \'e un insieme numerabile.
+\end{defn}
+
+\chapter{Teoria dell' Integrazione}
+
+Prima di tutto assumiamo la seguente convenzione:
+\[
+	0\cdot \infty = \infty \cdot 0 = 0
+\]
+
+\begin{defn}
+	Sia $(\X,\A,\mu)$ uno spazio con misura e $\Sigma$ la famiglia delle funzioni numerabilmente semplici $\varphi : \X \rightarrow \overline{\mathbb{R}}$. Allora:
+	\begin{enumerate}
+		\item Se $\varphi \in \Sigma$ e $\varphi \ge 0$ allora definiamo l'integrale semplice $\I_\mu(\varphi) = \sum\limits_ia_i\mu(E_i)$ dove $a_i$ \'e  l'immagine di $\varphi$ e $E_i = \varphi^{-1}(a_i)$
+		\item Sia $\Sigma^*$ la famiglia delle $\varphi \in \Sigma$ tali che almeno uno dei seguenti numeri \'e finito:
+		\[
+			\I_\mu(\varphi \vee 0),\ \ \ \ \I_\mu((-\varphi) \vee 0)		
+		\]
+		Se $\varphi \in \Sigma^*$ poniamo $\I_\mu(\varphi) = \I_\mu(\varphi \vee 0) - \I_\mu((-\varphi) \vee 0)$
+	\end{enumerate}
+\end{defn}
+
+\begin{prop}
+	Sia $(\X,\A,\mu)$ uno spazio con misura. Allora:
+	\[
+			\I_\mu(\varphi) \le \I_\mu(\psi)
+	\]
+	per ogni $\varphi, \psi \in \Sigma^*$ tale che $\varphi \le \psi\ \mu-q.o.$ i.e.  $\exists Z \in \A$ tale che $\mu(Z) = 0$ e $\varphi(x) \le \psi(x)\ \forall x \in  \X \setminus Z$.\\
+	Di conseguenza se consideriamo una funzione $f : \X \rightarrow \overline{\mathbb{R}}$ e poniamo:
+	\[
+		\Sigma_-(f) := \{\varphi \in \Sigma^* | \varphi \le f,\ \mu-q.o.\}
+	\]
+	\[
+		\Sigma_+(f) := \{\varphi \in \Sigma^* | \varphi \ge f,\ \mu-q.o.\}
+	\]
+	Allora vale la seguente disuguaglianza:
+	\[
+		\sup\{\I_\mu(\varphi) | \varphi \in \Sigma_-(f)\} \le	 \inf\{\I_\mu(\psi) | \psi \in \Sigma_+(f)\}
+	\]
+\end{prop}
+\begin{proof}
+	Grazie alla semplicit\'a numerabile di $\varphi$ e $\psi$ abbiamo che gli insiemi $\{a_i\}_i$ e $\{b_j\}_j$ sono numerabili. Ora poniamo $A_i = \varphi^{-1}(\{a_i\})$ e $B_j = \psi^{-1}(\{b_j\})$, e vediamo che gli $A_i$ sono 2-2 disgiunti e lo stesso vale per i $B_i$, inoltre $\bigcup\limits_i A_i = \X = \bigcup\limits_j B_j$.\\
+	Ora:
+	\[
+	A_i = A_i \cap \X = A_i \cap \bigcup\limits_j B_j = \bigcup\limits_j A_i \cap B_j
+	\]
+	\[
+		B_j = B_j \cap \X = B_j \cap \bigcup\limits_i A_i = \bigcup\limits_i B_j \cap A_i		
+	\]
+	Ora per definizione di integrale semplice abbiamo:
+	\[
+		\I_\mu(\varphi) = \I_\mu(\varphi \vee 0) - \I\mu((-\varphi) \vee 0) = \sum\limits_{i,\ a_i \ge 0}a_i\mu(A_i) - \sum\limits_{i,\ a_i < 0}-a_i\mu(A_i) =
+	\]
+	\[
+		= \sum\limits_ia_i\mu(A_i) = \sum\limits_ia_i\sum\limits_j\mu(A_i \cap B_j) = \sum\limits_{i,j}a_i\mu(A_i \cap B_j)	
+	\]
+	la penultima disuguaglianza deriva dal fatto che tutti i $B_j$ sono 2-2 disgiunti  perci\'o lo sono anche i $B_j \cap A_i$ per ogni $i,j$.\\ Procediamo allo stesso modo per $\I_\mu(\psi)$ quindi quello che vogliamo dimostrare \'e che:
+	\[
+			a_i\mu(A_i \cap B_j) \le b_i\mu(A_i \cap B_j)\ \forall i,j
+	\]
+	il che comporter\'a $\I_\mu(\varphi) \le \I_\mu(\psi)$. Abbiamo da distinguere due casi:
+	\begin{itemize}
+		\item se $A_i \cap B_j = \emptyset$ allora $0 \le 0$ e abbiamo finito.
+		\item se invece $A_i \cap B_j \ne \emptyset$ allora $\exists x \in A_i \cap B_j$ tale che:
+		\[
+			\begin{cases}
+				\varphi(x) = a_i\\
+				\psi(x) = b_j
+			\end{cases}
+		\]
+		Ma per definizione $\varphi(x) \le \psi(x) \Rightarrow a_i \le b_j$ e di conseguenza:
+		\[
+			a_i\mu(A_i \cap B_j) \le b_i\mu(A_i \cap B_j)
+		\]
+	\end{itemize}
+\end{proof}
+
+\begin{defn}
+	Sia $(\X,\A,\mu)$ spazio con misura e $f: \X \rightarrow \overline{\mathbb{R}}$ una funzione. Allora:
+	\begin{enumerate}
+		\item L'integrale superiore di $f$ \'e il numero:
+			\[
+				\int^*fd\mu	 = \inf\{\I_\mu(\varphi)\ |\ \varphi \in \Sigma_+(f)\}		
+			\]
+			mentre l'integrale inferiore \'e il numero:
+			\[
+				\int_*fd\mu	 = \sup\{\I_\mu(\psi)\ |\ \psi \in \Sigma_-(f)\}		
+			\]
+			e notiamo subito che $\int^*fd\mu \le \int_*fd\mu$.
+		\item Si dice che $f$ \'e integrabile se $f$ \'e  misurabile e se:
+			\[
+				\int^*fd\mu = \int_*fd\mu			
+			\] 
+			in tal caso questo numero \'e detto \textit{integrale} di $f$ ed \'e indicato con $\int fd\mu$.
+		\item Si dice che $f$ \'e sommabile se \'e integrabile e se $\int fd\mu$ \'e finito.
+	\end{enumerate}
+\end{defn}
+
+Notiamo subito la seguente relazione:
+\[
+	sommabile \subset integrabile \subset misurabile
+\]
+
+\begin{oss}
+	Sia $(\X,\A,\mu)$ uno spazio con misura, $f,g : \X \rightarrow \overline{\mathbb{R}}$ due funzioni misurabili tali che $f = g\ \mu-q.o.$ allora:
+	\[
+		\Sigma_-(f) = \Sigma_-(g)\ \ \ e\ \ \ \Sigma_+(f) = \Sigma_+(g)
+	\]
+	e dunque:
+	\[
+		\int^*fd\mu	 = \int^*gd\mu\ \ \ e \ \ \ \int_*fd\mu = \int_*gd\mu		
+	\]
+	In particolare $f$ \'e  integrabile se e solo se $g$ \'e  integrabile.
+\end{oss}
+
+\begin{defn}
+	Sia $A \subset \X$ un insieme, la funzione caratteristica $\chi_A : \X \rightarrow \overline{\mathbb{R}}$ \'e definita come:
+	\[
+		\chi_A := \begin{cases}
+			1\ se\ x \in A\\
+			0\ altrimenti 
+		\end{cases}
+	\]
+\end{defn}
+Vediamo ora di provare alcune propriet\'a fondamentali dell' integrale.
+\begin{thm}
+	Sia $(\X,\A,\mu)$ uno spazio con misura, valgono le seguenti propriet\'a:
+	\begin{enumerate}
+		\item Se $\varphi \in \Sigma^*$ allora $\varphi$ \'e integrabile e si ha che
+		\[
+			\int \varphi d\mu = \I_\mu(\varphi)
+		\]
+		diremo che l'integrale estende l'integrale semplice. In particolare se $\I_\mu(\varphi)$ \'e finito allora $\varphi$ \'e sommabile.
+		\item Una funzione sommabile \'e finita $\mu-q.o.$
+		\item Siano $f,g : \X \rightarrow \overline{\mathbb{R}}$ sommabili allora per $\alpha,\beta \in \mathbb{R}$ abbiamo $\alpha f + \beta g$ \'e sommabile e :
+		\[
+			\int (\alpha f + \beta g) d\mu = \alpha\int f d\mu + \beta\int g d\mu		
+		\]
+		similmente a uno spazio vettoriale.
+		\item Siano $f,g$ integrabili tali che $f \le g\ \mu-q.o.$ allora $\int fd\mu	 \le \int gd\mu$. Questa \'e detta monotonia integrale.
+		\item Sia $f$ sommabile e $A \in \A$ allora $f\chi_A$ \'e sommabile
+		\item Sia $f$ misurabile. Allora:
+		\[
+			f\ sommabile\ \iff |f|\ sommabile		
+		\]
+		\item Se $f$ \'e  sommabile allora $|\int f d\mu| \le \int |f| d \mu$
+	\end{enumerate}
+\end{thm}
+\begin{proof}
+	\begin{enumerate}
+		\item Vediamo che se $\varphi \in \Sigma^*$ allora:
+		\[
+			\begin{cases}
+				\varphi \in \Sigma_-(f)\\
+				\varphi \in \Sigma_+(f)
+			\end{cases}	\Rightarrow
+			\begin{cases}
+				\int_*\varphi d\mu = \sup\{\I_\mu(\psi)\ |\ \psi \in \Sigma_-(f)\} = \I_\mu(\varphi)\\
+				\int^*\varphi d\mu = \inf\{\I_\mu(\psi)\ |\ \psi \in \Sigma_+(f)\} = \I_\mu(\varphi)
+			\end{cases}
+		\]
+		quindi otteniamo la relazione seguente:
+		\[
+			\int_*\varphi d\mu = \int^*\varphi d\mu = \I_\mu(\varphi)
+		\]
+		perci\'o $\varphi$ \'e  integrabile e vale $\int \varphi d\mu = \I_\mu(\varphi)$
+		
+		\item Se $f$ \'e sommabile allora $\int f d\mu = \int_*f d\mu = \int^*f d\mu$ ed esistono $\varphi \in \Sigma_-(f)$ e $\psi \in \Sigma_+(f)$ tali che:
+		\[
+			\begin{cases}
+				\I_\mu(\psi) < \int^*f d\mu + 1\\
+				\I_\mu(\varphi) > \int_*f d\mu - 1
+			\end{cases}		
+		\]
+		Ovvero riusciamo a trovare una $\psi$ di poco maggiore dell' $\inf$ che determina l'integrale superiore. La stessa cosa per $\varphi$ e l'integrale inferiore. Vediamo anche che la parte a destra di entrambe le disequazioni \'e finita  grazie alla sommabilit\'a di $f$.
+		Consideriamo la funzione $\psi$. Denotiamo con $\{b_j\}_j = Im(\psi)$ e $B_j = \psi({b_j})$ e allora $\psi = \sum\limits_j b_j\chi_{B_j}$. Grazie a quanto detto sopra vediamo che:
+	\begin{equation}
+			-\infty < \sum\limits_j b_j\mu(B_j) < +\infty
+	\end{equation}
+		Dove la parte centrale \'e ovviamente $\I_\mu(\psi)$.
+		Mostriamo che $\psi < +\infty$ e poi, siccome $f < \psi$ otteniamo la tesi per $+\infty$, e lo stesso ragionamento si applicher\'a con $\varphi$ per dimostrare che $f > -\infty$.
+		Abbiamo 2 casi:
+		\begin{itemize}
+			\item $\exists j$ tale che $b_j = +\infty$ o $b_j = -\infty$ allora per mantenere l'integrale semplice finito dovr\'a essere $\mu(B_j) = 0$.
+			\item Se per ogni $j,\ b_j$ \'e finito la tesi \'e banale. 
+		\end{itemize}
+	\end{enumerate}
+\end{proof}
+
+\end{document}
